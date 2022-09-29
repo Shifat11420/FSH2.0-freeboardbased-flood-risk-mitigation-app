@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
-from .models import Sampledatamodel, testmodel
+from .models import Sampledatamodel, unitcost, address, addresstable
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -19,7 +19,19 @@ class SampledatamodelSerializer(serializers.HyperlinkedModelSerializer):
         model = Sampledatamodel
         fields = ('id', 'name', 'alias')   
 
-class testmodelSerializer(serializers.HyperlinkedModelSerializer):
+class unitcostSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = testmodel
-        fields = ('id', 'zipCode', 'constructionCost', 'movingCost', 'lodgingRate')  
+        model = unitcost
+        fields = ('zipCode', 'constructionCost', 'movingCost', 'lodgingRate')  
+
+class addressSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = address
+        fields = ('id', 'zipCode', 'streetNum', 'streetName', 'city', 'zipCode', 'state', 'parishId', 'firstFloorHeight', 'floodLocation', 'floodScale')          
+
+
+class addresstableSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = addresstable
+        fields = ('id', 'unitCost', 'streetNum', 'streetName', 'city',  'state', 'parishId', 'firstFloorHeight', 'floodLocation', 'floodScale')    #'zipCode',
+        depth = 1              

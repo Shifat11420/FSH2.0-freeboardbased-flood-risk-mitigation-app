@@ -8,7 +8,9 @@ router.register(r'users', views.UserViewSet)
 router.register(r'groups', views.GroupViewSet)
 
 router.register(r'Sampledatamodel', views.SampledatamodelViewSet)
-router.register(r'testmodel', views.testmodelViewSet)
+router.register(r'unitcost', views.unitcostViewSet)
+router.register(r'address', views.addressViewSet)
+router.register(r'addresstable', views.addresstableViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
