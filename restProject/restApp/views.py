@@ -2,7 +2,6 @@ from operator import add
 from urllib import response
 from django.shortcuts import render
 
-# Create your views here.
 from django.contrib.auth.models import User, Group
 from restApp import serializers
 from rest_framework import viewsets
@@ -11,6 +10,10 @@ from restApp.serializers import UserSerializer, GroupSerializer, Sampledatamodel
 from .models import Sampledatamodel, unitcost, address, addresstable
 from django_filters.rest_framework import DjangoFilterBackend
 
+# for nfip
+import os
+from restApp.nfip.scripts.nfip_policy_functions import *
+#path = r"/restApp/nfip"     #F:/fsh-django-rest-api/restProject
 
 class UserViewSet(viewsets.ModelViewSet):
     """
@@ -79,3 +82,50 @@ class addresstableViewSet(viewsets.ModelViewSet):
         serializer = addresstableSerializer(new_address)
 
         return Response(serializer.data)
+
+    def get_queryset(self):
+        queryset = addresstable.objects.all().order_by('id')
+        return queryset
+
+    def nfipCalculator(request):
+        #get the inputs
+        inputs = {}
+        inputs['program'] = 'Regular'
+        inputs['flood_zone'] = 'A'
+        inputs['Type of EC'] =  'BFE' # for A-zone
+        inputs['date_construction'] =  'Post-Firm' 
+        #inputs['flood_zone'] = 'V'
+        #inputs['date_construction'] =  '1981 Post-Firm' #'1975-81 (Post-Firm)'
+        ##Replacement cost ratio = Building coverage to replacement cost
+        #inputs['Replacement cost ratio'] = '0.75 or more' #'0.50 to 0.74', 'under 0.50  
+
+        inputs['ocupancy'] = 'Residential'
+        inputs['number_floors'] = 2
+        inputs['basement/enclosure'] = 'None'
+
+        if inputs['basement/enclosure'] == 'None':
+            if inputs['number_floors'] == 1:
+                inputs['contents_location'] = 'Only - Above Ground Level' #'Above Ground Level and Higher Floors'
+            else:
+                inputs['contents_location'] = 'Above Ground Level and Higher Floors' #'Above Ground Level and Higher Floors'
+
+        inputs['elevation_diff'] = 6
+        inputs['floodproofed'] = 'No'
+
+        inputs['building_coverage'] = 140000
+        inputs['contents_coverage'] = 70000
+        inputs['building_deductible'] = 1250
+        inputs['contents_deductible'] = 1250
+
+        inputs['CRS_Rating'] = 10
+        inputs['Probation'] = 'No'
+        inputs['Primary_residence'] = 'No'
+
+        #Esimate the premium
+        total_amount_due = homeowner_policy(r"/restApp/nfip",inputs)
+        # total_amount_due = landlord_policy(path, inputs)
+        # total_amount_due = tenant_policy(path, inputs)
+
+        print("Homeowner premium = ",total_amount_due)
+
+        return response      
