@@ -13,7 +13,9 @@ from django_filters.rest_framework import DjangoFilterBackend
 # for nfip
 import os
 from restApp.nfip.scripts.nfip_policy_functions import *
-#path = r"/restApp/nfip"     #F:/fsh-django-rest-api/restProject
+path = r'F:\fsh-django-rest-api\restProject\restApp\nfip'    
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
 class UserViewSet(viewsets.ModelViewSet):
     """
@@ -87,20 +89,34 @@ class addresstableViewSet(viewsets.ModelViewSet):
         queryset = addresstable.objects.all().order_by('id')
         return queryset
 
-    def nfipCalculator(request):
+      
+
+
+
+class CalculateNfipAPIView(APIView):
+    def get(self, request, format=None):
+
+        # baseNumber = self.request.query_params.get('baseNumber')
+        # # nullcheck on baseNumber variable
+        # if baseNumber is not None:        
+        #     baseNumber = int(baseNumber)                
+        #     calculatorResult = baseNumber*baseNumber
+        # else:
+        #     calculatorResult = "You need to supply a baseNumber parameter."
+
         #get the inputs
         inputs = {}
         inputs['program'] = 'Regular'
         inputs['flood_zone'] = 'A'
         inputs['Type of EC'] =  'BFE' # for A-zone
-        inputs['date_construction'] =  'Post-Firm' 
+        inputs['date_construction'] = self.request.query_params.get('date_construction')   #  #date_construction=Post-Firm
         #inputs['flood_zone'] = 'V'
         #inputs['date_construction'] =  '1981 Post-Firm' #'1975-81 (Post-Firm)'
         ##Replacement cost ratio = Building coverage to replacement cost
         #inputs['Replacement cost ratio'] = '0.75 or more' #'0.50 to 0.74', 'under 0.50  
 
         inputs['ocupancy'] = 'Residential'
-        inputs['number_floors'] = 2
+        inputs['number_floors'] =  2 #self.request.query_params.get('number_floors') #2
         inputs['basement/enclosure'] = 'None'
 
         if inputs['basement/enclosure'] == 'None':
@@ -122,10 +138,10 @@ class addresstableViewSet(viewsets.ModelViewSet):
         inputs['Primary_residence'] = 'No'
 
         #Esimate the premium
-        total_amount_due = homeowner_policy(r"/restApp/nfip",inputs)
+        total_amount_due = homeowner_policy(path,inputs)
         # total_amount_due = landlord_policy(path, inputs)
         # total_amount_due = tenant_policy(path, inputs)
 
         print("Homeowner premium = ",total_amount_due)
 
-        return response      
+        return Response(total_amount_due)        
