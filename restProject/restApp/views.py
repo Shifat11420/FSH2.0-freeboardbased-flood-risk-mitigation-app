@@ -144,4 +144,27 @@ class CalculateNfipAPIView(APIView):
 
         print("Homeowner premium = ",total_amount_due)
 
-        return Response(total_amount_due)        
+        return Response(total_amount_due)   
+
+
+class CalculateRiskAPIViewBody(APIView):
+    def get(self, request, format=None):        
+        
+        calculatorInputs = request.data        
+        
+        ## Code to process body
+        ## 1. Deserialize into model
+        ## 2. Do math
+        ## 3. Prepare outputs
+        ## 4. Serialize to JSON for output
+       
+        a = calculatorInputs["choices1"][1] * 1000 / 2.5
+        b = calculatorInputs["nested"]["subval1"] * 22
+        calculatorOutputs = a * b
+
+        return Response({
+            'calculator inputs': calculatorInputs, 
+            'a': a,
+            'b': b,
+            'calculator outputs': calculatorOutputs
+            })             
