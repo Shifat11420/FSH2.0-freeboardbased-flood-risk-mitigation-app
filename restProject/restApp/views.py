@@ -109,14 +109,14 @@ class CalculateNfipAPIView(APIView):
         inputs['program'] = 'Regular'
         inputs['flood_zone'] = 'A'
         inputs['Type of EC'] =  'BFE' # for A-zone
-        inputs['date_construction'] = self.request.query_params.get('date_construction')   #  #date_construction=Post-Firm
+        inputs['date_construction'] = 'Post-Firm' #self.request.query_params.get('date_construction')   #  #date_construction=Post-Firm
         #inputs['flood_zone'] = 'V'
         #inputs['date_construction'] =  '1981 Post-Firm' #'1975-81 (Post-Firm)'
         ##Replacement cost ratio = Building coverage to replacement cost
         #inputs['Replacement cost ratio'] = '0.75 or more' #'0.50 to 0.74', 'under 0.50  
 
         inputs['ocupancy'] = 'Residential'
-        inputs['number_floors'] =  2 #self.request.query_params.get('number_floors') #2
+        inputs['number_floors'] =  self.request.query_params.get('number_floors') #2
         inputs['basement/enclosure'] = 'None'
 
         if inputs['basement/enclosure'] == 'None':
@@ -150,7 +150,7 @@ class CalculateNfipAPIView(APIView):
 class CalculateRiskAPIViewBody(APIView):
     def get(self, request, format=None):        
         
-        calculatorInputs = request.data        
+        #calculatorInputs = request.data        
         
         ## Code to process body
         ## 1. Deserialize into model
@@ -158,13 +158,42 @@ class CalculateRiskAPIViewBody(APIView):
         ## 3. Prepare outputs
         ## 4. Serialize to JSON for output
        
-        a = calculatorInputs["choices1"][1] * 1000 / 2.5
-        b = calculatorInputs["nested"]["subval1"] * 22
-        calculatorOutputs = a * b
+        # calculatorOutputs = calculatorInputs["val1"]*1000/2.5
+        
+        # Request Body
+        # {
+        #     "val1": 2.36,
+        #     "val2": 3,
+        #     "choices1": [1,40,20404],
+        #     "nested": {
+        #         "subval1": 2,
+        #         "subval2": 2
+        #     }
+        # }
+
+        # a = calculatorInputs["choices1"][1] * 1000 / 2.5
+        # b = calculatorInputs["nested"]["subval1"] * 22
+        # calculatorOutputs = a * b    
+        # return Response({
+        #     'calculator inputs': calculatorInputs, 
+        #     'a': a,
+        #     'b': b,
+        #     'calculator outputs': calculatorOutputs
+        #     })  
+        # 
+
+        inputs = request.data    
+
+        if inputs["basement/enclosure"] == "None":
+            if inputs["number_floors"] == 1:
+                inputs['contents_location'] = "Only - Above Ground Level" #'Above Ground Level and Higher Floors'
+            else:
+                inputs["contents_location"] = "Above Ground Level and Higher Floors" #'Above Ground Level and Higher Floors'
+ 
+        total_amount_due = homeowner_policy(path,inputs) 
 
         return Response({
-            'calculator inputs': calculatorInputs, 
-            'a': a,
-            'b': b,
-            'calculator outputs': calculatorOutputs
-            })             
+            "content location" : inputs["contents_location"],
+            'calculator inputs': inputs,
+            'calculator outputs': total_amount_due,
+            })                        

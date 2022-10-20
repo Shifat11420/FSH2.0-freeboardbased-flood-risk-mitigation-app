@@ -17,5 +17,6 @@ router.register(r'addresstable', views.addresstableViewSet,  basename='addressta
 urlpatterns = [
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),    
-    path('CalculateNfipAPIView', views.CalculateNfipAPIView.as_view(), name='calcnfipapiv')
+    path('CalculateNfipAPIView', views.CalculateNfipAPIView.as_view(), name='calcnfipapiv'),
+    path('CalculateRiskAPIViewBody', views.CalculateRiskAPIViewBody.as_view(), name='calcriskapivbody')    
 ]
