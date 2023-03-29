@@ -17,6 +17,10 @@ path = r'F:\fsh-django-rest-api\restProject\restApp\nfip'
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
+# for home equity
+#os.chdir(r"F:\lsuAgCenter\FSH\homeEquity")
+from restApp.homeEquityLoan.HEL import *
+
 class UserViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
@@ -194,6 +198,32 @@ class CalculateRiskAPIViewBody(APIView):
 
         return Response({
             "content location" : inputs["contents_location"],
-            'calculator inputs': inputs,
+            #'calculator inputs': inputs,
             'calculator outputs': total_amount_due,
             })                        
+
+
+class CalculateHELAPIView(APIView):
+    def get(self, request, format=None):        
+        
+        inputs = request.data  
+
+        #The inpiuts for the function will come from Users and database
+        # inputs for postman
+        # {
+        #     "home_condition": "New",        # user input
+        #     "federal_assistance": "No",     # user input
+        #     "investment_type": "Loan",      # user input
+        #     "Ce": 150,                      # unit elevation cost ( default from Dr. Arash's dissertation)  ***   
+        #     "Cc": 110,                      # unit cost of constuction (table)
+        #     "fc": 2.3,                      # freeboard cost in %(table) 
+        #     "down_payment": 20,             # default/ user input
+        #     "A": 2000,                      # livable area (user input)
+        #     "r": 3,                         # interst rate (user input)
+        #     "t": 10                         # mortgage time period
+        # }
+        
+
+        #home_equity_results = home_equity_loan (home_condition= "New", federal_assistance= "No", investment_type="Loan", Ce=150, Cc=110, fc=2.3, down_payment=20, A=2000, r=3, t=10)
+        home_equity_results = home_equity_loan(inputs) 
+        return Response({'Home Equity Calculator Results': home_equity_results})
