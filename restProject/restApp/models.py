@@ -76,7 +76,7 @@ class baseRateMultipliers(models.Model):
     ceContents = models.FloatField()
 
     def __str__(self):
-        return "Levee? "+str(self.levee)+" BI? "+str(self.bi)+" Region? "+str(self.region)+" Segment? "+str(self.segment)
+        return "Levee- "+str(self.levee)+" BI- "+str(self.bi)+" Region- "+str(self.region)+" Segment- "+str(self.segment)
 
 
 class distToCoastMultipliers(models.Model):
@@ -218,3 +218,58 @@ class territory(models.Model):
     def __str__(self):
         return "Levee? "+str(self.levee)+" Levee SystemID? "+str(self.leveeSystemID)
 
+
+class typeOfUSe(models.Model):
+    id = models.IntegerField(primary_key=True)
+    typeofuse = models.CharField(max_length=60)
+    flood = models.FloatField()
+    surge = models.FloatField()
+    tsunami = models.FloatField()
+    lakes = models.FloatField()
+
+    def __str__(self):
+        return "Id "+str(self.id)+" Type of use: "+str(self.typeofuse)
+
+
+class floorsOfInterest(models.Model):
+    id = models.IntegerField(primary_key=True)
+    homeIndicator = models.CharField(max_length=20)
+    ownerIndicator = models.CharField(max_length=20)
+    interest = models.CharField(max_length=20)
+    allExclCE = models.FloatField()
+
+    def __str__(self):
+        return "Id "+str(self.id)+" Home indicator: "+str(self.homeIndicator)+" Owner indicator: "+str(self.ownerIndicator)
+
+
+class foundationType(models.Model):
+    id = models.IntegerField(primary_key=True)
+    foundationtypes = models.CharField(max_length=60)
+    allExclCE = models.FloatField()
+    inlandFlood = models.FloatField()
+    stormSurge = models.FloatField()
+    tsunami = models.FloatField()
+    greatLakes = models.FloatField()
+
+    def __str__(self):
+        return "Id "+str(self.id)+" Foundation types: "+str(self.foundationtypes)
+
+
+# Results
+class riskrating2results(models.Model):
+    id = models.IntegerField(primary_key=True)
+    items = models.CharField(max_length=50)
+    inlandFloodBuldings = models.FloatField(null=True)
+    inlandFloodContents = models.FloatField(null=True)
+    stormSurgeBuldings = models.FloatField(null=True)
+    stormSurgeContents = models.FloatField(null=True)
+    tsunamiBuldings = models.FloatField(null=True)
+    tsunamiContents = models.FloatField(null=True)
+    greatLakesBuldings = models.FloatField(null=True)
+    greatLakesContents = models.FloatField(null=True)
+    coastalErosonBuldings = models.FloatField(null=True)
+    coastalErosonContents = models.FloatField(null=True)
+    allPerilsAllCoverage = models.FloatField(null=True)
+
+    def __str__(self):
+        return "Id : "+str(self.id) + " item : "+str(self.items)

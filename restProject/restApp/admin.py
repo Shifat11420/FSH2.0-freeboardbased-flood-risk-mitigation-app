@@ -1,7 +1,7 @@
 from django.contrib import admin
-#rom django.contrib.auth.admin import UserAdmin
-from .models import Sampledatamodel, unitcost, address, addresstable, baseRateMultipliers, distToCoastMultipliers, distToLakeMultipliers, distToOceanMultipliers, distToRiverMultipliers, drainageAreaMultipliers, elevation, elevRelToLake, elevRelToRiver, leveeQuality, structuralRelElevation, territory
-#from djangoREST.restProject.restApp import models
+# rom django.contrib.auth.admin import UserAdmin
+from .models import *
+# from djangoREST.restProject.restApp import models
 
 # Register your models here.
 
@@ -24,5 +24,10 @@ admin.site.register(leveeQuality)
 admin.site.register(structuralRelElevation)
 admin.site.register(territory)
 
-#admin.site.register(models.User, UserAdmin)
+admin.site.register(typeOfUSe)
+admin.site.register(foundationType)
+admin.site.register(floorsOfInterest)
 
+admin.site.register(riskrating2results)
+
+# admin.site.register(models.User, UserAdmin)
