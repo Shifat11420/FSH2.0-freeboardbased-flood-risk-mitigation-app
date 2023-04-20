@@ -345,7 +345,7 @@ def NL_premium(path,path1,path2,inputs) :
     ##########CRS disc
     risk_rating_2.iloc[23][1:] = float(inputs['CRS discount']/100)
     risk_rating_2.iloc[24][1:] = 1-float(inputs['CRS discount']/100)
-    #########3
+    #########
     x= 1
     for i in range(1,11):
         risk_rating = risk_rating_2[risk_rating_2.columns[i]]

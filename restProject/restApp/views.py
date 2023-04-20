@@ -381,6 +381,13 @@ class CalculateRR2APIView(APIView):
         riskrating_2_results["Floor of Interest"] = floorsOfInterestfunc(
             inputs)
         riskrating_2_results["Foundation Type"] = foundationtypefunc(inputs)
+        riskrating_2_results["First Floor Height by Foundation Design & Flood Vents"] = heightDesignVent(
+            inputs)
+        riskrating_2_results["M&E above First Floor"] = MEAboveFirstFloorfunc(
+            inputs)
+        riskrating_2_results["Coverage Value Factor"] = coverageValue(inputs)
+        riskrating_2_results["Coverage Value Ratio"] = CoverageValueRatio(
+            inputs)
 
         return Response({'Risk rating 2 Calculator Results': riskrating_2_results})
 

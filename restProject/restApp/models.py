@@ -255,7 +255,89 @@ class foundationType(models.Model):
         return "Id "+str(self.id)+" Foundation types: "+str(self.foundationtypes)
 
 
+class firstFloorHeight(models.Model):
+    id = models.IntegerField(primary_key=True)
+    height = models.IntegerField()
+    openNoObstructionWFV = models.FloatField()
+    openNoObstructionWbyFV = models.FloatField()
+    openObstructionWFV = models.FloatField()
+    openObstructionWbyFV = models.FloatField()
+    closedWallWFV = models.FloatField()
+    closedWallWbyFV = models.FloatField()
+
+    def __str__(self):
+        return "Id "+str(self.id)+" Height: "+str(self.height)
+
+
+class MEAboveFirstFloor(models.Model):
+    id = models.IntegerField(primary_key=True)
+    machineryEquipmentAboveFirstFloor = models.CharField(max_length=10)
+    coastalErosion = models.FloatField()
+
+    def __str__(self):
+        return "Id "+str(self.id)
+
+
+class buildingValue(models.Model):
+    id = models.IntegerField(primary_key=True)
+    value = models.IntegerField()
+    allExclCE = models.FloatField()
+
+    def __str__(self):
+        return "Id "+str(self.id)+" Value: "+str(self.value)
+
+
+class contentsValue(models.Model):
+    id = models.IntegerField(primary_key=True)
+    value = models.IntegerField()
+    allExclCE = models.FloatField()
+
+    def __str__(self):
+        return "Id "+str(self.id)+" Value: "+str(self.value)
+
+
+class deductibleITVCovA(models.Model):
+    id = models.IntegerField(primary_key=True)
+    coverageValueRatio = models.FloatField()
+    inlandFlood = models.FloatField()
+    SSTsunamiGreatLakesCoastalErosion = models.FloatField()
+
+    def __str__(self):
+        return "Id "+str(self.id)
+
+
+class deductibleITVCovC(models.Model):
+    id = models.IntegerField(primary_key=True)
+    coverageValueRatio = models.FloatField()
+    inlandFlood = models.FloatField()
+    SSTsunamiGreatLakesCoastalErosion = models.FloatField()
+
+    def __str__(self):
+        return "Id "+str(self.id)
+
+
+class deductibleLimitITVCovA(models.Model):
+    id = models.IntegerField(primary_key=True)
+    coverageValueRatio = models.FloatField()
+    inlandFlood = models.FloatField()
+    SSTsunamiGreatLakesCoastalErosion = models.FloatField()
+
+    def __str__(self):
+        return "Id "+str(self.id)
+
+
+class deductibleLimitITVCovC(models.Model):
+    id = models.IntegerField(primary_key=True)
+    coverageValueRatio = models.FloatField()
+    inlandFlood = models.FloatField()
+    SSTsunamiGreatLakesCoastalErosion = models.FloatField()
+
+    def __str__(self):
+        return "Id "+str(self.id)
+
 # Results
+
+
 class riskrating2results(models.Model):
     id = models.IntegerField(primary_key=True)
     items = models.CharField(max_length=50)
