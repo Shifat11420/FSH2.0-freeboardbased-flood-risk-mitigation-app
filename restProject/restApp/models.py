@@ -55,6 +55,8 @@ class addresstable(models.Model):
         # +", "+str(self.zipCode)
         return str(self.streetNum)+" "+str(self.streetName)+", "+str(self.city)
 
+# Baserate- NonLevee
+
 
 class baseRateMultipliers(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -335,6 +337,28 @@ class deductibleLimitITVCovC(models.Model):
     def __str__(self):
         return "Id "+str(self.id)
 
+
+class concentrationRiskMapping(models.Model):
+    id = models.IntegerField(primary_key=True)
+    state = models.CharField(max_length=30)
+    county = models.CharField(max_length=50)
+    concentrationRiskTerritory = models.CharField(max_length=10)
+
+    def __str__(self):
+        return "Id "+str(self.id)+" State - "+str(self.state)+" County - "+str(self.county)
+
+
+class concentrationRisk(models.Model):
+    id = models.IntegerField(primary_key=True)
+    MSA = models.CharField(max_length=10)
+    concentrationRiskTerritoryDescription = models.CharField(max_length=100)
+    flood = models.FloatField()
+    surge = models.FloatField()
+
+    def __str__(self):
+        return "Id "+str(self.id) + " MSA - "+str(self.MSA)
+
+
 # Results
 
 
@@ -343,6 +367,27 @@ class riskrating2results(models.Model):
     items = models.CharField(max_length=50)
     inlandFloodBuldings = models.FloatField(null=True)
     inlandFloodContents = models.FloatField(null=True)
+    stormSurgeBuldings = models.FloatField(null=True)
+    stormSurgeContents = models.FloatField(null=True)
+    tsunamiBuldings = models.FloatField(null=True)
+    tsunamiContents = models.FloatField(null=True)
+    greatLakesBuldings = models.FloatField(null=True)
+    greatLakesContents = models.FloatField(null=True)
+    coastalErosonBuldings = models.FloatField(null=True)
+    coastalErosonContents = models.FloatField(null=True)
+    allPerilsAllCoverage = models.FloatField(null=True)
+
+    def __str__(self):
+        return "Id : "+str(self.id) + " item : "+str(self.items)
+
+
+class riskrating2resultsLevee(models.Model):
+    id = models.IntegerField(primary_key=True)
+    items = models.CharField(max_length=50)
+    inlandFloodFluvialBuldings = models.FloatField(null=True)
+    inlandFloodFluvialContents = models.FloatField(null=True)
+    inlandFloodPluvialBuldings = models.FloatField(null=True)
+    inlandFloodPluvialContents = models.FloatField(null=True)
     stormSurgeBuldings = models.FloatField(null=True)
     stormSurgeContents = models.FloatField(null=True)
     tsunamiBuldings = models.FloatField(null=True)
