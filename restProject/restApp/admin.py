@@ -35,5 +35,8 @@ admin.site.register(deductibleITVCovA)
 admin.site.register(deductibleITVCovC)
 admin.site.register(deductibleLimitITVCovA)
 admin.site.register(deductibleLimitITVCovC)
+admin.site.register(concentrationRiskMapping)
+admin.site.register(concentrationRisk)
+admin.site.register(riskrating2results)
 
 # admin.site.register(models.User, UserAdmin)

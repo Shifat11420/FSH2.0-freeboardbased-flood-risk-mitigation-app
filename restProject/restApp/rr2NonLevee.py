@@ -1391,6 +1391,7 @@ def RRFunctionsNonLevee(inputs):
                                                       )
     rateWeightsbyCoverageResults.save()
 
+    # Weighted Deductible & ITV Factor (Building)
     weighted_deductible_building = round((float(finalDeductibleITVResults_dict['ifBuilding']) * ifBuilding_WbyC +
                                           float(finalDeductibleITVResults_dict['ssBuilding']) * ssBuilding_WbyC +
                                           float(finalDeductibleITVResults_dict['tsuBuilding']) * tsuBuilding_WbyC +
@@ -1457,6 +1458,7 @@ def RRFunctionsNonLevee(inputs):
                                                               )
     weightedDeductibleITVContentsResults.save()
 
+    # Min and max rate- buildings
     min_rate_building = round(0 * weighted_deductible_building, 4)
     max_rate_building = round(15 * weighted_deductible_building, 4)
 
@@ -1514,6 +1516,7 @@ def RRFunctionsNonLevee(inputs):
                                                   )
     max_rate_buildingResults.save()
 
+    # Min and max rate- contents
     min_rate_contents = round(0 * weighted_deductible_contents, 4)
     max_rate_contents = round(15 * weighted_deductible_contents, 4)
 
@@ -1571,7 +1574,7 @@ def RRFunctionsNonLevee(inputs):
                                                   )
     max_rate_contentsResults.save()
 
-    ############
+    # min and max Rate by Peril & Coverage
     item34 = "Minimum Rate by Peril & Coverage (per $1000 of Coverage Value)"
     ifBuilding = ''
     ifContents = ''

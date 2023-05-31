@@ -1706,6 +1706,880 @@ def RRFunctionsLevee(inputs):
                                                                    )
     weightedDeductibleITVContentsResults.save()
 
+    # Min and max rate- buildings
+    min_rate_building = round(0 * weighted_deductible_building, 4)
+    max_rate_building = round(15 * weighted_deductible_building, 4)
+
+    item33 = "Minimum Rate (per $1000 of Building Value)"
+    ifFluvialBuilding = ''
+    ifFluvialContents = ''
+    ifPluvialBuilding = ''
+    ifPluvialContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = min_rate_building
+
+    min_rate_buildingResults_dict = {"items": item33,
+                                     "ifFluvialBuilding": ifFluvialBuilding, "ifFluvialContents": ifFluvialContents,
+                                     "ifPluvialBuilding": ifPluvialBuilding, "ifPluvialContents": ifPluvialContents,
+                                     "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                     "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                     "glBuilding": glBuilding, "glContents": glContents,
+                                     "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                     "allPerils": allPerils}
+
+    # print("min_rate_buildingResults_dict  : ", min_rate_buildingResults_dict)
+    min_rate_buildingResults = riskrating2resultsLevee(items=item33,
+                                                       allPerilsAllCoverage=allPerils
+                                                       )
+    min_rate_buildingResults.save()
+
+    item34 = "Maximum Rate (per $1000 of Building Value)"
+    ifFluvialBuilding = ''
+    ifFluvialContents = ''
+    ifPluvialBuilding = ''
+    ifPluvialContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = max_rate_building
+
+    max_rate_buildingResults_dict = {"items": item34,
+                                     "ifFluvialBuilding": ifFluvialBuilding, "ifFluvialContents": ifFluvialContents,
+                                     "ifPluvialBuilding": ifPluvialBuilding, "ifPluvialContents": ifPluvialContents,
+                                     "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                     "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                     "glBuilding": glBuilding, "glContents": glContents,
+                                     "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                     "allPerils": allPerils}
+
+    # print("max_rate_buildingResults_dict  : ", max_rate_buildingResults_dict)
+    max_rate_buildingResults = riskrating2resultsLevee(items=item34,
+                                                       allPerilsAllCoverage=allPerils
+                                                       )
+    max_rate_buildingResults.save()
+
+    # Min and max rate- contents
+    min_rate_contents = round(0 * weighted_deductible_contents, 4)
+    max_rate_contents = round(15 * weighted_deductible_contents, 4)
+
+    item35 = "Minimum Rate (per $1000 of Contents Value)"
+    ifFluvialBuilding = ''
+    ifFluvialContents = ''
+    ifPluvialBuilding = ''
+    ifPluvialContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = min_rate_contents
+
+    min_rate_contentsResults_dict = {"items": item35,
+                                     "ifFluvialBuilding": ifFluvialBuilding, "ifFluvialContents": ifFluvialContents,
+                                     "ifPluvialBuilding": ifPluvialBuilding, "ifPluvialContents": ifPluvialContents,
+                                     "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                     "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                     "glBuilding": glBuilding, "glContents": glContents,
+                                     "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                     "allPerils": allPerils}
+
+    # print("min_rate_contentsResults_dict  : ", min_rate_contentsResults_dict)
+    min_rate_contentsResults = riskrating2resultsLevee(items=item35,
+                                                       allPerilsAllCoverage=allPerils
+                                                       )
+    min_rate_contentsResults.save()
+
+    item36 = "Maximum Rate (per $1000 of Contents Value)"
+    ifFluvialBuilding = ''
+    ifFluvialContents = ''
+    ifPluvialBuilding = ''
+    ifPluvialContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = max_rate_contents
+
+    max_rate_contentsResults_dict = {"items": item36,
+                                     "ifFluvialBuilding": ifFluvialBuilding, "ifFluvialContents": ifFluvialContents,
+                                     "ifPluvialBuilding": ifPluvialBuilding, "ifPluvialContents": ifPluvialContents,
+                                     "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                     "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                     "glBuilding": glBuilding, "glContents": glContents,
+                                     "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                     "allPerils": allPerils}
+
+    # print("max_rate_contentsResults_dict  : ", max_rate_contentsResults_dict)
+    max_rate_contentsResults = riskrating2resultsLevee(items=item36,
+                                                       allPerilsAllCoverage=allPerils
+                                                       )
+    max_rate_contentsResults.save()
+
+    # min and max Rate by Peril & Coverage
+    item37 = "Minimum Rate by Peril & Coverage (per $1000 of Coverage Value)"
+    ifFluvialBuilding = ''
+    ifFluvialContents = ''
+    ifPluvialBuilding = ''
+    ifPluvialContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = ''
+
+    min_rate_PerilCoverageResults_dict = {"items": item37,
+                                          "ifFluvialBuilding": ifFluvialBuilding, "ifFluvialContents": ifFluvialContents,
+                                          "ifPluvialBuilding": ifPluvialBuilding, "ifPluvialContents": ifPluvialContents,
+                                          "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                          "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                          "glBuilding": glBuilding, "glContents": glContents,
+                                          "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                          "allPerils": allPerils}
+
+    # print("min_rate_PerilCoverageResults_dict  : ", min_rate_PerilCoverageResults_dict)
+    min_rate_PerilCoverageResults = riskrating2resultsLevee(items=item37,
+                                                            )
+    min_rate_PerilCoverageResults.save()
+
+
+#   Maximum Rate by Peril & Coverage (per $1000 of Coverage Value)
+    item38 = "Maximum Rate by Peril & Coverage (per $1000 of Coverage Value)"
+    ifFluvialBuilding = ''
+    ifFluvialContents = ''
+    ifPluvialBuilding = ''
+    ifPluvialContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = ''
+
+    max_rate_PerilCoverageResults_dict = {"items": item38,
+                                          "ifFluvialBuilding": ifFluvialBuilding, "ifFluvialContents": ifFluvialContents,
+                                          "ifPluvialBuilding": ifPluvialBuilding, "ifPluvialContents": ifPluvialContents,
+                                          "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                          "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                          "glBuilding": glBuilding, "glContents": glContents,
+                                          "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                          "allPerils": allPerils}
+
+    # print("max_rate_PerilCoverageResults_dict  : ", max_rate_PerilCoverageResults_dict)
+    max_rate_PerilCoverageResults = riskrating2resultsLevee(items=item38
+                                                            )
+    max_rate_PerilCoverageResults.save()
+
+    ############
+
+    final_rate_building = min(
+        max(Rate_of_building, min_rate_building), max_rate_building)
+    final_rate_contents = min(
+        max(Rate_of_contents, min_rate_contents), max_rate_contents)
+
+#   Final Rate (per $1000 of Building Value)
+    item39 = "Final Rate (per $1000 of Building Value)"
+    ifFluvialBuilding = ''
+    ifFluvialContents = ''
+    ifPluvialBuilding = ''
+    ifPluvialContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = final_rate_building
+
+    final_rate_buildingResults_dict = {"items": item39,
+                                       "ifFluvialBuilding": ifFluvialBuilding, "ifFluvialContents": ifFluvialContents,
+                                       "ifPluvialBuilding": ifPluvialBuilding, "ifPluvialContents": ifPluvialContents,
+                                       "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                       "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                       "glBuilding": glBuilding, "glContents": glContents,
+                                       "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                       "allPerils": allPerils}
+
+    # print("final_rate_buildingResults_dict  : ", final_rate_buildingResults_dict)
+    final_rate_buildingResults = riskrating2resultsLevee(items=item39,
+                                                         allPerilsAllCoverage=allPerils
+                                                         )
+    final_rate_buildingResults.save()
+
+#   Final Rate (per $1000 of Contents Value)
+    item40 = "Final Rate (per $1000 of Contents Value)"
+    ifFluvialBuilding = ''
+    ifFluvialContents = ''
+    ifPluvialBuilding = ''
+    ifPluvialContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = final_rate_contents
+
+    final_rate_contentsResults_dict = {"items": item40,
+                                       "ifFluvialBuilding": ifFluvialBuilding, "ifFluvialContents": ifFluvialContents,
+                                       "ifPluvialBuilding": ifPluvialBuilding, "ifPluvialContents": ifPluvialContents,
+                                       "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                       "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                       "glBuilding": glBuilding, "glContents": glContents,
+                                       "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                       "allPerils": allPerils}
+
+    # print("final_rate_contentsResults_dict  : ", final_rate_contentsResults_dict)
+    final_rate_contentsResults = riskrating2resultsLevee(items=item40,
+                                                         allPerilsAllCoverage=allPerils
+                                                         )
+    final_rate_contentsResults.save()
+
+    coverage_building_thousands = inputs['Coverage A value']/1000
+    coverage_contents_thousands = inputs['Coverage C value']/1000
+    initial_premium_without_fees_building = final_rate_building * \
+        coverage_building_thousands
+    initial_premium_without_fees_contents = final_rate_contents * \
+        coverage_contents_thousands
+    initial_premium_without_fees = initial_premium_without_fees_building + \
+        initial_premium_without_fees_contents
+    prior_claim_premium = (inputs['Prior Claim Rate'] * coverage_building_thousands *
+                           weighted_deductible_building * max(0, inputs['Prior claims']-1))
+    premium_exc_fees_expense = initial_premium_without_fees + prior_claim_premium
+    premium_without_fees = premium_exc_fees_expense + \
+        inputs['Loss Constant'] + inputs['Expense Constant']
+    icc_crs = inputs['ICC premium'] * (100-inputs['CRS discount'])/100
+    subtotal = (premium_without_fees + icc_crs)
+
+#   coverage_building_thousands
+
+    item41 = "Coverage Value in Thousands (Buildings)"
+    ifFluvialBuilding = ''
+    ifFluvialContents = ''
+    ifPluvialBuilding = ''
+    ifPluvialContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = coverage_building_thousands
+
+    coverage_building_thousandsfinal_rate_contentsResults_dict = {"items": item41,
+                                                                  "ifFluvialBuilding": ifFluvialBuilding, "ifFluvialContents": ifFluvialContents,
+                                                                  "ifPluvialBuilding": ifPluvialBuilding, "ifPluvialContents": ifPluvialContents,
+                                                                  "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                                                  "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                                                  "glBuilding": glBuilding, "glContents": glContents,
+                                                                  "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                                                  "allPerils": allPerils}
+
+    # print("coverage_building_thousandsResults_dict  : ", coverage_building_thousandsResults_dict)
+    coverage_building_thousandsResults = riskrating2resultsLevee(items=item41,
+                                                                 allPerilsAllCoverage=allPerils
+                                                                 )
+    coverage_building_thousandsResults.save()
+
+    # coverage_contents_thousands
+    item42 = "Coverage Value in Thousands (Contents)"
+    ifFluvialBuilding = ''
+    ifFluvialContents = ''
+    ifPluvialBuilding = ''
+    ifPluvialContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = coverage_contents_thousands
+
+    coverage_contents_thousandsResults_dict = {"items": item42,
+                                               "ifFluvialBuilding": ifFluvialBuilding, "ifFluvialContents": ifFluvialContents,
+                                               "ifPluvialBuilding": ifPluvialBuilding, "ifPluvialContents": ifPluvialContents,
+                                               "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                               "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                               "glBuilding": glBuilding, "glContents": glContents,
+                                               "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                               "allPerils": allPerils}
+
+    # print("coverage_contents_thousandsResults_dict  : ", coverage_contents_thousandsResults_dict)
+    coverage_contents_thousandsResults = riskrating2resultsLevee(items=item42,
+                                                                 allPerilsAllCoverage=allPerils
+                                                                 )
+    coverage_contents_thousandsResults.save()
+
+    # initial_premium_without_fees_building
+    item43 = "Initial Premium without Fees (Buildings)"
+    ifFluvialBuilding = ''
+    ifFluvialContents = ''
+    ifPluvialBuilding = ''
+    ifPluvialContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = initial_premium_without_fees_building
+    initial_premium_without_fees_buildingResults_dict = {"items": item43,
+                                                         "ifFluvialBuilding": ifFluvialBuilding, "ifFluvialContents": ifFluvialContents,
+                                                         "ifPluvialBuilding": ifPluvialBuilding, "ifPluvialContents": ifPluvialContents,
+                                                         "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                                         "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                                         "glBuilding": glBuilding, "glContents": glContents,
+                                                         "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                                         "allPerils": allPerils}
+
+    # print("initial_premium_without_fees_buildingResults_dict  : ", initial_premium_without_fees_buildingResults_dict)
+    initial_premium_without_fees_buildingResults = riskrating2resultsLevee(items=item43,
+                                                                           allPerilsAllCoverage=allPerils
+                                                                           )
+    initial_premium_without_fees_buildingResults.save()
+
+#   initial_premium_without_fees_contents
+    item44 = "Initial Premium without Fees (Contents)"
+    ifFluvialBuilding = ''
+    ifFluvialContents = ''
+    ifPluvialBuilding = ''
+    ifPluvialContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = initial_premium_without_fees_contents
+
+    initial_premium_without_fees_contentsResults_dict = {"items": item44,
+                                                         "ifFluvialBuilding": ifFluvialBuilding, "ifFluvialContents": ifFluvialContents,
+                                                         "ifPluvialBuilding": ifPluvialBuilding, "ifPluvialContents": ifPluvialContents,
+                                                         "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                                         "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                                         "glBuilding": glBuilding, "glContents": glContents,
+                                                         "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                                         "allPerils": allPerils}
+
+    # print("initial_premium_without_fees_contentsResults_dict  : ", initial_premium_without_fees_contentsResults_dict)
+    initial_premium_without_fees_contentsResults = riskrating2resultsLevee(items=item44,
+                                                                           allPerilsAllCoverage=allPerils
+                                                                           )
+    initial_premium_without_fees_contentsResults.save()
+
+    # initial_premium_without_fees
+    item45 = "Initial Premium without Fees"
+    ifFluvialBuilding = ''
+    ifFluvialContents = ''
+    ifPluvialBuilding = ''
+    ifPluvialContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = initial_premium_without_fees
+
+    initial_premium_without_feesResults_dict = {"items": item45,
+                                                "ifFluvialBuilding": ifFluvialBuilding, "ifFluvialContents": ifFluvialContents,
+                                                "ifPluvialBuilding": ifPluvialBuilding, "ifPluvialContents": ifPluvialContents,
+                                                "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                                "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                                "glBuilding": glBuilding, "glContents": glContents,
+                                                "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                                "allPerils": allPerils}
+
+    # print("initial_premium_without_feesResults_dict  : ", initial_premium_without_feesResults_dict)
+    initial_premium_without_feesResults = riskrating2resultsLevee(items=item45,
+                                                                  allPerilsAllCoverage=allPerils
+                                                                  )
+    initial_premium_without_feesResults.save()
+
+
+#   prior_claim_premium
+    item46 = "Prior Claims Premium"
+    ifFluvialBuilding = ''
+    ifFluvialContents = ''
+    ifPluvialBuilding = ''
+    ifPluvialContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = prior_claim_premium
+
+    prior_claim_premiumResults_dict = {"items": item46,
+                                       "ifFluvialBuilding": ifFluvialBuilding, "ifFluvialContents": ifFluvialContents,
+                                       "ifPluvialBuilding": ifPluvialBuilding, "ifPluvialContents": ifPluvialContents,
+                                       "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                       "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                       "glBuilding": glBuilding, "glContents": glContents,
+                                       "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                       "allPerils": allPerils}
+
+    # print("prior_claim_premiumResults_dict  : ", prior_claim_premiumResults_dict)
+    prior_claim_premiumResults = riskrating2resultsLevee(items=item46,
+                                                         allPerilsAllCoverage=allPerils
+                                                         )
+    prior_claim_premiumResults.save()
+
+    # premium_exc_fees_expense
+    item47 = "Premium excluding Fees & Expense Constant"
+    ifFluvialBuilding = ''
+    ifFluvialContents = ''
+    ifPluvialBuilding = ''
+    ifPluvialContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = premium_exc_fees_expense
+
+    premium_exc_fees_expenseResults_dict = {"items": item47,
+                                            "ifFluvialBuilding": ifFluvialBuilding, "ifFluvialContents": ifFluvialContents,
+                                            "ifPluvialBuilding": ifPluvialBuilding, "ifPluvialContents": ifPluvialContents,
+                                            "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                            "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                            "glBuilding": glBuilding, "glContents": glContents,
+                                            "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                            "allPerils": allPerils}
+
+    # print("premium_exc_fees_expenseResults_dict  : ", premium_exc_fees_expenseResults_dict)
+    premium_exc_fees_expenseResults = riskrating2resultsLevee(items=item47,
+                                                              allPerilsAllCoverage=allPerils
+                                                              )
+    premium_exc_fees_expenseResults.save()
+
+#   Expense Constant
+    item48 = "Expense Constant"
+    ifFluvialBuilding = ''
+    ifFluvialContents = ''
+    ifPluvialBuilding = ''
+    ifPluvialContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = inputs['Expense Constant']
+
+    expense_ConstantResults_dict = {"items": item48,
+                                    "ifFluvialBuilding": ifFluvialBuilding, "ifFluvialContents": ifFluvialContents,
+                                    "ifPluvialBuilding": ifPluvialBuilding, "ifPluvialContents": ifPluvialContents,
+                                    "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                    "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                    "glBuilding": glBuilding, "glContents": glContents,
+                                    "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                    "allPerils": allPerils}
+
+    # print("expense_ConstantResults_dict  : ", expense_ConstantResults_dict)
+    expense_ConstantResults = riskrating2resultsLevee(items=item48,
+                                                      allPerilsAllCoverage=allPerils
+                                                      )
+    expense_ConstantResults.save()
+
+#   Loss Constant
+    item49 = "Loss Constant"
+    ifFluvialBuilding = ''
+    ifFluvialContents = ''
+    ifPluvialBuilding = ''
+    ifPluvialContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = inputs['Loss Constant']
+
+    loss_ConstantResults_dict = {"items": item49,
+                                 "ifFluvialBuilding": ifFluvialBuilding, "ifFluvialContents": ifFluvialContents,
+                                 "ifPluvialBuilding": ifPluvialBuilding, "ifPluvialContents": ifPluvialContents,
+                                 "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                 "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                 "glBuilding": glBuilding, "glContents": glContents,
+                                 "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                 "allPerils": allPerils}
+
+    # print("loss_ConstantResults_dict  : ", loss_ConstantResults_dict)
+    loss_ConstantResults = riskrating2resultsLevee(items=item49,
+                                                   allPerilsAllCoverage=allPerils
+                                                   )
+    loss_ConstantResults.save()
+
+    #  premium_without_fees
+    item50 = "Premium without Fees"
+    ifFluvialBuilding = ''
+    ifFluvialContents = ''
+    ifPluvialBuilding = ''
+    ifPluvialContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = premium_without_fees
+
+    premium_without_feesResults_dict = {"items": item50,
+                                        "ifFluvialBuilding": ifFluvialBuilding, "ifFluvialContents": ifFluvialContents,
+                                        "ifPluvialBuilding": ifPluvialBuilding, "ifPluvialContents": ifPluvialContents,
+                                        "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                        "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                        "glBuilding": glBuilding, "glContents": glContents,
+                                        "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                        "allPerils": allPerils}
+
+    # print("premium_without_feesResults_dict  : ", premium_without_feesResults_dict)
+    premium_without_feesResults = riskrating2resultsLevee(items=item50,
+                                                          allPerilsAllCoverage=allPerils
+                                                          )
+    premium_without_feesResults.save()
+
+
+#   ICC premium
+    item51 = "ICC Premium"
+    ifFluvialBuilding = ''
+    ifFluvialContents = ''
+    ifPluvialBuilding = ''
+    ifPluvialContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = inputs['ICC premium']
+
+    icc_premiumResults_dict = {"items": item51,
+                               "ifFluvialBuilding": ifFluvialBuilding, "ifFluvialContents": ifFluvialContents,
+                               "ifPluvialBuilding": ifPluvialBuilding, "ifPluvialContents": ifPluvialContents,
+                               "ssBuilding": ssBuilding, "ssContents": ssContents,
+                               "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                               "glBuilding": glBuilding, "glContents": glContents,
+                               "ceBuilding": ceBuilding, "ceContents": ceContents,
+                               "allPerils": allPerils}
+
+    # print("icc_premiumResults_dict  : ", icc_premiumResults_dict)
+    icc_premiumResults = riskrating2resultsLevee(items=item51,
+                                                 allPerilsAllCoverage=allPerils
+                                                 )
+    icc_premiumResults.save()
+
+#   icc_crs
+    item52 = "ICC Premium with CRS Discount"
+    ifFluvialBuilding = ''
+    ifFluvialContents = ''
+    ifPluvialBuilding = ''
+    ifPluvialContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = icc_crs
+
+    icc_crsResults_dict = {"items": item52,
+                           "ifFluvialBuilding": ifFluvialBuilding, "ifFluvialContents": ifFluvialContents,
+                           "ifPluvialBuilding": ifPluvialBuilding, "ifPluvialContents": ifPluvialContents,
+                           "ssBuilding": ssBuilding, "ssContents": ssContents,
+                           "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                           "glBuilding": glBuilding, "glContents": glContents,
+                           "ceBuilding": ceBuilding, "ceContents": ceContents,
+                           "allPerils": allPerils}
+
+    # print("icc_crsResults_dict  : ", icc_crsResults_dict)
+    icc_crsResults = riskrating2resultsLevee(items=item52,
+                                             allPerilsAllCoverage=allPerils
+                                             )
+    icc_crsResults.save()
+
+    # subtotal
+    item53 = "Subtotal"
+    ifFluvialBuilding = ''
+    ifFluvialContents = ''
+    ifPluvialBuilding = ''
+    ifPluvialContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = subtotal
+
+    subtotalResults_dict = {"items": item53,
+                            "ifFluvialBuilding": ifFluvialBuilding, "ifFluvialContents": ifFluvialContents,
+                            "ifPluvialBuilding": ifPluvialBuilding, "ifPluvialContents": ifPluvialContents,
+                            "ssBuilding": ssBuilding, "ssContents": ssContents,
+                            "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                            "glBuilding": glBuilding, "glContents": glContents,
+                            "ceBuilding": ceBuilding, "ceContents": ceContents,
+                            "allPerils": allPerils}
+
+    # print("subtotalResults_dict  : ", subtotalResults_dict)
+    subtotalResults = riskrating2resultsLevee(items=item53,
+                                              allPerilsAllCoverage=allPerils
+                                              )
+    subtotalResults.save()
+
+#   Reserve fund
+    item54 = "Reserve Fund Factor"
+    ifFluvialBuilding = ''
+    ifFluvialContents = ''
+    ifPluvialBuilding = ''
+    ifPluvialContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = inputs['Reserve fund']
+
+    reserve_fund_factorResults_dict = {"items": item54,
+                                       "ifFluvialBuilding": ifFluvialBuilding, "ifFluvialContents": ifFluvialContents,
+                                       "ifPluvialBuilding": ifPluvialBuilding, "ifPluvialContents": ifPluvialContents,
+                                       "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                       "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                       "glBuilding": glBuilding, "glContents": glContents,
+                                       "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                       "allPerils": allPerils}
+
+    # print("reserve_fund_factorResults_dict  : ", reserve_fund_factorResults_dict)
+    reserve_fund_factorResults = riskrating2resultsLevee(items=item54,
+                                                         allPerilsAllCoverage=allPerils
+                                                         )
+    reserve_fund_factorResults.save()
+
+    # subtotal = subtotal * inputs['Reserve fund']
+    # subtotal
+    subtotal_with_reservefund = subtotal * inputs['Reserve fund']
+
+    item55 = "Subtotal with Reserve Fund"
+    ifFluvialBuilding = ''
+    ifFluvialContents = ''
+    ifPluvialBuilding = ''
+    ifPluvialContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = subtotal_with_reservefund
+
+    subtotal_with_reservefundResults_dict = {"items": item55,
+                                             "ifFluvialBuilding": ifFluvialBuilding, "ifFluvialContents": ifFluvialContents,
+                                             "ifPluvialBuilding": ifPluvialBuilding, "ifPluvialContents": ifPluvialContents,
+                                             "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                             "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                             "glBuilding": glBuilding, "glContents": glContents,
+                                             "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                             "allPerils": allPerils}
+
+    # print("subtotal_with_reservefundResults_dict  : ", subtotal_with_reservefundResults_dict)
+    subtotal_with_reservefundResults = riskrating2resultsLevee(items=item55,
+                                                               allPerilsAllCoverage=allPerils
+                                                               )
+    subtotal_with_reservefundResults.save()
+
+    # Probation surcharge
+    item56 = "Probation Surcharge"
+    ifFluvialBuilding = ''
+    ifFluvialContents = ''
+    ifPluvialBuilding = ''
+    ifPluvialContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = inputs['Probation surcharge']
+
+    probation_surchargeResults_dict = {"items": item56,
+                                       "ifFluvialBuilding": ifFluvialBuilding, "ifFluvialContents": ifFluvialContents,
+                                       "ifPluvialBuilding": ifPluvialBuilding, "ifPluvialContents": ifPluvialContents,
+                                       "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                       "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                       "glBuilding": glBuilding, "glContents": glContents,
+                                       "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                       "allPerils": allPerils}
+
+    # print("probation_surchargeResults_dict  : ", probation_surchargeResults_dict)
+    probation_surchargeResults = riskrating2resultsLevee(items=item56,
+                                                         allPerilsAllCoverage=allPerils
+                                                         )
+    probation_surchargeResults.save()
+
+    if inputs['Primary residence indicator'] == 'Yes':
+        HFIAA_surcharge = 50
+    else:
+        HFIAA_surcharge = 250
+#   HFIAA_surcharge
+    item57 = "HFIAA Surcharge by Primary Residence Indicator"
+    ifFluvialBuilding = ''
+    ifFluvialContents = ''
+    ifPluvialBuilding = ''
+    ifPluvialContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = HFIAA_surcharge
+
+    hfiaa_surchargeResults_dict = {"items": item57,
+                                   "ifFluvialBuilding": ifFluvialBuilding, "ifFluvialContents": ifFluvialContents,
+                                   "ifPluvialBuilding": ifPluvialBuilding, "ifPluvialContents": ifPluvialContents,
+                                   "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                   "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                   "glBuilding": glBuilding, "glContents": glContents,
+                                   "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                   "allPerils": allPerils}
+
+    # print("hfiaa_surchargeResults_dict  : ", hfiaa_surchargeResults_dict)
+    hfiaa_surchargeResults = riskrating2resultsLevee(items=item57,
+                                                     allPerilsAllCoverage=allPerils
+                                                     )
+    hfiaa_surchargeResults.save()
+
+#   Federal policy fee
+    item58 = "Federal Policy Fee"
+    ifFluvialBuilding = ''
+    ifFluvialContents = ''
+    ifPluvialBuilding = ''
+    ifPluvialContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = inputs['Federal policy fee']
+
+    federal_policy_feeResults_dict = {"items": item58,
+                                      "ifFluvialBuilding": ifFluvialBuilding, "ifFluvialContents": ifFluvialContents,
+                                      "ifPluvialBuilding": ifPluvialBuilding, "ifPluvialContents": ifPluvialContents,
+                                      "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                      "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                      "glBuilding": glBuilding, "glContents": glContents,
+                                      "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                      "allPerils": allPerils}
+
+    # print("federal_policy_feeResults_dict  : ", federal_policy_feeResults_dict)
+    federal_policy_feeResults = riskrating2resultsLevee(items=item58,
+                                                        allPerilsAllCoverage=allPerils
+                                                        )
+    federal_policy_feeResults.save()
+
+    premium = round(subtotal_with_reservefund + inputs['Probation surcharge'] +
+                    HFIAA_surcharge + inputs['Federal policy fee'], 2)
+#   premium
+    item59 = "Premium with Fees"
+    ifFluvialBuilding = ''
+    ifFluvialContents = ''
+    ifPluvialBuilding = ''
+    ifPluvialContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = premium
+
+    premiumResults_dict = {"items": item59,
+                           "ifFluvialBuilding": ifFluvialBuilding, "ifFluvialContents": ifFluvialContents,
+                           "ifPluvialBuilding": ifPluvialBuilding, "ifPluvialContents": ifPluvialContents,
+                           "ssBuilding": ssBuilding, "ssContents": ssContents,
+                           "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                           "glBuilding": glBuilding, "glContents": glContents,
+                           "ceBuilding": ceBuilding, "ceContents": ceContents,
+                           "allPerils": allPerils}
+
+    # print("premiumResults_dict  : ", premiumResults_dict)
+    premiumResults = riskrating2resultsLevee(items=item59,
+                                             allPerilsAllCoverage=allPerils
+                                             )
+    premiumResults.save()
+
     return [{"baserate results": baserateResults_dict}, {"distToRiver results": distToRiverResults_dict}, {"elevRelToRiver Results": elevRelToRiverResults_dict},
             {"drainageArea Results": drainageAreaResults_dict}, {
                 "strucRelElv Results": strucRelElvResults_dict}, {"distToCoast Results": distToCoastResults_dict},
@@ -1734,4 +2608,34 @@ def RRFunctionsLevee(inputs):
                 "rateContentsValue Results": rateContentsValueResults_dict},
             {"rateWeightsbyCoverage Results": rateWeightsbyCoverageResults_dict},
             {"weightedDeductibleITVBuilding Results": weightedDeductibleITVBuildingResults_dict},
-            {"weightedDeductibleITVContents Results": weightedDeductibleITVContentsResults_dict}]
+            {"weightedDeductibleITVContents Results": weightedDeductibleITVContentsResults_dict},
+            {"min_rate_building Results": min_rate_buildingResults_dict},
+            {"max_rate_building Results": max_rate_buildingResults_dict},
+            {"min_rate_contents Results": min_rate_contentsResults_dict},
+            {"max_rate_contents Results": max_rate_contentsResults_dict},
+            {"min_rate_PerilCoverage Results": min_rate_PerilCoverageResults_dict},
+            {"max_rate_PerilCoverage Results": max_rate_PerilCoverageResults_dict},
+            {"final_rate_building Results": final_rate_buildingResults_dict},
+            {"final_rate_contents Results": final_rate_contentsResults_dict},
+            {"coverage_building_thousandsfinal_rate_contents Results":
+                coverage_building_thousandsfinal_rate_contentsResults_dict},
+            {"coverage_contents_thousands Results": coverage_contents_thousandsResults_dict},
+            {"initial_premium_without_fees_building Results":
+                initial_premium_without_fees_buildingResults_dict},
+            {"initial_premium_without_fees_contents Results":
+                initial_premium_without_fees_contentsResults_dict},
+            {"initial_premium_without_fees Results": initial_premium_without_feesResults_dict},
+            {"prior_claim_premium Results": prior_claim_premiumResults_dict},
+            {"premium_exc_fees_expense Results": premium_exc_fees_expenseResults_dict},
+            {"expense_Constant Results": expense_ConstantResults_dict},
+            {"loss_Constant Results": loss_ConstantResults_dict},
+            {"premium_without_fees Results": premium_without_feesResults_dict},
+            {"icc_premium Results": icc_premiumResults_dict},
+            {"icc_crs Results": icc_crsResults_dict},
+            {"subtotal Results": subtotalResults_dict},
+            {"reserve_fund_factor Results": reserve_fund_factorResults_dict},
+            {"subtotal_with_reservefund Results": subtotal_with_reservefundResults_dict},
+            {"probation_surcharge Results": probation_surchargeResults_dict},
+            {"hfiaa_surcharge Results": hfiaa_surchargeResults_dict},
+            {"federal_policy_fee Results": federal_policy_feeResults_dict},
+            {"premium Results": premiumResults_dict}]

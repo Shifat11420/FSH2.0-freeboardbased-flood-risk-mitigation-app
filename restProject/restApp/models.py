@@ -359,9 +359,7 @@ class concentrationRisk(models.Model):
         return "Id "+str(self.id) + " MSA - "+str(self.MSA)
 
 
-# Results
-
-
+# Results Non Levee
 class riskrating2results(models.Model):
     id = models.IntegerField(primary_key=True)
     items = models.CharField(max_length=50)
@@ -379,6 +377,8 @@ class riskrating2results(models.Model):
 
     def __str__(self):
         return "Id : "+str(self.id) + " item : "+str(self.items)
+
+# Results Levee
 
 
 class riskrating2resultsLevee(models.Model):

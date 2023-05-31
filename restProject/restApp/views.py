@@ -3,6 +3,8 @@ from restApp.models import riskrating2results
 from restApp.serializers import baserateSerializer
 from restApp.models import baseRateMultipliers
 from restApp.riskrating2functions import *
+from restApp.rr2NonLevee import *
+from restApp.rr2Levee import *
 from restApp.homeEquityLoan.HEL import *
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -272,6 +274,11 @@ class distToRiverViewSet(viewsets.ModelViewSet):
     queryset = distToRiverMultipliers.objects.all()
     serializer_class = distToRiverSerializer
 
+    filter_backends = [DjangoFilterBackend,
+                       filters.SearchFilter, filters.OrderingFilter]
+
+    filterset_fields = ['id', 'levee', 'region', 'ifType']
+
 
 class territoryViewSet(viewsets.ModelViewSet):
     queryset = territory.objects.all()
@@ -295,9 +302,9 @@ class CalculateRR2APIView(APIView):
         inputs['State'] = 'MI'
         inputs['State (Long)'] = 'Michigan'
         inputs['County'] = 'Bay County'
-        inputs['Levee'] = 'No'  # 'NL'
-        inputs['Levee System ID'] = ''
-        inputs['HUC12'] = '040801020106'
+        inputs['Levee'] = 'Yes'  # 'NL'
+        inputs['Levee System ID'] = '004305000025'  # needed for levee yes case
+        inputs['HUC12'] = '010700061401'
         inputs['Barrier island indicator'] = 'No'
         inputs['DTR'] = 420.8
         inputs['ERR'] = 10.2
@@ -309,11 +316,13 @@ class CalculateRR2APIView(APIView):
         inputs['DTL'] = 48.3
         inputs['ERL'] = 6.2
         inputs['River class'] = 'A'
+        # 'Single-Family Home - Frame'
         inputs['Type of Use'] = 'Single-Family Home - Frame'
         inputs['Single family home indicator'] = 'Yes'
         inputs['Condo unit owner indicator'] = 'No'
         inputs['Floor of interest'] = '1-2'
         # 'Elevated without Enclosure, Post, Pile, or Pier'
+        # 'Slab'
         inputs['Foundation type'] = 'Slab'
         inputs['First floor height'] = 0.5
         inputs['Foundation design'] = 'Closed, Wall'
@@ -337,59 +346,14 @@ class CalculateRR2APIView(APIView):
         inputs['Loss Constant'] = 130
         inputs['Expense Constant'] = 62.99
 
-        # path = r"C:\Computer backup\FloodSafeHome\Risk rating 2\Risk Rating 2 Calculator"
-        # os.chdir(path+'/Scripts')
+        rr2res = []
+        if inputs['Levee'] == 'No':
+            rr2res = RRFunctionsNonLevee(inputs)
+        if inputs['Levee'] == 'Yes':
+            rr2res = RRFunctionsLevee(inputs)
+        return Response({'Risk rating 2 Calculator Results': rr2res})
 
-        # if inputs['Levee'] == 'NL':
-
-        #     path1 = path+"/tables/" + inputs['Levee']+ "/"
-        #     if inputs['Barrier island indicator'] == 'Yes':
-        #         path2 = path+"/tables/NL/BI/"
-        #     else:
-        #         path2 = path+"/tables/NL/Non-BI/"
-        #     risk_rating_df = NL_premium(path,path1,path2,inputs)
-        #     risk_rating_df.to_csv(path+ '/sample3.csv', index=False)
-
-        # if inputs['Levee'] == 'L':
-        #     from L_premium_individual_building import *
-        #     path1 = path+"/tables/" + inputs['Levee'] + "/"
-        #     risk_rating_df = L_premium(path,path1,inputs)
-        #     risk_rating_df.to_csv(path+ '/sample4.csv', index=False)
-        # -----------------------------------------------
-
-        # riskrating_2_results = riskrating(inputs)
         # return Response({'Risk rating 2 Calculator Results': riskrating_2_results})
-
-        riskrating_2_results = {}
-        riskrating_2_results["Base Rate Multipliers"] = baserate(inputs)
-        riskrating_2_results["Distance to River Multipliers"] = distToRiver(
-            inputs)
-        riskrating_2_results["Elevation Relative to River by River Class"] = elevRelToRiverfunc(
-            inputs)
-        riskrating_2_results["Drainage Area"] = drainageAreafunc(inputs)
-        riskrating_2_results["Structural Relative Elevation"] = strucRelElevfunc(
-            inputs)
-        riskrating_2_results["Distance to Coast"] = distanceToCoast(inputs)
-        riskrating_2_results["Distance to Ocean"] = distanceToOcean(inputs)
-        riskrating_2_results["Elevation"] = elevationfunc(inputs)
-        riskrating_2_results["Distance to Lake"] = distanceToLake(inputs)
-        riskrating_2_results["Elevation Relative to Lake"] = elevationRelToLake(
-            inputs)
-        riskrating_2_results["Territory (HUC12 & Barrier Island Indicator)"] = territoryfunc(
-            inputs)
-        riskrating_2_results["Type of Use"] = typeOfUsefunc(inputs)
-        riskrating_2_results["Floor of Interest"] = floorsOfInterestfunc(
-            inputs)
-        riskrating_2_results["Foundation Type"] = foundationtypefunc(inputs)
-        riskrating_2_results["First Floor Height by Foundation Design & Flood Vents"] = heightDesignVent(
-            inputs)
-        riskrating_2_results["M&E above First Floor"] = MEAboveFirstFloorfunc(
-            inputs)
-        riskrating_2_results["Coverage Value Factor"] = coverageValue(inputs)
-        riskrating_2_results["Coverage Value Ratio"] = CoverageValueRatio(
-            inputs)
-
-        return Response({'Risk rating 2 Calculator Results': riskrating_2_results})
 
 
 class riskrating2resultsViewSet(viewsets.ModelViewSet):

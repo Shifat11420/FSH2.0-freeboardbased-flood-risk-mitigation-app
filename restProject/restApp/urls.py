@@ -32,6 +32,7 @@ urlpatterns = [
          views.CalculateNfipAPIView.as_view(), name='calcnfipapiv'),
     path('CalculateRiskAPIViewBody',
          views.CalculateRiskAPIViewBody.as_view(), name='calcriskapivbody'),
-    path('Riskrating2', views.CalculateRR2APIView.as_view(), name='rr2')
+    # path('Riskrating2', views.CalculateRR2APIView.as_view(), name='rr2'),
+    path('RR2', views.CalculateRR2APIView.as_view(), name='rr2singlefunc')
 
 ]

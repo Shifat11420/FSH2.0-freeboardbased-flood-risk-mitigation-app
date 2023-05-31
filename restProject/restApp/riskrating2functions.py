@@ -21,13 +21,15 @@ def baserate(inputs):
     glContents = baserate.values()[0]['glContents']
     ceBuilding = baserate.values()[0]['ceBuilding']
     ceContents = baserate.values()[0]['ceContents']
+    allPerils = ''
 
     baserateResults_dict = {"items": item1, "Segment": segment,
                             "ifBuilding": ifBuilding, "ifContents": ifContents,
                             "ssBuilding": ssBuilding, "ssContents": ssContents,
                             "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
                             "glBuilding": glBuilding, "glContents": glContents,
-                            "ceBuilding": ceBuilding, "ceContents": ceContents}
+                            "ceBuilding": ceBuilding, "ceContents": ceContents,
+                            "allPerils": allPerils}
     # print("baserate Results  : ", baserateResults_dict)
 
     baseRateResult = riskrating2results(items=item1,
@@ -56,7 +58,6 @@ def distToRiver(inputs):
     else:
         B = np.interp([inputs['DTR']], dtrMeters,
                       ifvalue)
-    print("B = ", B)
 
     item2 = "Distance to River"
     segment = ''
@@ -70,13 +71,15 @@ def distToRiver(inputs):
     glContents = ''
     ceBuilding = ''
     ceContents = ''
+    allPerils = ''
 
     distToRiverResults_dict = {"items": item2, "Segment": segment,
                                "ifBuilding": ifBuilding, "ifContents": ifContents,
                                "ssBuilding": ssBuilding, "ssContents": ssContents,
                                "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
                                "glBuilding": glBuilding, "glContents": glContents,
-                               "ceBuilding": ceBuilding, "ceContents": ceContents}
+                               "ceBuilding": ceBuilding, "ceContents": ceContents,
+                               "allPerils": allPerils}
 
     # print("distToRiver Results  : ", distToRiverResults_dict)
     distToRiverResult = riskrating2results(items=item2,
@@ -101,7 +104,6 @@ def elevRelToRiverfunc(inputs):
     else:
         C = np.interp([inputs['ERR']], err_feet,
                       ifvalue)
-    print("C = ", C)
 
     item3 = "Elevation Relative to River by River Class"
     segment = ''
@@ -115,13 +117,15 @@ def elevRelToRiverfunc(inputs):
     glContents = ''
     ceBuilding = ''
     ceContents = ''
+    allPerils = ''
 
     elevRelToRiverResults_dict = {"items": item3, "Segment": segment,
                                   "ifBuilding": ifBuilding, "ifContents": ifContents,
                                   "ssBuilding": ssBuilding, "ssContents": ssContents,
                                   "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
                                   "glBuilding": glBuilding, "glContents": glContents,
-                                  "ceBuilding": ceBuilding, "ceContents": ceContents}
+                                  "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                  "allPerils": allPerils}
 
     # print("elevRelToRiverResults_dict  : ", elevRelToRiverResults_dict)
     elevRelToRiverResults = riskrating2results(items=item3,
@@ -142,7 +146,6 @@ def drainageAreafunc(inputs):
     ifvalue = list(ifvalue)
 
     D = np.interp([inputs['DA']], da_km2, ifvalue)
-    print("D = ", D)
 
     item4 = "Drainage Area"
     segment = ''
@@ -156,13 +159,15 @@ def drainageAreafunc(inputs):
     glContents = ''
     ceBuilding = ''
     ceContents = ''
+    allPerils = ''
 
     drainageAreaResults_dict = {"items": item4, "Segment": segment,
                                 "ifBuilding": ifBuilding, "ifContents": ifContents,
                                 "ssBuilding": ssBuilding, "ssContents": ssContents,
                                 "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
                                 "glBuilding": glBuilding, "glContents": glContents,
-                                "ceBuilding": ceBuilding, "ceContents": ceContents}
+                                "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                "allPerils": allPerils}
 
     # print("drainageAreaResults_dict  : ", drainageAreaResults_dict)
     drainageAreaResults = riskrating2results(items=item4,
@@ -183,7 +188,6 @@ def strucRelElevfunc(inputs):
     ifvalue = list(ifvalue)
 
     E = np.interp([inputs['SRE']], sre_feet, ifvalue)
-    print("E = ", round(float(E), 4))
 
     item5 = "Structural Relative Elevation"
     segment = ''
@@ -197,13 +201,15 @@ def strucRelElevfunc(inputs):
     glContents = ''
     ceBuilding = ''
     ceContents = ''
+    allPerils = ''
 
     strucRelElvResults_dict = {"items": item5, "Segment": segment,
                                "ifBuilding": ifBuilding, "ifContents": ifContents,
                                "ssBuilding": ssBuilding, "ssContents": ssContents,
                                "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
                                "glBuilding": glBuilding, "glContents": glContents,
-                               "ceBuilding": ceBuilding, "ceContents": ceContents}
+                               "ceBuilding": ceBuilding, "ceContents": ceContents,
+                               "allPerils": allPerils}
 
     # print("strucRelElvResults_dict  : ", strucRelElvResults_dict)
     strucRelElvResults = riskrating2results(items=item5,
@@ -264,13 +270,15 @@ def distanceToCoast(inputs):
     glContents = ''
     ceBuilding = round(float(coast), 4)
     ceContents = round(float(coast), 4)
+    allPerils = ''
 
     distToCoastResults_dict = {"items": item6, "Segment": segment,
                                "ifBuilding": ifBuilding, "ifContents": ifContents,
                                "ssBuilding": ssBuilding, "ssContents": ssContents,
                                "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
                                "glBuilding": glBuilding, "glContents": glContents,
-                               "ceBuilding": ceBuilding, "ceContents": ceContents}
+                               "ceBuilding": ceBuilding, "ceContents": ceContents,
+                               "allPerils": allPerils}
 
     # print("distToCoastResults_dict  : ", distToCoastResults_dict)
     distToCoastResults = riskrating2results(items=item6,
@@ -318,13 +326,15 @@ def distanceToOcean(inputs):
     glContents = ''
     ceBuilding = ''
     ceContents = ''
+    allPerils = ''
 
     distToOceanResults_dict = {"items": item7, "Segment": segment,
                                "ifBuilding": ifBuilding, "ifContents": ifContents,
                                "ssBuilding": ssBuilding, "ssContents": ssContents,
                                "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
                                "glBuilding": glBuilding, "glContents": glContents,
-                               "ceBuilding": ceBuilding, "ceContents": ceContents}
+                               "ceBuilding": ceBuilding, "ceContents": ceContents,
+                               "allPerils": allPerils}
 
     # print("distToOceanResults_dict  : ", distToOceanResults_dict)
     distToOceanResults = riskrating2results(items=item7,
@@ -372,13 +382,15 @@ def elevationfunc(inputs):
     glContents = ''
     ceBuilding = ''
     ceContents = ''
+    allPerils = ''
 
     elevationResults_dict = {"items": item8, "Segment": segment,
                              "ifBuilding": ifBuilding, "ifContents": ifContents,
                              "ssBuilding": ssBuilding, "ssContents": ssContents,
                              "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
                              "glBuilding": glBuilding, "glContents": glContents,
-                             "ceBuilding": ceBuilding, "ceContents": ceContents}
+                             "ceBuilding": ceBuilding, "ceContents": ceContents,
+                             "allPerils": allPerils}
 
     # print("elevationResults_dict  : ", elevationResults_dict)
     elevationResults = riskrating2results(items=item8,
@@ -421,13 +433,15 @@ def distanceToLake(inputs):
     glContents = greatlakescontent
     ceBuilding = ''
     ceContents = ''
+    allPerils = ''
 
     disttolakeResults_dict = {"items": item9, "Segment": segment,
                               "ifBuilding": ifBuilding, "ifContents": ifContents,
                               "ssBuilding": ssBuilding, "ssContents": ssContents,
                               "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
                               "glBuilding": glBuilding, "glContents": glContents,
-                              "ceBuilding": ceBuilding, "ceContents": ceContents}
+                              "ceBuilding": ceBuilding, "ceContents": ceContents,
+                              "allPerils": allPerils}
 
     # print("disttolakeResults_dict  : ", disttolakeResults_dict)
     disttolakeResults = riskrating2results(items=item9,
@@ -469,13 +483,15 @@ def elevationRelToLake(inputs):
     glContents = greatlakescontent
     ceBuilding = ''
     ceContents = ''
+    allPerils = ''
 
     elevationRelToLakeResults_dict = {"items": item10, "Segment": segment,
                                       "ifBuilding": ifBuilding, "ifContents": ifContents,
                                       "ssBuilding": ssBuilding, "ssContents": ssContents,
                                       "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
                                       "glBuilding": glBuilding, "glContents": glContents,
-                                      "ceBuilding": ceBuilding, "ceContents": ceContents}
+                                      "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                      "allPerils": allPerils}
 
     # print("elevationRelToLakeResults_dict  : ", elevationRelToLakeResults_dict)
     elevationRelToLakeResults = riskrating2results(items=item10,
@@ -546,13 +562,15 @@ def territoryfunc(inputs):
     glContents = glCont
     ceBuilding = ''
     ceContents = ''
+    allPerils = ''
 
     territoryResults_dict = {"items": item11, "Segment": segment,
                              "ifBuilding": ifBuilding, "ifContents": ifContents,
                              "ssBuilding": ssBuilding, "ssContents": ssContents,
                              "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
                              "glBuilding": glBuilding, "glContents": glContents,
-                             "ceBuilding": ceBuilding, "ceContents": ceContents}
+                             "ceBuilding": ceBuilding, "ceContents": ceContents,
+                             "allPerils": allPerils}
 
     # print("territoryResults_dict  : ", territoryResults_dict)
     territoryResults = riskrating2results(items=item11,
@@ -590,13 +608,15 @@ def typeOfUsefunc(inputs):
     glContents = typeuse_gl[0]
     ceBuilding = ''
     ceContents = ''
+    allPerils = ''
 
-    territoryResults_dict = {"items": item12, "Segment": segment,
+    typeOfUseResults_dict = {"items": item12, "Segment": segment,
                              "ifBuilding": ifBuilding, "ifContents": ifContents,
                              "ssBuilding": ssBuilding, "ssContents": ssContents,
                              "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
                              "glBuilding": glBuilding, "glContents": glContents,
-                             "ceBuilding": ceBuilding, "ceContents": ceContents}
+                             "ceBuilding": ceBuilding, "ceContents": ceContents,
+                             "allPerils": allPerils}
 
     # print("typeOfUseResults_dict  : ", typeOfUseResults_dict)
     typeOfUseResults = riskrating2results(items=item12,
@@ -606,7 +626,7 @@ def typeOfUsefunc(inputs):
                                           greatLakesBuldings=glBuilding, greatLakesContents=glContents
                                           )
     typeOfUseResults.save()
-    return [{"results": territoryResults_dict}]
+    return [{"results": typeOfUseResults_dict}]
 
 
 def floorsOfInterestfunc(inputs):
@@ -628,13 +648,15 @@ def floorsOfInterestfunc(inputs):
     glContents = floorsOfInt_allexclCE[0]
     ceBuilding = ''
     ceContents = ''
+    allPerils = ''
 
     floorsOfIntResults_dict = {"items": item12, "Segment": segment,
                                "ifBuilding": ifBuilding, "ifContents": ifContents,
                                "ssBuilding": ssBuilding, "ssContents": ssContents,
                                "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
                                "glBuilding": glBuilding, "glContents": glContents,
-                               "ceBuilding": ceBuilding, "ceContents": ceContents}
+                               "ceBuilding": ceBuilding, "ceContents": ceContents,
+                               "allPerils": allPerils}
 
     # print("floorsOfIntResults_dict  : ", floorsOfIntResults_dict)
     floorsOfIntResults = riskrating2results(items=item12,
@@ -666,13 +688,15 @@ def foundationtypefunc(inputs):
     glContents = foundation_allexclCE[0]
     ceBuilding = ''
     ceContents = ''
+    allPerils = ''
 
     foundationResults_dict = {"items": item13, "Segment": segment,
                               "ifBuilding": ifBuilding, "ifContents": ifContents,
                               "ssBuilding": ssBuilding, "ssContents": ssContents,
                               "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
                               "glBuilding": glBuilding, "glContents": glContents,
-                              "ceBuilding": ceBuilding, "ceContents": ceContents}
+                              "ceBuilding": ceBuilding, "ceContents": ceContents,
+                              "allPerils": allPerils}
 
     # print("foundationResults_dict  : ", foundationResults_dict)
     foundationResults = riskrating2results(items=item13,
@@ -691,6 +715,7 @@ def heightDesignVent(inputs):
     fffvHeight = First_floor_foundation_vent.values_list(
         'height', flat=True)
     fffvHeight = list(fffvHeight)
+
     fffvOpenNoObsWFV = First_floor_foundation_vent.values_list(
         'openNoObstructionWFV', flat=True)
     fffvOpenNoObsWFV = list(fffvOpenNoObsWFV)
@@ -721,8 +746,6 @@ def heightDesignVent(inputs):
     elif inputs['Foundation design'] == "Closed, Wall":
         floodEventyesWFV = fffvClosedWallWFV
         floodEventnoWbyFV = fffvClosedWallWbyFV
-    # print("floodEventyesWFV = ", floodEventyesWFV)
-    # print("floodEventnoWbyFV = ", floodEventnoWbyFV)
 
     if inputs['Flood vents'] == "Yes":
         P = np.interp([inputs['First floor height']],
@@ -730,8 +753,8 @@ def heightDesignVent(inputs):
     elif inputs['Flood vents'] == "No":
         P = np.interp([inputs['First floor height']],
                       fffvHeight, floodEventnoWbyFV)
+
     P = round(float(P), 4)
-    print("P = ", round(float(P), 4))
 
     item14 = "First Floor Height by Foundation Design & Flood Vents"
     segment = ''
@@ -745,13 +768,15 @@ def heightDesignVent(inputs):
     glContents = P
     ceBuilding = ''
     ceContents = ''
+    allPerils = ''
 
     firstFloorHeightResults_dict = {"items": item14, "Segment": segment,
                                     "ifBuilding": ifBuilding, "ifContents": ifContents,
                                     "ssBuilding": ssBuilding, "ssContents": ssContents,
                                     "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
                                     "glBuilding": glBuilding, "glContents": glContents,
-                                    "ceBuilding": ceBuilding, "ceContents": ceContents}
+                                    "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                    "allPerils": allPerils}
 
     # print("firstFloorHeightResults_dict  : ", firstFloorHeightResults_dict)
     firstFloorHeightResults = riskrating2results(items=item14,
@@ -782,13 +807,15 @@ def MEAboveFirstFloorfunc(inputs):
     glContents = meCE
     ceBuilding = ''
     ceContents = ''
+    allPerils = ''
 
     meAbovefirstFloorResults_dict = {"items": item15, "Segment": segment,
                                      "ifBuilding": ifBuilding, "ifContents": ifContents,
                                      "ssBuilding": ssBuilding, "ssContents": ssContents,
                                      "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
                                      "glBuilding": glBuilding, "glContents": glContents,
-                                     "ceBuilding": ceBuilding, "ceContents": ceContents}
+                                     "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                     "allPerils": allPerils}
 
     # print("meAbovefirstFloorResults_dict  : ", meAbovefirstFloorResults_dict)
     meAbovefirstFloorResults = riskrating2results(items=item15,
@@ -831,13 +858,15 @@ def coverageValue(inputs):
     glContents = round(float(content), 4)
     ceBuilding = ''
     ceContents = ''
+    allPerils = ''
 
     coverageValueFactorResults_dict = {"items": item16, "Segment": segment,
                                        "ifBuilding": ifBuilding, "ifContents": ifContents,
                                        "ssBuilding": ssBuilding, "ssContents": ssContents,
                                        "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
                                        "glBuilding": glBuilding, "glContents": glContents,
-                                       "ceBuilding": ceBuilding, "ceContents": ceContents}
+                                       "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                       "allPerils": allPerils}
 
     # print("coverageValueFactorResults_dict  : ", coverageValueFactorResults_dict)
     coverageValueFactorResults = riskrating2results(items=item16,
@@ -901,13 +930,15 @@ def CoverageValueRatio(inputs):
     glContents = round(float(S_cont2_limit), 4)
     ceBuilding = round(float(S_build2_limit), 4)
     ceContents = round(float(S_cont2_limit), 4)
+    allPerils = ''
 
     deductibleLimittoCoverageValueResults_dict = {"items": item17, "Segment": segment,
                                                   "ifBuilding": ifBuilding, "ifContents": ifContents,
                                                   "ssBuilding": ssBuilding, "ssContents": ssContents,
                                                   "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
                                                   "glBuilding": glBuilding, "glContents": glContents,
-                                                  "ceBuilding": ceBuilding, "ceContents": ceContents}
+                                                  "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                                  "allPerils": allPerils}
 
     # print("deductibleLimittoCoverageValueResults_dict  : ", deductibleLimittoCoverageValueResults_dict)
     deductibleLimittoCoverageValueResults = riskrating2results(items=item17,
@@ -965,13 +996,15 @@ def CoverageValueRatio(inputs):
     glContents = round(float(S_cont2), 4)
     ceBuilding = round(float(S_build2), 4)
     ceContents = round(float(S_cont2), 4)
+    allPerils = ''
 
     deductibletoCoverageValueResults_dict = {"items": item18, "Segment": segment,
                                              "ifBuilding": ifBuilding, "ifContents": ifContents,
                                              "ssBuilding": ssBuilding, "ssContents": ssContents,
                                              "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
                                              "glBuilding": glBuilding, "glContents": glContents,
-                                             "ceBuilding": ceBuilding, "ceContents": ceContents}
+                                             "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                             "allPerils": allPerils}
 
     # print("deductibletoCoverageValueResults_dict  : ", deductibletoCoverageValueResults_dict)
     deductibletoCoverageValueResults = riskrating2results(items=item18,
@@ -1000,13 +1033,15 @@ def CoverageValueRatio(inputs):
     glContents = S_cont2int
     ceBuilding = S_build2int
     ceContents = S_cont2int
+    allPerils = ''
 
     initialDeductibleITVResults_dict = {"items": item19, "Segment": segment,
                                         "ifBuilding": ifBuilding, "ifContents": ifContents,
                                         "ssBuilding": ssBuilding, "ssContents": ssContents,
                                         "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
                                         "glBuilding": glBuilding, "glContents": glContents,
-                                        "ceBuilding": ceBuilding, "ceContents": ceContents}
+                                        "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                        "allPerils": allPerils}
 
     # print("initialDeductibleITVResults_dict  : ", initialDeductibleITVResults_dict)
     initialDeductibleITVResults = riskrating2results(items=item19,
@@ -1043,15 +1078,17 @@ def CoverageValueRatio(inputs):
         ifContents = max(0.001, S_cont1int)
         ssContents = max(0.001, S_cont2int)
         tsuContents = max(0.001, S_cont2int)
-        glContents = max(0.001, S_cont1int)
-        ceContents = max(0.001, S_cont1int)
+        glContents = max(0.001, S_cont2int)
+        ceContents = max(0.001, S_cont2int)
+    allPerils = ''
+
     finalDeductibleITVResults_dict = {"items": item20, "Segment": segment,
                                       "ifBuilding": ifBuilding, "ifContents": ifContents,
                                       "ssBuilding": ssBuilding, "ssContents": ssContents,
                                       "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
                                       "glBuilding": glBuilding, "glContents": glContents,
-                                      "ceBuilding": ceBuilding, "ceContents": ceContents}
-
+                                      "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                      "allPerils": allPerils}
     # print("finalDeductibleITVResults_dict  : ", finalDeductibleITVResults_dict)
     finalDeductibleITVResults = riskrating2results(items=item20,
                                                    inlandFloodBuldings=ifBuilding, inlandFloodContents=ifContents,
@@ -1064,140 +1101,1325 @@ def CoverageValueRatio(inputs):
     return [{"deductibleLimittoCoverage results": deductibleLimittoCoverageValueResults_dict}, {"deductibletoCoverage results": deductibletoCoverageValueResults_dict}, {"initialDeductibleITV results": initialDeductibleITVResults_dict}, {"finalDeductibleITV results": finalDeductibleITVResults_dict}]
 
 
-# #################Concentration Risk
-#     conc_risk_mapping = pd.read_excel(path+"/tables/"+'Concentration Risk Mapping'+ '.xlsx')
-#     conc_risk_mapping = conc_risk_mapping[(conc_risk_mapping[conc_risk_mapping.columns[0]]== inputs['State (Long)']) & (conc_risk_mapping[conc_risk_mapping.columns[1]]== inputs['County'])]
-#     msa = conc_risk_mapping.iloc[0][2]
-#     conc_risk = pd.read_excel(path+"/tables/"+'Concentration Risk'+ '.xlsx')
-#     conc_risk = conc_risk[(conc_risk[conc_risk.columns[0]]== msa)]
-            
-#     risk_rating_2.iloc[22,1] = float(conc_risk[conc_risk.columns[2]])
-#     risk_rating_2.iloc[22,2] = float(conc_risk[conc_risk.columns[2]])
-#     risk_rating_2.iloc[22,3] = float(conc_risk[conc_risk.columns[3]])
-#     risk_rating_2.iloc[22,4] = float(conc_risk[conc_risk.columns[3]])
-#     ##########CRS disc
-#     risk_rating_2.iloc[23][1:] = float(inputs['CRS discount']/100)
-#     risk_rating_2.iloc[24][1:] = 1-float(inputs['CRS discount']/100)
-#     #########
-#     x= 1
-#     for i in range(1,11):
-#         risk_rating = risk_rating_2[risk_rating_2.columns[i]]
-#         for j in range(0,11):   
-#             y = risk_rating.iloc[j]
-#             if str(y)!= 'nan':
-#                 x*=y
-#         risk_rating_2.iloc[11,i] = round(x,4)
-#         x = 1      
-#     x= 1
-#     for i in range(1,11):
-#         risk_rating = risk_rating_2[risk_rating_2.columns[i]]
-#         for j in range(11,18):   
-#             y = risk_rating.iloc[j]
-#             if str(y)!= 'nan':
-#                 x*=y
-#         risk_rating_2.iloc[25,i] = round(x,4)
-#         x = 1      
-    
-#     risk_rating_2.iloc[25][1:-1] =  (risk_rating_2.iloc[21][1:-1] * risk_rating_2.iloc[24][1:-1] * risk_rating_2.iloc[25][1:-1])
-#     risk_rating_2.iloc[25,1] = risk_rating_2.iloc[25,1] *risk_rating_2.iloc[22,1] 
-#     risk_rating_2.iloc[25,2] = risk_rating_2.iloc[25,2] *risk_rating_2.iloc[22,2] 
-#     risk_rating_2.iloc[25,3] = risk_rating_2.iloc[25,3] *risk_rating_2.iloc[22,3] 
-#     risk_rating_2.iloc[25,4] = risk_rating_2.iloc[25,4] *risk_rating_2.iloc[22,4] 
-#     ##########################
-#     Rate_of_building = round(( risk_rating_2.iloc[25,1] +
-#                         risk_rating_2.iloc[25,3] +
-#                         risk_rating_2.iloc[25,5] +
-#                         risk_rating_2.iloc[25,7] +
-#                         risk_rating_2.iloc[25,9] ),4)
-    
-#     Rate_of_contents = round(( risk_rating_2.iloc[25,2] +
-#                         risk_rating_2.iloc[25,4] +
-#                         risk_rating_2.iloc[25,6] +
-#                         risk_rating_2.iloc[25,8] +
-#                         risk_rating_2.iloc[25,10] ),4)
-    
-#     risk_rating_2.iloc[26,11] = Rate_of_building
-#     risk_rating_2.iloc[27,11] = Rate_of_contents
+def concentrationRiskandRiskMapping(inputs):
+    conc_risk_mapping = concentrationRiskMapping.objects.filter(
+        state=inputs['State (Long)'], county=inputs['County']).all()
+    msa = conc_risk_mapping.values()[0]['concentrationRiskTerritory']
 
-#     risk_rating_2.iloc[28,1] = round((risk_rating_2.iloc[25,1]/ Rate_of_building )*100,4)
-#     risk_rating_2.iloc[28,3] = round((risk_rating_2.iloc[25,3]/ Rate_of_building)*100,4)
-#     risk_rating_2.iloc[28,5] = round((risk_rating_2.iloc[25,5]/ Rate_of_building)*100,4)
-#     risk_rating_2.iloc[28,7] = round((risk_rating_2.iloc[25,7]/ Rate_of_building)*100,4)
-#     risk_rating_2.iloc[28,9] = round((risk_rating_2.iloc[25,9]/ Rate_of_building)*100,4)
-#     risk_rating_2.iloc[28,2] = round((risk_rating_2.iloc[25,2]/ Rate_of_contents)*100,4)
-#     risk_rating_2.iloc[28,4] = round((risk_rating_2.iloc[25,4]/ Rate_of_contents)*100,4)
-#     risk_rating_2.iloc[28,6] = round((risk_rating_2.iloc[25,6]/ Rate_of_contents)*100,4)
-#     risk_rating_2.iloc[28,8] = round((risk_rating_2.iloc[25,8]/ Rate_of_contents)*100,4)
-#     risk_rating_2.iloc[28,10] = round((risk_rating_2.iloc[25,10]/ Rate_of_contents)*100,4)
-#     ######################
-#     weighted_deductible_building =  round((risk_rating_2.iloc[21,1] * risk_rating_2.iloc[28,1]+
-#                                     risk_rating_2.iloc[21,3] * risk_rating_2.iloc[28,3]+
-#                                     risk_rating_2.iloc[21,5] * risk_rating_2.iloc[28,5]+
-#                                     risk_rating_2.iloc[21,7] * risk_rating_2.iloc[28,7]+
-#                                     risk_rating_2.iloc[21,9] * risk_rating_2.iloc[28,9])/100,4)
-    
-    
-#     weighted_deductible_contents =  round((risk_rating_2.iloc[21,2] * risk_rating_2.iloc[28,2]+
-#                                     risk_rating_2.iloc[21,4] * risk_rating_2.iloc[28,4]+
-#                                     risk_rating_2.iloc[21,6] * risk_rating_2.iloc[28,6]+
-#                                     risk_rating_2.iloc[21,8] * risk_rating_2.iloc[28,8]+
-#                                     risk_rating_2.iloc[21,10] * risk_rating_2.iloc[28,10])/100,4)
-    
-#     min_rate_building = round(0 * weighted_deductible_building,4)
-#     max_rate_building = round(15 * weighted_deductible_building,4)  
-#     min_rate_contents = round(0 * weighted_deductible_contents,4)
-#     max_rate_contents = round(15 * weighted_deductible_contents,4)  
-#     final_rate_building = min(max(Rate_of_building,min_rate_building),max_rate_building ) 
-#     final_rate_contents =  min(max(Rate_of_contents,min_rate_contents),max_rate_contents ) 
-    
-#     risk_rating_2.iloc[29,11] = weighted_deductible_building
-#     risk_rating_2.iloc[30,11] = weighted_deductible_contents
-#     risk_rating_2.iloc[31,11] = min_rate_building
-#     risk_rating_2.iloc[32,11] = max_rate_building
-#     risk_rating_2.iloc[33,11] = min_rate_contents
-#     risk_rating_2.iloc[34,11] = max_rate_contents
-#     risk_rating_2.iloc[37,11] = final_rate_building
-#     risk_rating_2.iloc[38,11] = final_rate_contents
-    
-#     coverage_building_thousands = inputs['Coverage A value']/1000 
-#     coverage_contents_thousands = inputs['Coverage C value']/1000 
-#     initial_premium_without_fees_building = final_rate_building * coverage_building_thousands
-#     initial_premium_without_fees_contents = final_rate_contents * coverage_contents_thousands
-#     initial_premium_without_fees = initial_premium_without_fees_building + initial_premium_without_fees_contents 
-#     prior_claim_premium = (inputs['Prior Claim Rate'] * coverage_building_thousands * weighted_deductible_building * max(0,inputs['Prior claims']-1))
-#     premium_exc_fees_expense = initial_premium_without_fees + prior_claim_premium
-#     premium_without_fees = premium_exc_fees_expense + inputs['Loss Constant']  + inputs['Expense Constant'] 
-#     icc_crs = inputs['ICC premium'] * (100-inputs['CRS discount'])/100
-#     subtotal = (premium_without_fees + icc_crs)
-    
+    conc_risk = concentrationRisk.objects.filter(
+        MSA=msa).all()
+
+    item20 = "Concentration Risk"
+    segment = ''
+
+    ifBuilding = conc_risk.values()[0]['flood']
+    ifContents = conc_risk.values()[0]['flood']
+    ssBuilding = conc_risk.values()[0]['surge']
+    ssContents = conc_risk.values()[0]['surge']
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = ''
+
+    concRiskResults_dict = {"items": item20, "Segment": segment,
+                            "ifBuilding": ifBuilding, "ifContents": ifContents,
+                            "ssBuilding": ssBuilding, "ssContents": ssContents,
+                            "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                            "glBuilding": glBuilding, "glContents": glContents,
+                            "ceBuilding": ceBuilding, "ceContents": ceContents,
+                            "allPerils": allPerils}
+
+    # print("concRiskResults_dict  : ", concRiskResults_dict)
+    concRiskResults = riskrating2results(items=item20,
+                                         inlandFloodBuldings=ifBuilding, inlandFloodContents=ifContents,
+                                         stormSurgeBuldings=ssBuilding, stormSurgeContents=ssContents,
+                                         )
+    concRiskResults.save()
+
+    CRSDiscountPercentage = float(inputs['CRS discount']/100)
+    item21 = "CRS Discount Percentage"
+    segment = ''
+
+    ifBuilding = CRSDiscountPercentage
+    ifContents = CRSDiscountPercentage
+    ssBuilding = CRSDiscountPercentage
+    ssContents = CRSDiscountPercentage
+    tsuBuilding = CRSDiscountPercentage
+    tsuContents = CRSDiscountPercentage
+    glBuilding = CRSDiscountPercentage
+    glContents = CRSDiscountPercentage
+    ceBuilding = CRSDiscountPercentage
+    ceContents = CRSDiscountPercentage
+    allPerils = CRSDiscountPercentage
+
+    CRSDiscountPercResults_dict = {"items": item21, "Segment": segment,
+                                   "ifBuilding": ifBuilding, "ifContents": ifContents,
+                                   "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                   "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                   "glBuilding": glBuilding, "glContents": glContents,
+                                   "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                   "allPerils": allPerils}
+
+    # print("CRSDiscountPercResults_dict  : ", CRSDiscountPercResults_dict)
+    CRSDiscountPercResults = riskrating2results(items=item21,
+                                                inlandFloodBuldings=ifBuilding, inlandFloodContents=ifContents,
+                                                stormSurgeBuldings=ssBuilding, stormSurgeContents=ssContents,
+                                                tsunamiBuldings=tsuBuilding, tsunamiContents=tsuContents,
+                                                greatLakesBuldings=glBuilding, greatLakesContents=glContents,
+                                                coastalErosonBuldings=ceBuilding, coastalErosonContents=ceContents,
+                                                allPerilsAllCoverage=allPerils)
+    CRSDiscountPercResults.save()
+
+    CRSDiscountFactor = 1-float(inputs['CRS discount']/100)
+    item22 = "CRS Discount Factor"
+    segment = ''
+
+    ifBuilding = CRSDiscountFactor
+    ifContents = CRSDiscountFactor
+    ssBuilding = CRSDiscountFactor
+    ssContents = CRSDiscountFactor
+    tsuBuilding = CRSDiscountFactor
+    tsuContents = CRSDiscountFactor
+    glBuilding = CRSDiscountFactor
+    glContents = CRSDiscountFactor
+    ceBuilding = CRSDiscountFactor
+    ceContents = CRSDiscountFactor
+    allPerils = CRSDiscountFactor
+
+    CRSDiscountFactorResults_dict = {"items": item22, "Segment": segment,
+                                     "ifBuilding": ifBuilding, "ifContents": ifContents,
+                                     "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                     "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                     "glBuilding": glBuilding, "glContents": glContents,
+                                     "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                     "allPerils": allPerils}
+
+    # print("CRSDiscountFactorResults_dict  : ", CRSDiscountFactorResults_dict)
+    CRSDiscountFactorResults = riskrating2results(items=item22,
+                                                  inlandFloodBuldings=ifBuilding, inlandFloodContents=ifContents,
+                                                  stormSurgeBuldings=ssBuilding, stormSurgeContents=ssContents,
+                                                  tsunamiBuldings=tsuBuilding, tsunamiContents=tsuContents,
+                                                  greatLakesBuldings=glBuilding, greatLakesContents=glContents,
+                                                  coastalErosonBuldings=ceBuilding, coastalErosonContents=ceContents,
+                                                  allPerilsAllCoverage=allPerils)
+    CRSDiscountFactorResults.save()
+
+    return [{"Concentration Risk Results dict": concRiskResults_dict}, {"CRS Discount Percentage Results_dict": CRSDiscountPercResults_dict}, {"CRS Discount Factor Results": CRSDiscountFactorResults_dict}]
+
+
+def georatebyPerilandCoverage(inputs):
+    componentList = ['ifBuilding', 'ifContents', 'ssBuilding', 'ssContents', 'tsuBuilding',
+                     'tsuContents', 'glBuilding', 'glContents', 'ceBuilding', 'ceContents', 'allPerils']
+
+    geographicRatebyPerilCoverage = []
+    for x in componentList:
+        geoRatingFuncList = [baserate(inputs)[0]['results'][x], distToRiver(inputs)[0]['results'][x], elevRelToRiverfunc(inputs)[0]['results'][x], drainageAreafunc(inputs)[0]['results'][x], strucRelElevfunc(inputs)[0]['results'][x],
+                             distanceToCoast(inputs)[0]['results'][x], distanceToOcean(inputs)[0]['results'][x], elevationfunc(inputs)[0]['results'][x], distanceToLake(inputs)[0]['results'][x], elevationRelToLake(inputs)[0]['results'][x], territoryfunc(inputs)[0]['results'][x]]
+        y = 1
+        for i in range(len(geoRatingFuncList)):
+            if geoRatingFuncList[i] not in ['', -9999.0]:
+                y *= geoRatingFuncList[i]
+        geographicRatebyPerilCoverage.append(round(y, 4))
+
+    item23 = "Geographic Rate by Peril & Coverage"
+    segment = ''
+
+    ifBuilding = geographicRatebyPerilCoverage[0]
+    ifContents = geographicRatebyPerilCoverage[1]
+    ssBuilding = geographicRatebyPerilCoverage[2]
+    ssContents = geographicRatebyPerilCoverage[3]
+    tsuBuilding = geographicRatebyPerilCoverage[4]
+    tsuContents = geographicRatebyPerilCoverage[5]
+    glBuilding = geographicRatebyPerilCoverage[6]
+    glContents = geographicRatebyPerilCoverage[7]
+    ceBuilding = geographicRatebyPerilCoverage[8]
+    ceContents = geographicRatebyPerilCoverage[9]
+    allPerils = ''
+
+    geographicRateResults_dict = {"items": item23, "Segment": segment,
+                                  "ifBuilding": ifBuilding, "ifContents": ifContents,
+                                  "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                  "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                  "glBuilding": glBuilding, "glContents": glContents,
+                                  "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                  "allPerils": allPerils}
+
+    # print("geographicRateResults_dict  : ", geographicRateResults_dict)
+    geographicRateResults = riskrating2results(items=item23,
+                                               inlandFloodBuldings=ifBuilding, inlandFloodContents=ifContents,
+                                               stormSurgeBuldings=ssBuilding, stormSurgeContents=ssContents,
+                                               tsunamiBuldings=tsuBuilding, tsunamiContents=tsuContents,
+                                               greatLakesBuldings=glBuilding, greatLakesContents=glContents,
+                                               coastalErosonBuldings=ceBuilding, coastalErosonContents=ceContents,
+                                               )
+    geographicRateResults.save()
+    return [{"Geographic Rate Results Dict": geographicRateResults_dict}]
+
+
+def ratebyPerilandCoverageandOthers(inputs):
+    componentList = ['ifBuilding', 'ifContents', 'ssBuilding', 'ssContents', 'tsuBuilding',
+                     'tsuContents', 'glBuilding', 'glContents', 'ceBuilding', 'ceContents', 'allPerils']
+
+    ratebyPerilCoverage = []
+    for x in componentList:
+        # print(x)
+        RatingFuncList = [georatebyPerilandCoverage(inputs)[0]["Geographic Rate Results Dict"][x], typeOfUsefunc(inputs)[0]['results'][x], floorsOfInterestfunc(inputs)[0]['results'][x], foundationtypefunc(inputs)[0]['results'][x], heightDesignVent(inputs)[0]['results'][x],
+                          MEAboveFirstFloorfunc(inputs)[0]['results'][x], coverageValue(inputs)[0]['results'][x]]  # , CoverageValueRatio(inputs)[0]['deductibleLimittoCoverage results'][x]]
+        # print("RatingFuncList = ", RatingFuncList)
+        y = 1
+        for i in range(len(RatingFuncList)):
+            if RatingFuncList[i] not in ['', -9999.0]:
+                y *= RatingFuncList[i]
+        ratebyPerilCoverage.append(round(y, 4))
+    print("RatebyPerilCoverage = ", ratebyPerilCoverage)
+
+    # print("CoverageValueRatio(inputs)[3][][x] = ", CoverageValueRatio(
+    #     inputs)[3]["finalDeductibleITV results"][x])
+    # print("concentrationRiskandRiskMapping(inputs)[2][][x] = ", concentrationRiskandRiskMapping(
+    #     inputs)[2]["CRS Discount Factor Results"][x])
+    # print("ratebyPerilCoverage[i] = ", ratebyPerilCoverage[i])
+
+    ratebyPerilCoverage1 = []
+    for i, x in enumerate(componentList):
+        if not (x == 'allPerils'):
+            a = float(CoverageValueRatio(inputs)[
+                3]["finalDeductibleITV results"][x])
+            b = float(concentrationRiskandRiskMapping(
+                inputs)[2]["CRS Discount Factor Results"][x])
+            c = float(ratebyPerilCoverage[i])
+
+            y = a * b * c
+            ratebyPerilCoverage1.append(round(y, 4))
+    # print("RatebyPerilCoverage1 = ", ratebyPerilCoverage1)
+
+    ratebyPerilCoverage1[0] = float(ratebyPerilCoverage1[0])*float(concentrationRiskandRiskMapping(
+        inputs)[0]["Concentration Risk Results dict"]['ifBuilding'])
+    ratebyPerilCoverage1[1] = float(ratebyPerilCoverage1[1])*float(concentrationRiskandRiskMapping(
+        inputs)[0]["Concentration Risk Results dict"]['ifContents'])
+    ratebyPerilCoverage1[2] = float(ratebyPerilCoverage1[2])*float(concentrationRiskandRiskMapping(
+        inputs)[0]["Concentration Risk Results dict"]['ssBuilding'])
+    ratebyPerilCoverage1[3] = float(ratebyPerilCoverage1[3])*float(concentrationRiskandRiskMapping(
+        inputs)[0]["Concentration Risk Results dict"]['ssContents'])
+    # print("RatebyPerilCoverage1 = ", ratebyPerilCoverage1)
+
+    item24 = "Rate by Peril & Coverage"
+    segment = ''
+
+    ifBuilding = ratebyPerilCoverage1[0]
+    ifContents = ratebyPerilCoverage1[1]
+    ssBuilding = ratebyPerilCoverage1[2]
+    ssContents = ratebyPerilCoverage1[3]
+    tsuBuilding = ratebyPerilCoverage1[4]
+    tsuContents = ratebyPerilCoverage1[5]
+    glBuilding = ratebyPerilCoverage1[6]
+    glContents = ratebyPerilCoverage1[7]
+    ceBuilding = ratebyPerilCoverage1[8]
+    ceContents = ratebyPerilCoverage1[9]
+    allPerils = ''
+
+    rateResults_dict = {"items": item24, "Segment": segment,
+                        "ifBuilding": ifBuilding, "ifContents": ifContents,
+                        "ssBuilding": ssBuilding, "ssContents": ssContents,
+                        "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                        "glBuilding": glBuilding, "glContents": glContents,
+                        "ceBuilding": ceBuilding, "ceContents": ceContents,
+                        "allPerils": allPerils}
+
+    # print("rateResults_dict  : ", rateResults_dict)
+    rateResults = riskrating2results(items=item24,
+                                     inlandFloodBuldings=ifBuilding, inlandFloodContents=ifContents,
+                                     stormSurgeBuldings=ssBuilding, stormSurgeContents=ssContents,
+                                     tsunamiBuldings=tsuBuilding, tsunamiContents=tsuContents,
+                                     greatLakesBuldings=glBuilding, greatLakesContents=glContents,
+                                     coastalErosonBuldings=ceBuilding, coastalErosonContents=ceContents,
+                                     )
+    rateResults.save()
+
+    Rate_of_building = round((ratebyPerilCoverage1[0] +
+                              ratebyPerilCoverage1[2] +
+                              ratebyPerilCoverage1[4] +
+                              ratebyPerilCoverage1[6] +
+                              ratebyPerilCoverage1[8]), 4)
+
+    item25 = "Rate (per $1000 of Building Value)"
+    segment = ''
+
+    ifBuilding = ''
+    ifContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = Rate_of_building
+
+    rateBuildingValueResults_dict = {"items": item25, "Segment": segment,
+                                     "ifBuilding": ifBuilding, "ifContents": ifContents,
+                                     "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                     "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                     "glBuilding": glBuilding, "glContents": glContents,
+                                     "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                     "allPerils": allPerils}
+
+    # print("rateBuildingValueResults_dict  : ", rateBuildingValueResults_dict)
+    rateBuildingValueResults = riskrating2results(items=item25,
+                                                  allPerilsAllCoverage=allPerils
+                                                  )
+    rateBuildingValueResults.save()
+
+    Rate_of_contents = round((ratebyPerilCoverage1[1] +
+                              ratebyPerilCoverage1[3] +
+                              ratebyPerilCoverage1[5] +
+                              ratebyPerilCoverage1[7] +
+                              ratebyPerilCoverage1[9]), 4)
+
+    item26 = "Rate (per $1000 of Contents Value)"
+    segment = ''
+
+    ifBuilding = ''
+    ifContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = Rate_of_contents
+
+    rateContentsValueResults_dict = {"items": item26, "Segment": segment,
+                                     "ifBuilding": ifBuilding, "ifContents": ifContents,
+                                     "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                     "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                     "glBuilding": glBuilding, "glContents": glContents,
+                                     "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                     "allPerils": allPerils}
+
+    # print("rateContentsValueResults_dict  : ", rateContentsValueResults_dict)
+    rateContentsValueResults = riskrating2results(items=item26,
+                                                  allPerilsAllCoverage=allPerils
+                                                  )
+    rateContentsValueResults.save()
+
+    ifBuilding_WbyC = round(
+        (ratebyPerilCoverage1[0] / Rate_of_building)*100, 4)
+    ifContents_WbyC = round(
+        (ratebyPerilCoverage1[1] / Rate_of_contents)*100, 4)
+    ssBuilding_WbyC = round(
+        (ratebyPerilCoverage1[2] / Rate_of_building)*100, 4)
+    ssContents_WbyC = round(
+        (ratebyPerilCoverage1[3] / Rate_of_contents)*100, 4)
+    tsuBuilding_WbyC = round(
+        (ratebyPerilCoverage1[4] / Rate_of_building)*100, 4)
+    tsuContents_WbyC = round(
+        (ratebyPerilCoverage1[5] / Rate_of_contents)*100, 4)
+    glBuilding_WbyC = round(
+        (ratebyPerilCoverage1[6] / Rate_of_building)*100, 4)
+    glContents_WbyC = round(
+        (ratebyPerilCoverage1[7] / Rate_of_contents)*100, 4)
+    ceBuilding_WbyC = round(
+        (ratebyPerilCoverage1[8] / Rate_of_building)*100, 4)
+    ceContents_WbyC = round(
+        (ratebyPerilCoverage1[9] / Rate_of_contents)*100, 4)
+
+    item27 = "Rate Weights by Coverage"
+    segment = ''
+
+    ifBuilding = ifBuilding_WbyC
+    ifContents = ifContents_WbyC
+    ssBuilding = ssBuilding_WbyC
+    ssContents = ssContents_WbyC
+    tsuBuilding = tsuBuilding_WbyC
+    tsuContents = tsuContents_WbyC
+    glBuilding = glBuilding_WbyC
+    glContents = glContents_WbyC
+    ceBuilding = ceBuilding_WbyC
+    ceContents = ceContents_WbyC
+    allPerils = ''
+
+    rateWeightsbyCoverageResults_dict = {"items": item27, "Segment": segment,
+                                         "ifBuilding": ifBuilding, "ifContents": ifContents,
+                                         "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                         "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                         "glBuilding": glBuilding, "glContents": glContents,
+                                         "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                         "allPerils": allPerils}
+
+    # print("rateWeightsbyCoverageResults_dict  : ", rateWeightsbyCoverageResults_dict)
+    rateWeightsbyCoverageResults = riskrating2results(items=item27,
+                                                      inlandFloodBuldings=ifBuilding, inlandFloodContents=ifContents,
+                                                      stormSurgeBuldings=ssBuilding, stormSurgeContents=ssContents,
+                                                      tsunamiBuldings=tsuBuilding, tsunamiContents=tsuContents,
+                                                      greatLakesBuldings=glBuilding, greatLakesContents=glContents,
+                                                      coastalErosonBuldings=ceBuilding, coastalErosonContents=ceContents,
+                                                      )
+    rateWeightsbyCoverageResults.save()
+
+    weighted_deductible_building = round((float(CoverageValueRatio(inputs)[
+        3]["finalDeductibleITV results"]['ifBuilding']) * ifBuilding_WbyC +
+        float(CoverageValueRatio(inputs)[
+            3]["finalDeductibleITV results"]['ssBuilding']) * ssBuilding_WbyC +
+        float(CoverageValueRatio(inputs)[
+            3]["finalDeductibleITV results"]['tsuBuilding']) * tsuBuilding_WbyC +
+        float(CoverageValueRatio(inputs)[
+            3]["finalDeductibleITV results"]['glBuilding']) * glBuilding_WbyC +
+        float(CoverageValueRatio(inputs)[
+            3]["finalDeductibleITV results"]['ceBuilding']) * ceBuilding_WbyC)/100, 4)
+
+    item28 = "Weighted Deductible & ITV Factor (Building)"
+    segment = ''
+
+    ifBuilding = ''
+    ifContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = weighted_deductible_building
+
+    weightedDeductibleITVBuildingResults_dict = {"items": item28, "Segment": segment,
+                                                 "ifBuilding": ifBuilding, "ifContents": ifContents,
+                                                 "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                                 "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                                 "glBuilding": glBuilding, "glContents": glContents,
+                                                 "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                                 "allPerils": allPerils}
+
+    # print("weightedDeductibleITVBuildingResults_dict  : ", weightedDeductibleITVBuildingResults_dict)
+    weightedDeductibleITVBuildingResults = riskrating2results(items=item28,
+                                                              allPerilsAllCoverage=allPerils
+                                                              )
+    weightedDeductibleITVBuildingResults.save()
+
+    weighted_deductible_contents = round((float(CoverageValueRatio(inputs)[
+        3]["finalDeductibleITV results"]['ifContents']) * ifContents_WbyC +
+        float(CoverageValueRatio(inputs)[
+            3]["finalDeductibleITV results"]['ssContents']) * ssContents_WbyC +
+        float(CoverageValueRatio(inputs)[
+            3]["finalDeductibleITV results"]['tsuContents']) * tsuContents_WbyC +
+        float(CoverageValueRatio(inputs)[
+            3]["finalDeductibleITV results"]['glContents']) * glContents_WbyC +
+        float(CoverageValueRatio(inputs)[
+            3]["finalDeductibleITV results"]['ceContents']) * ceContents_WbyC)/100, 4)
+
+    item29 = "Weighted Deductible & ITV Factor (Contents)"
+    segment = ''
+
+    ifBuilding = ''
+    ifContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = weighted_deductible_contents
+
+    weightedDeductibleITVContentsResults_dict = {"items": item29, "Segment": segment,
+                                                 "ifBuilding": ifBuilding, "ifContents": ifContents,
+                                                 "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                                 "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                                 "glBuilding": glBuilding, "glContents": glContents,
+                                                 "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                                 "allPerils": allPerils}
+
+    # print("weightedDeductibleITVContentsResults_dict  : ", weightedDeductibleITVContentsResults_dict)
+    weightedDeductibleITVContentsResults = riskrating2results(items=item29,
+                                                              allPerilsAllCoverage=allPerils
+                                                              )
+    weightedDeductibleITVContentsResults.save()
+
+    min_rate_building = round(0 * weighted_deductible_building, 4)
+    max_rate_building = round(15 * weighted_deductible_building, 4)
+
+    item30 = "Minimum Rate (per $1000 of Building Value)"
+    segment = ''
+
+    ifBuilding = ''
+    ifContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = min_rate_building
+
+    min_rate_buildingResults_dict = {"items": item30, "Segment": segment,
+                                     "ifBuilding": ifBuilding, "ifContents": ifContents,
+                                     "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                     "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                     "glBuilding": glBuilding, "glContents": glContents,
+                                     "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                     "allPerils": allPerils}
+
+    # print("min_rate_buildingResults_dict  : ", min_rate_buildingResults_dict)
+    min_rate_buildingResults = riskrating2results(items=item30,
+                                                  allPerilsAllCoverage=allPerils
+                                                  )
+    min_rate_buildingResults.save()
+
+    item31 = "Maximum Rate (per $1000 of Building Value)"
+    segment = ''
+
+    ifBuilding = ''
+    ifContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = max_rate_building
+
+    max_rate_buildingResults_dict = {"items": item31, "Segment": segment,
+                                     "ifBuilding": ifBuilding, "ifContents": ifContents,
+                                     "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                     "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                     "glBuilding": glBuilding, "glContents": glContents,
+                                     "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                     "allPerils": allPerils}
+
+    # print("max_rate_buildingResults_dict  : ", max_rate_buildingResults_dict)
+    max_rate_buildingResults = riskrating2results(items=item31,
+                                                  allPerilsAllCoverage=allPerils
+                                                  )
+    max_rate_buildingResults.save()
+
+    min_rate_contents = round(0 * weighted_deductible_contents, 4)
+    max_rate_contents = round(15 * weighted_deductible_contents, 4)
+
+    item32 = "Minimum Rate (per $1000 of Contents Value)"
+    segment = ''
+
+    ifBuilding = ''
+    ifContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = min_rate_contents
+
+    min_rate_contentsResults_dict = {"items": item32, "Segment": segment,
+                                     "ifBuilding": ifBuilding, "ifContents": ifContents,
+                                     "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                     "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                     "glBuilding": glBuilding, "glContents": glContents,
+                                     "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                     "allPerils": allPerils}
+
+    # print("min_rate_contentsResults_dict  : ", min_rate_contentsResults_dict)
+    min_rate_contentsResults = riskrating2results(items=item32,
+                                                  allPerilsAllCoverage=allPerils
+                                                  )
+    min_rate_contentsResults.save()
+
+    item33 = "Maximum Rate (per $1000 of Contents Value)"
+    segment = ''
+
+    ifBuilding = ''
+    ifContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = max_rate_contents
+
+    max_rate_contentsResults_dict = {"items": item33, "Segment": segment,
+                                     "ifBuilding": ifBuilding, "ifContents": ifContents,
+                                     "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                     "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                     "glBuilding": glBuilding, "glContents": glContents,
+                                     "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                     "allPerils": allPerils}
+
+    # print("max_rate_contentsResults_dict  : ", max_rate_contentsResults_dict)
+    max_rate_contentsResults = riskrating2results(items=item33,
+                                                  allPerilsAllCoverage=allPerils
+                                                  )
+    max_rate_contentsResults.save()
+
+    ############
+    item34 = "Minimum Rate by Peril & Coverage (per $1000 of Coverage Value)"
+    segment = ''
+
+    ifBuilding = ''
+    ifContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = ''
+
+    min_rate_PerilCoverageResults_dict = {"items": item34, "Segment": segment,
+                                          "ifBuilding": ifBuilding, "ifContents": ifContents,
+                                          "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                          "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                          "glBuilding": glBuilding, "glContents": glContents,
+                                          "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                          "allPerils": allPerils}
+
+    # print("min_rate_PerilCoverageResults_dict  : ", min_rate_PerilCoverageResults_dict)
+    min_rate_PerilCoverageResults = riskrating2results(items=item34,
+                                                       )
+    min_rate_PerilCoverageResults.save()
+
+    item35 = "Maximum Rate by Peril & Coverage (per $1000 of Coverage Value)"
+    segment = ''
+
+    ifBuilding = ''
+    ifContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = ''
+
+    max_rate_PerilCoverageResults_dict = {"items": item35, "Segment": segment,
+                                          "ifBuilding": ifBuilding, "ifContents": ifContents,
+                                          "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                          "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                          "glBuilding": glBuilding, "glContents": glContents,
+                                          "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                          "allPerils": allPerils}
+
+    # print("max_rate_PerilCoverageResults_dict  : ", max_rate_PerilCoverageResults_dict)
+    max_rate_PerilCoverageResults = riskrating2results(items=item35
+                                                       )
+    max_rate_PerilCoverageResults.save()
+
+    ############
+
+    final_rate_building = min(
+        max(Rate_of_building, min_rate_building), max_rate_building)
+    final_rate_contents = min(
+        max(Rate_of_contents, min_rate_contents), max_rate_contents)
+
+    item36 = "Final Rate (per $1000 of Building Value)"
+    segment = ''
+
+    ifBuilding = ''
+    ifContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = final_rate_building
+
+    final_rate_buildingResults_dict = {"items": item36, "Segment": segment,
+                                       "ifBuilding": ifBuilding, "ifContents": ifContents,
+                                       "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                       "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                       "glBuilding": glBuilding, "glContents": glContents,
+                                       "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                       "allPerils": allPerils}
+
+    # print("final_rate_buildingResults_dict  : ", final_rate_buildingResults_dict)
+    final_rate_buildingResults = riskrating2results(items=item36,
+                                                    allPerilsAllCoverage=allPerils
+                                                    )
+    final_rate_buildingResults.save()
+
+    item37 = "Final Rate (per $1000 of Contents Value)"
+    segment = ''
+
+    ifBuilding = ''
+    ifContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = final_rate_contents
+
+    final_rate_contentsResults_dict = {"items": item37, "Segment": segment,
+                                       "ifBuilding": ifBuilding, "ifContents": ifContents,
+                                       "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                       "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                       "glBuilding": glBuilding, "glContents": glContents,
+                                       "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                       "allPerils": allPerils}
+
+    # print("final_rate_contentsResults_dict  : ", final_rate_contentsResults_dict)
+    final_rate_contentsResults = riskrating2results(items=item37,
+                                                    allPerilsAllCoverage=allPerils
+                                                    )
+    final_rate_contentsResults.save()
+
+    coverage_building_thousands = inputs['Coverage A value']/1000
+    coverage_contents_thousands = inputs['Coverage C value']/1000
+    initial_premium_without_fees_building = final_rate_building * \
+        coverage_building_thousands
+    initial_premium_without_fees_contents = final_rate_contents * \
+        coverage_contents_thousands
+    initial_premium_without_fees = initial_premium_without_fees_building + \
+        initial_premium_without_fees_contents
+    prior_claim_premium = (inputs['Prior Claim Rate'] * coverage_building_thousands *
+                           weighted_deductible_building * max(0, inputs['Prior claims']-1))
+    premium_exc_fees_expense = initial_premium_without_fees + prior_claim_premium
+    premium_without_fees = premium_exc_fees_expense + \
+        inputs['Loss Constant'] + inputs['Expense Constant']
+    icc_crs = inputs['ICC premium'] * (100-inputs['CRS discount'])/100
+    subtotal = (premium_without_fees + icc_crs)
+
 #     risk_rating_2.iloc[39,11] = coverage_building_thousands
+
+    item38 = "Coverage Value in Thousands (Buildings)"
+    segment = ''
+
+    ifBuilding = ''
+    ifContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = coverage_building_thousands
+
+    coverage_building_thousandsfinal_rate_contentsResults_dict = {"items": item37, "Segment": segment,
+                                                                  "ifBuilding": ifBuilding, "ifContents": ifContents,
+                                                                  "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                                                  "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                                                  "glBuilding": glBuilding, "glContents": glContents,
+                                                                  "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                                                  "allPerils": allPerils}
+
+    # print("coverage_building_thousandsResults_dict  : ", coverage_building_thousandsResults_dict)
+    coverage_building_thousandsResults = riskrating2results(items=item37,
+                                                            allPerilsAllCoverage=allPerils
+                                                            )
+    coverage_building_thousandsResults.save()
+
 #     risk_rating_2.iloc[40,11] = coverage_contents_thousands
+    item39 = "Coverage Value in Thousands (Contents)"
+    segment = ''
+
+    ifBuilding = ''
+    ifContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = coverage_contents_thousands
+
+    coverage_contents_thousandsResults_dict = {"items": item39, "Segment": segment,
+                                               "ifBuilding": ifBuilding, "ifContents": ifContents,
+                                               "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                               "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                               "glBuilding": glBuilding, "glContents": glContents,
+                                               "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                               "allPerils": allPerils}
+
+    # print("coverage_contents_thousandsResults_dict  : ", coverage_contents_thousandsResults_dict)
+    coverage_contents_thousandsResults = riskrating2results(items=item39,
+                                                            allPerilsAllCoverage=allPerils
+                                                            )
+    coverage_contents_thousandsResults.save()
+
+
 #     risk_rating_2.iloc[41,11] = initial_premium_without_fees_building
+    item40 = "Initial Premium without Fees (Buildings)"
+    segment = ''
+
+    ifBuilding = ''
+    ifContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = initial_premium_without_fees_building
+    initial_premium_without_fees_buildingResults_dict = {"items": item40, "Segment": segment,
+                                                         "ifBuilding": ifBuilding, "ifContents": ifContents,
+                                                         "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                                         "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                                         "glBuilding": glBuilding, "glContents": glContents,
+                                                         "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                                         "allPerils": allPerils}
+
+    # print("initial_premium_without_fees_buildingResults_dict  : ", initial_premium_without_fees_buildingResults_dict)
+    initial_premium_without_fees_buildingResults = riskrating2results(items=item40,
+                                                                      allPerilsAllCoverage=allPerils
+                                                                      )
+    initial_premium_without_fees_buildingResults.save()
+
 #     risk_rating_2.iloc[42,11] = initial_premium_without_fees_contents
+    item41 = "Initial Premium without Fees (Contents)"
+    segment = ''
+
+    ifBuilding = ''
+    ifContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = initial_premium_without_fees_contents
+
+    initial_premium_without_fees_contentsResults_dict = {"items": item41, "Segment": segment,
+                                                         "ifBuilding": ifBuilding, "ifContents": ifContents,
+                                                         "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                                         "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                                         "glBuilding": glBuilding, "glContents": glContents,
+                                                         "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                                         "allPerils": allPerils}
+
+    # print("initial_premium_without_fees_contentsResults_dict  : ", initial_premium_without_fees_contentsResults_dict)
+    initial_premium_without_fees_contentsResults = riskrating2results(items=item41,
+                                                                      allPerilsAllCoverage=allPerils
+                                                                      )
+    initial_premium_without_fees_contentsResults.save()
+
+
 #     risk_rating_2.iloc[43,11] = initial_premium_without_fees
+    item42 = "Initial Premium without Fees"
+    segment = ''
+
+    ifBuilding = ''
+    ifContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = initial_premium_without_fees
+
+    initial_premium_without_feesResults_dict = {"items": item42, "Segment": segment,
+                                                "ifBuilding": ifBuilding, "ifContents": ifContents,
+                                                "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                                "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                                "glBuilding": glBuilding, "glContents": glContents,
+                                                "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                                "allPerils": allPerils}
+
+    # print("initial_premium_without_feesResults_dict  : ", initial_premium_without_feesResults_dict)
+    initial_premium_without_feesResults = riskrating2results(items=item42,
+                                                             allPerilsAllCoverage=allPerils
+                                                             )
+    initial_premium_without_feesResults.save()
+
+
 #     risk_rating_2.iloc[44,11] = prior_claim_premium
+    item43 = "Prior Claims Premium"
+    segment = ''
+
+    ifBuilding = ''
+    ifContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = prior_claim_premium
+
+    prior_claim_premiumResults_dict = {"items": item43, "Segment": segment,
+                                       "ifBuilding": ifBuilding, "ifContents": ifContents,
+                                       "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                       "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                       "glBuilding": glBuilding, "glContents": glContents,
+                                       "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                       "allPerils": allPerils}
+
+    # print("prior_claim_premiumResults_dict  : ", prior_claim_premiumResults_dict)
+    prior_claim_premiumResults = riskrating2results(items=item43,
+                                                    allPerilsAllCoverage=allPerils
+                                                    )
+    prior_claim_premiumResults.save()
+
+
 #     risk_rating_2.iloc[45,11] = premium_exc_fees_expense
-#     risk_rating_2.iloc[46,11] = inputs['Expense Constant'] 
+    item44 = "Premium excluding Fees & Expense Constant"
+    segment = ''
+
+    ifBuilding = ''
+    ifContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = premium_exc_fees_expense
+
+    premium_exc_fees_expenseResults_dict = {"items": item44, "Segment": segment,
+                                            "ifBuilding": ifBuilding, "ifContents": ifContents,
+                                            "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                            "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                            "glBuilding": glBuilding, "glContents": glContents,
+                                            "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                            "allPerils": allPerils}
+
+    # print("premium_exc_fees_expenseResults_dict  : ", premium_exc_fees_expenseResults_dict)
+    premium_exc_fees_expenseResults = riskrating2results(items=item44,
+                                                         allPerilsAllCoverage=allPerils
+                                                         )
+    premium_exc_fees_expenseResults.save()
+
+#     risk_rating_2.iloc[46,11] = inputs['Expense Constant']
+    item45 = "Expense Constant"
+    segment = ''
+
+    ifBuilding = ''
+    ifContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = inputs['Expense Constant']
+
+    expense_ConstantResults_dict = {"items": item45, "Segment": segment,
+                                    "ifBuilding": ifBuilding, "ifContents": ifContents,
+                                    "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                    "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                    "glBuilding": glBuilding, "glContents": glContents,
+                                    "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                    "allPerils": allPerils}
+
+    # print("expense_ConstantResults_dict  : ", expense_ConstantResults_dict)
+    expense_ConstantResults = riskrating2results(items=item45,
+                                                 allPerilsAllCoverage=allPerils
+                                                 )
+    expense_ConstantResults.save()
+
 #     risk_rating_2.iloc[47,11] = inputs['Loss Constant']
+    item46 = "Loss Constant"
+    segment = ''
+
+    ifBuilding = ''
+    ifContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = inputs['Loss Constant']
+
+    loss_ConstantResults_dict = {"items": item46, "Segment": segment,
+                                 "ifBuilding": ifBuilding, "ifContents": ifContents,
+                                 "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                 "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                 "glBuilding": glBuilding, "glContents": glContents,
+                                 "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                 "allPerils": allPerils}
+
+    # print("loss_ConstantResults_dict  : ", loss_ConstantResults_dict)
+    loss_ConstantResults = riskrating2results(items=item46,
+                                              allPerilsAllCoverage=allPerils
+                                              )
+    loss_ConstantResults.save()
+
 #     risk_rating_2.iloc[48,11] = premium_without_fees
+    item47 = "Premium without Fees"
+    segment = ''
+
+    ifBuilding = ''
+    ifContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = premium_without_fees
+
+    premium_without_feesResults_dict = {"items": item47, "Segment": segment,
+                                        "ifBuilding": ifBuilding, "ifContents": ifContents,
+                                        "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                        "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                        "glBuilding": glBuilding, "glContents": glContents,
+                                        "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                        "allPerils": allPerils}
+
+    # print("premium_without_feesResults_dict  : ", premium_without_feesResults_dict)
+    premium_without_feesResults = riskrating2results(items=item47,
+                                                     allPerilsAllCoverage=allPerils
+                                                     )
+    premium_without_feesResults.save()
+
+
 #     risk_rating_2.iloc[49,11] = inputs['ICC premium']
+    item48 = "ICC Premium"
+    segment = ''
+
+    ifBuilding = ''
+    ifContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = inputs['ICC premium']
+
+    icc_premiumResults_dict = {"items": item48, "Segment": segment,
+                               "ifBuilding": ifBuilding, "ifContents": ifContents,
+                               "ssBuilding": ssBuilding, "ssContents": ssContents,
+                               "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                               "glBuilding": glBuilding, "glContents": glContents,
+                               "ceBuilding": ceBuilding, "ceContents": ceContents,
+                               "allPerils": allPerils}
+
+    # print("icc_premiumResults_dict  : ", icc_premiumResults_dict)
+    icc_premiumResults = riskrating2results(items=item48,
+                                            allPerilsAllCoverage=allPerils
+                                            )
+    icc_premiumResults.save()
+
 #     risk_rating_2.iloc[50,11] = icc_crs
+    item49 = "ICC Premium with CRS Discount"
+    segment = ''
+
+    ifBuilding = ''
+    ifContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = icc_crs
+
+    icc_crsResults_dict = {"items": item49, "Segment": segment,
+                           "ifBuilding": ifBuilding, "ifContents": ifContents,
+                           "ssBuilding": ssBuilding, "ssContents": ssContents,
+                           "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                           "glBuilding": glBuilding, "glContents": glContents,
+                           "ceBuilding": ceBuilding, "ceContents": ceContents,
+                           "allPerils": allPerils}
+
+    # print("icc_crsResults_dict  : ", icc_crsResults_dict)
+    icc_crsResults = riskrating2results(items=item49,
+                                        allPerilsAllCoverage=allPerils
+                                        )
+    icc_crsResults.save()
+
 #     risk_rating_2.iloc[51,11] = subtotal
+    item50 = "Subtotal"
+    segment = ''
+
+    ifBuilding = ''
+    ifContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = subtotal
+
+    subtotalResults_dict = {"items": item50, "Segment": segment,
+                            "ifBuilding": ifBuilding, "ifContents": ifContents,
+                            "ssBuilding": ssBuilding, "ssContents": ssContents,
+                            "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                            "glBuilding": glBuilding, "glContents": glContents,
+                            "ceBuilding": ceBuilding, "ceContents": ceContents,
+                            "allPerils": allPerils}
+
+    # print("subtotalResults_dict  : ", subtotalResults_dict)
+    subtotalResults = riskrating2results(items=item50,
+                                         allPerilsAllCoverage=allPerils
+                                         )
+    subtotalResults.save()
+
 #     risk_rating_2.iloc[52,11] = inputs['Reserve fund']
+    item51 = "Reserve Fund Factor"
+    segment = ''
 
-#     subtotal = subtotal * inputs['Reserve fund']
-#     risk_rating_2.iloc[53,11] = subtotal
+    ifBuilding = ''
+    ifContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = inputs['Reserve fund']
+
+    reserve_fund_factorResults_dict = {"items": item51, "Segment": segment,
+                                       "ifBuilding": ifBuilding, "ifContents": ifContents,
+                                       "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                       "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                       "glBuilding": glBuilding, "glContents": glContents,
+                                       "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                       "allPerils": allPerils}
+
+    # print("reserve_fund_factorResults_dict  : ", reserve_fund_factorResults_dict)
+    reserve_fund_factorResults = riskrating2results(items=item51,
+                                                    allPerilsAllCoverage=allPerils
+                                                    )
+    reserve_fund_factorResults.save()
+
+    # subtotal = subtotal * inputs['Reserve fund']
+    # risk_rating_2.iloc[53,11] = subtotal
+    subtotal_with_reservefund = subtotal * inputs['Reserve fund']
+
+    item52 = "Subtotal with Reserve Fund"
+    segment = ''
+
+    ifBuilding = ''
+    ifContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = subtotal_with_reservefund
+
+    subtotal_with_reservefundResults_dict = {"items": item52, "Segment": segment,
+                                             "ifBuilding": ifBuilding, "ifContents": ifContents,
+                                             "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                             "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                             "glBuilding": glBuilding, "glContents": glContents,
+                                             "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                             "allPerils": allPerils}
+
+    # print("subtotal_with_reservefundResults_dict  : ", subtotal_with_reservefundResults_dict)
+    subtotal_with_reservefundResults = riskrating2results(items=item52,
+                                                          allPerilsAllCoverage=allPerils
+                                                          )
+    subtotal_with_reservefundResults.save()
+
 #     risk_rating_2.iloc[54,11] = inputs['Probation surcharge']
-    
-#     if inputs['Primary residence indicator'] == 'Yes':
-#         HFIAA_surcharge = 50    
-#     else:
-#         HFIAA_surcharge = 250    
+    item53 = "Probation Surcharge"
+    segment = ''
+
+    ifBuilding = ''
+    ifContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = inputs['Probation surcharge']
+
+    probation_surchargeResults_dict = {"items": item53, "Segment": segment,
+                                       "ifBuilding": ifBuilding, "ifContents": ifContents,
+                                       "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                       "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                       "glBuilding": glBuilding, "glContents": glContents,
+                                       "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                       "allPerils": allPerils}
+
+    # print("probation_surchargeResults_dict  : ", probation_surchargeResults_dict)
+    probation_surchargeResults = riskrating2results(items=item53,
+                                                    allPerilsAllCoverage=allPerils
+                                                    )
+    probation_surchargeResults.save()
+
+    if inputs['Primary residence indicator'] == 'Yes':
+        HFIAA_surcharge = 50
+    else:
+        HFIAA_surcharge = 250
 #     risk_rating_2.iloc[55,11] = HFIAA_surcharge
-#     risk_rating_2.iloc[56,11] = inputs['Federal policy fee']  
-#     premium = round(subtotal + inputs['Probation surcharge'] + HFIAA_surcharge + inputs['Federal policy fee']  ,2)
+    item54 = "HFIAA Surcharge by Primary Residence Indicator"
+    segment = ''
+
+    ifBuilding = ''
+    ifContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = HFIAA_surcharge
+
+    hfiaa_surchargeResults_dict = {"items": item54, "Segment": segment,
+                                   "ifBuilding": ifBuilding, "ifContents": ifContents,
+                                   "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                   "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                   "glBuilding": glBuilding, "glContents": glContents,
+                                   "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                   "allPerils": allPerils}
+
+    # print("hfiaa_surchargeResults_dict  : ", hfiaa_surchargeResults_dict)
+    hfiaa_surchargeResults = riskrating2results(items=item54,
+                                                allPerilsAllCoverage=allPerils
+                                                )
+    hfiaa_surchargeResults.save()
+
+#     risk_rating_2.iloc[56,11] = inputs['Federal policy fee']
+    item55 = "Federal Policy Fee"
+    segment = ''
+
+    ifBuilding = ''
+    ifContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = inputs['Federal policy fee']
+
+    federal_policy_feeResults_dict = {"items": item55, "Segment": segment,
+                                      "ifBuilding": ifBuilding, "ifContents": ifContents,
+                                      "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                      "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                      "glBuilding": glBuilding, "glContents": glContents,
+                                      "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                      "allPerils": allPerils}
+
+    # print("federal_policy_feeResults_dict  : ", federal_policy_feeResults_dict)
+    federal_policy_feeResults = riskrating2results(items=item55,
+                                                   allPerilsAllCoverage=allPerils
+                                                   )
+    federal_policy_feeResults.save()
+
+    premium = round(subtotal_with_reservefund + inputs['Probation surcharge'] +
+                    HFIAA_surcharge + inputs['Federal policy fee'], 2)
 #     risk_rating_2.iloc[57,11] = premium
+    item56 = "Premium with Fees"
+    segment = ''
+
+    ifBuilding = ''
+    ifContents = ''
+    ssBuilding = ''
+    ssContents = ''
+    tsuBuilding = ''
+    tsuContents = ''
+    glBuilding = ''
+    glContents = ''
+    ceBuilding = ''
+    ceContents = ''
+    allPerils = premium
+
+    premiumResults_dict = {"items": item56, "Segment": segment,
+                           "ifBuilding": ifBuilding, "ifContents": ifContents,
+                           "ssBuilding": ssBuilding, "ssContents": ssContents,
+                           "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                           "glBuilding": glBuilding, "glContents": glContents,
+                           "ceBuilding": ceBuilding, "ceContents": ceContents,
+                           "allPerils": allPerils}
+
+    # print("premiumResults_dict  : ", premiumResults_dict)
+    premiumResults = riskrating2results(items=item56,
+                                        allPerilsAllCoverage=allPerils
+                                        )
+    premiumResults.save()
+
 #     return risk_rating_2
-
-
-
+    return [{"Rate Results Dict": rateResults_dict},
+            {"Rate Building Value Results Dict": rateBuildingValueResults_dict},
+            {"Rate Contents Value Results Dict": rateContentsValueResults_dict},
+            {"Rate Weights by Coverage Results Dict": rateWeightsbyCoverageResults_dict},
+            {"weighted Deductible ITV Building Results Dict": weightedDeductibleITVBuildingResults_dict},
+            {"weighted Deductible ITV Contents Results Dict": weightedDeductibleITVContentsResults_dict},
+            {"min_rate_building Results Dict": min_rate_buildingResults_dict},
+            {"max_rate_building Results Dict": max_rate_buildingResults_dict},
+            {"min_rate_contents Results Dict": min_rate_contentsResults_dict},
+            {"max_rate_contents Results Dict": max_rate_contentsResults_dict},
+            {"min_rate_PerilCoverage Results Dict": min_rate_PerilCoverageResults_dict},
+            {"max_rate_PerilCoverage Results Dict": max_rate_PerilCoverageResults_dict},
+            {"final_rate_building Results Dict": final_rate_buildingResults_dict},
+            {"final_rate_contents Results Dict": final_rate_contentsResults_dict},
+            {"coverage_building_thousandsfinal_rate_contentsResults_dict":
+                coverage_building_thousandsfinal_rate_contentsResults_dict},
+            {"coverage_contents_thousandsResults_dict": coverage_contents_thousandsResults_dict},
+            {"initial_premium_without_fees_buildingResults_dict":
+                initial_premium_without_fees_buildingResults_dict},
+            {"initial_premium_without_fees_contentsResults_dict":
+                initial_premium_without_fees_contentsResults_dict},
+            {"initial_premium_without_feesResults_dict": initial_premium_without_feesResults_dict},
+            {"prior_claim_premiumResults_dict": prior_claim_premiumResults_dict},
+            {"premium_exc_fees_expenseResults_dict": premium_exc_fees_expenseResults_dict},
+            {"expense_ConstantResults_dict": expense_ConstantResults_dict},
+            {"loss_ConstantResults_dict": loss_ConstantResults_dict},
+            {"premium_without_feesResults_dict": premium_without_feesResults_dict},
+            {"icc_premiumResults_dict": icc_premiumResults_dict},
+            {"icc_crsResults_dict": icc_crsResults_dict},
+            {"subtotalResults_dict": subtotalResults_dict},
+            {"reserve_fund_factorResults_dict": reserve_fund_factorResults_dict},
+            {"subtotal_with_reservefundResults_dict": subtotal_with_reservefundResults_dict},
+            {"probation_surchargeResults_dict": probation_surchargeResults_dict},
+            {"hfiaa_surchargeResults_dict": hfiaa_surchargeResults_dict},
+            {"federal_policy_feeResults_dict": federal_policy_feeResults_dict},
+            {"premiumResults_dict": premiumResults_dict}]
