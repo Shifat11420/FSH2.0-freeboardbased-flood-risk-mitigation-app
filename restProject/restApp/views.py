@@ -395,6 +395,11 @@ class foundationDesignIDViewSet(viewsets.ModelViewSet):
     serializer_class = foundationDesignIDSerializer
 
 
+class foundationTypeIDViewSet(viewsets.ModelViewSet):
+    queryset = foundationTypeID.objects.all()
+    serializer_class = foundationTypeIDSerializer
+
+
 class floodInsuranceViewSet(viewsets.ModelViewSet):
     queryset = floodInsurance.objects.all()
     serializer_class = floodInsuranceSerializer

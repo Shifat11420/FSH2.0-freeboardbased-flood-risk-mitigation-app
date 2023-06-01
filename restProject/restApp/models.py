@@ -90,6 +90,12 @@ class foundationDesignID(models.Model):
     def __str__(self):
         return self.Name
 
+class foundationTypeID(models.Model):
+    Name = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.Name    
+
 
 class floodInsurance(models.Model):
     Name = models.CharField(max_length=20)
@@ -473,69 +479,70 @@ class riskrating2resultsLevee(models.Model):
 
 # Scenaio entity
 
-# class scenario(models.Model):
-#     id = models.IntegerField(primary_key=True)
-#     userTypeID = models.ForeignKey(
-#         userTypeID, on_delete=models.PROTECT)
-#     address = models.CharField(null=True, max_length=200)
-#     typeUseID = models.ForeignKey(
-#         typeUseID, on_delete=models.PROTECT)
-#     homeConditionID = models.ForeignKey(
-#         homeCondition, on_delete=models.PROTECT)
-#     livableArea = models.FloatField(null=True)
-#     numOfStoriesID = models.ForeignKey(
-#         numOfStories, on_delete=models.PROTECT)
-#     floor = models.IntegerField(null=True)
-#     mortgageID = models.ForeignKey(
-#         mortgage, on_delete=models.PROTECT)
-#     foundationTypeID = models.ForeignKey(
-#         foundationType, on_delete=models.PROTECT)
-#     foundationDesignID = models.ForeignKey(
-#         foundationType, on_delete=models.PROTECT)
-#     homeShapeID = models.ForeignKey(
-#         homeShape, on_delete=models.PROTECT)
-#     floodInsuranceID = models.ForeignKey(
-#         floodInsurance, on_delete=models.PROTECT)
-#     buildingCoverage = models.IntegerField(null=True)
-#     buildingDeductible = models.IntegerField(null=True)
-#     contentsCoverage = models.IntegerField(null=True)
-#     contentsDeductible = models.IntegerField(null=True)
-#     priorClaimsID = models.ForeignKey(
-#         priorClaims, on_delete=models.PROTECT)
-#     federalAssistanceID = models.ForeignKey(
-#         federalAssistance, on_delete=models.PROTECT)
-#     investmentTypeID = models.ForeignKey(
-#         investmentType, on_delete=models.PROTECT)
-#     homeEquityLoanInterestRate = models.FloatField(null=True)
-#     homeEquityLoanPeriod = models.IntegerField(null=True)
-#     mortgageInterestRate = models.FloatField(null=True)
-#     mortgagePeriod = models.IntegerField(null=True)
-#     MultiplierVersion = models.IntegerField(null=True)
-#     UserID = models.IntegerField(null=True)
-#     levee = models.BooleanField(null=True)
-#     leveeID = models.CharField(null=True, max_length=100)
-#     levee_qual = models.FloatField(null=True)
-#     state = models.CharField(null=True, max_length=10)
-#     state_long = models.CharField(null=True, max_length=50)
-#     county = models.CharField(null=True, max_length=100)
-#     fips = models.CharField(null=True, max_length=50)
-#     segment = models.FloatField(null=True)
-#     conc_risk_mapping = models.CharField(null=True, max_length=50)
-#     HUC12 = models.CharField(null=True, max_length=100)
-#     BarrierIslandIndicator = models.BooleanField(null=True)
-#     BaseRate_per_1000_of_Coverage_Value = models.FloatField(null=True)
-#     MSA = models.CharField(null=True, max_length=50)
-#     distToRiver = models.FloatField(null=True)
-#     riverClass = models.CharField(null=True, max_length=50)
-#     elevRelToRiver = models.FloatField(null=True)
-#     drainageArea = models.FloatField(null=True)
-#     strRelElev = models.FloatField(null=True)
-#     distToCoast = models.FloatField(null=True)
-#     distToOcean = models.FloatField(null=True)
-#     elevation = models.FloatField(null=True)
-#     distToLake = models.FloatField(null=True)
-#     elevRelToLake = models.FloatField(null=True)
+class scenario(models.Model):
+    id = models.IntegerField(primary_key=True)
+    userTypeID = models.ForeignKey(
+        userTypeID, on_delete=models.PROTECT)
+    address = models.CharField(null=True, max_length=200)
+    typeUseID = models.ForeignKey(
+        typeUseID, on_delete=models.PROTECT)
+    homeConditionID = models.ForeignKey(
+        homeCondition, on_delete=models.PROTECT)
+    livableArea = models.FloatField(null=True)
+    numOfStoriesID = models.ForeignKey(
+        numOfStories, on_delete=models.PROTECT)
+    floor = models.IntegerField(null=True)
+    mortgageID = models.ForeignKey(
+        mortgage, on_delete=models.PROTECT)
+    foundationTypeID = models.ForeignKey(
+        foundationTypeID, on_delete=models.PROTECT)
+    foundationDesignID = models.ForeignKey(
+        foundationDesignID, on_delete=models.PROTECT)
+    homeShapeID = models.ForeignKey(
+        homeShape, on_delete=models.PROTECT)
+    annualFloodRisk = models.FloatField(null=True)
+    floodInsuranceID = models.ForeignKey(
+        floodInsurance, on_delete=models.PROTECT)
+    buildingCoverage = models.IntegerField(null=True)
+    buildingDeductible = models.IntegerField(null=True)
+    contentsCoverage = models.IntegerField(null=True)
+    contentsDeductible = models.IntegerField(null=True)
+    priorClaimsID = models.ForeignKey(
+        priorClaims, on_delete=models.PROTECT)
+    federalAssistanceID = models.ForeignKey(
+        federalAssistance, on_delete=models.PROTECT)
+    investmentTypeID = models.ForeignKey(
+        investmentType, on_delete=models.PROTECT)
+    homeEquityLoanInterestRate = models.FloatField(null=True)
+    homeEquityLoanPeriod = models.IntegerField(null=True)
+    mortgageInterestRate = models.FloatField(null=True)
+    mortgagePeriod = models.IntegerField(null=True)
+    multiplierVersion = models.IntegerField(null=True)
+    userID = models.IntegerField(null=True)
+    levee = models.BooleanField(null=True)
+    leveeID = models.CharField(null=True, max_length=100)
+    leveeQuality = models.FloatField(null=True)
+    state = models.CharField(null=True, max_length=10)
+    stateLongName = models.CharField(null=True, max_length=50)
+    county = models.CharField(null=True, max_length=100)
+    fips = models.CharField(null=True, max_length=50)
+    segment = models.CharField(null=True, max_length=20)
+    concentrationRiskMapping = models.CharField(null=True, max_length=50)
+    HUC12 = models.CharField(null=True, max_length=100)
+    barrierIslandIndicator = models.BooleanField(null=True)
+    baseRatePer1000ofCoverageValue = models.FloatField(null=True)
+    MSA = models.CharField(null=True, max_length=50)
+    distToRiver = models.FloatField(null=True)
+    riverFloodDepth = models.FloatField(null=True)
+    riverClass = models.CharField(null=True, max_length=50)
+    elevRelToRiver = models.FloatField(null=True)
+    drainageArea = models.FloatField(null=True)
+    strRelElev = models.FloatField(null=True)
+    distToCoast = models.FloatField(null=True)
+    distToOcean = models.FloatField(null=True)
+    elevation = models.FloatField(null=True)
+    distToLake = models.FloatField(null=True)
+    elevRelToLake = models.FloatField(null=True)
 
-
-#     def __str__(self):
-#         return "Id : "+str(self.id) + " userTypeID : "+str(self.userTypeID)
+    def __str__(self):
+        return "Id : "+str(self.id) + " userTypeID : "+str(self.userTypeID)

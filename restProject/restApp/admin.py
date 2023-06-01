@@ -22,6 +22,7 @@ admin.site.register(federalAssistance)
 admin.site.register(priorClaims)
 admin.site.register(investmentType)
 admin.site.register(homeShape)
+admin.site.register(foundationTypeID)
 
 # RR2 datatables
 admin.site.register(baseRateMultipliers)

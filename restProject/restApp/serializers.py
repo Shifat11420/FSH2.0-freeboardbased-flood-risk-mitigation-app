@@ -95,6 +95,11 @@ class foundationDesignIDSerializer(serializers.HyperlinkedModelSerializer):
         model = foundationDesignID
         fields = '__all__'
 
+class foundationTypeIDSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = foundationTypeID
+        fields = '__all__'        
+
 
 class floodInsuranceSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
