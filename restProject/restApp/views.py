@@ -331,7 +331,7 @@ class CalculateRR2APIView(APIView):
 
         # return Response({'Risk rating 2 Calculator Results': riskrating_2_results})
 
-
+# Risk Rating 2.0 results
 class riskrating2resultsViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows groups to be viewed or edited.
@@ -360,3 +360,50 @@ class riskrating2resultsLeveeViewSet(viewsets.ModelViewSet):
     # filterset_fields = ['id', 'items']
     # search_fields = ['id', 'items']
     # ordering_fields = ['id', 'items']
+
+
+
+# Risk Rating 2.0 inputs
+class userTypeIDViewSet(viewsets.ModelViewSet):
+    queryset = userTypeID.objects.all()
+    serializer_class = userTypeIDSerializer
+
+class typeUseIDViewSet(viewsets.ModelViewSet):
+    queryset = typeUseID.objects.all()
+    serializer_class = typeUseIDSerializer    
+
+class homeConditionViewSet(viewsets.ModelViewSet):
+    queryset = homeCondition.objects.all()
+    serializer_class = homeConditionSerializer        
+
+
+class numOfStoriesViewSet(viewsets.ModelViewSet):
+    queryset = numOfStories.objects.all()
+    serializer_class = numOfStoriesSerializer  
+
+
+class mortgageViewSet(viewsets.ModelViewSet):
+    queryset = mortgage.objects.all()
+    serializer_class = mortgageSerializer 
+
+class foundationDesignIDViewSet(viewsets.ModelViewSet):
+    queryset = foundationDesignID.objects.all()
+    serializer_class = foundationDesignIDSerializer 
+
+class floodInsuranceViewSet(viewsets.ModelViewSet):
+    queryset = floodInsurance.objects.all()
+    serializer_class = floodInsuranceSerializer    
+
+class priorClaimsViewSet(viewsets.ModelViewSet):
+    queryset = priorClaims.objects.all()
+    serializer_class = priorClaimsSerializer 
+
+class federalAssistanceViewSet(viewsets.ModelViewSet):
+    queryset = federalAssistance.objects.all()
+    serializer_class = federalAssistanceSerializer 
+
+class investmentTypeViewSet(viewsets.ModelViewSet):
+    queryset = investmentType.objects.all()
+    serializer_class = investmentTypeSerializer                      
+
+

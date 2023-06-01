@@ -19,6 +19,20 @@ router.register(r'territory', views.territoryViewSet,
 router.register(r'rr2-Nonlevee-results', views.riskrating2resultsViewSet)
 router.register(r'rr2-Levee-results', views.riskrating2resultsLeveeViewSet)
 
+router.register(r'rr2-userTypeID', views.userTypeIDViewSet)
+router.register(r'rr2-typeUseID', views.typeUseIDViewSet)
+router.register(r'rr2-homeCondition', views.homeConditionViewSet)
+router.register(r'rr2-numOfStories', views.numOfStoriesViewSet)
+router.register(r'rr2-mortgage', views.mortgageViewSet)
+router.register(r'rr2-foundationDesignID', views.foundationDesignIDViewSet)
+router.register(r'rr2-floodInsurance', views.floodInsuranceViewSet)
+router.register(r'rr2-priorClaims', views.priorClaimsViewSet)
+router.register(r'rr2-federalAssistance', views.federalAssistanceViewSet)
+router.register(r'rr2-investmentType', views.investmentTypeViewSet)
+
+
+
+
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.

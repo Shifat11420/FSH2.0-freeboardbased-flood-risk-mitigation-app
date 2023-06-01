@@ -55,3 +55,66 @@ class riskrating2resultsLeveeSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = riskrating2resultsLevee
         fields = '__all__'
+
+
+# Risk Rating 2.0 inputs
+
+
+class userTypeIDSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = userTypeID
+        fields = '__all__'
+
+
+class typeUseIDSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = typeUseID
+        fields = '__all__'
+
+
+class homeConditionSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = homeCondition
+        fields = '__all__'
+
+
+class numOfStoriesSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = numOfStories
+        fields = '__all__'
+
+
+class mortgageSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = mortgage
+        fields = '__all__'
+
+
+class foundationDesignIDSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = foundationDesignID
+        fields = '__all__'
+
+
+class floodInsuranceSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = floodInsurance
+        fields = '__all__'
+
+
+class priorClaimsSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = priorClaims
+        fields = '__all__'
+
+
+class federalAssistanceSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = federalAssistance
+        fields = '__all__'
+
+
+class investmentTypeSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = investmentType
+        fields = '__all__'
