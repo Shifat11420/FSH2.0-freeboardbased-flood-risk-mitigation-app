@@ -4,10 +4,7 @@ from . import views
 
 router = routers.DefaultRouter()
 
-router.register(r'users', views.UserViewSet)
-router.register(r'groups', views.GroupViewSet)
 
-router.register(r'Sampledatamodel', views.SampledatamodelViewSet)
 router.register(r'unitcost', views.unitcostViewSet)
 router.register(r'address', views.addressViewSet)
 router.register(r'addresstable', views.addresstableViewSet,
@@ -19,8 +16,8 @@ router.register(r'rr2-disttoriver', views.distToRiverViewSet,
                 basename='rr2-disttoriver')
 router.register(r'territory', views.territoryViewSet,
                 basename='territory')
-router.register(r'rr2-results', views.riskrating2resultsViewSet,
-                basename='rr2-results')
+router.register(r'rr2-Nonlevee-results', views.riskrating2resultsViewSet)
+router.register(r'rr2-Levee-results', views.riskrating2resultsLeveeViewSet)
 
 
 # Wire up our API using automatic URL routing.
@@ -32,7 +29,6 @@ urlpatterns = [
          views.CalculateNfipAPIView.as_view(), name='calcnfipapiv'),
     path('CalculateRiskAPIViewBody',
          views.CalculateRiskAPIViewBody.as_view(), name='calcriskapivbody'),
-    # path('Riskrating2', views.CalculateRR2APIView.as_view(), name='rr2'),
     path('RR2', views.CalculateRR2APIView.as_view(), name='rr2singlefunc')
 
 ]

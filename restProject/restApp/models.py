@@ -4,15 +4,6 @@ from email.policy import default
 from django.db import models
 
 
-class Sampledatamodel(models.Model):
-    name = models.CharField(max_length=60)
-    alias = models.CharField(max_length=60)
-    data = models.DateField(default=datetime.date.today)
-
-    def __str__(self):
-        return self.name
-
-
 class unitcost(models.Model):
     zipCode = models.CharField(max_length=10, primary_key=True)
     constructionCost = models.FloatField()
@@ -55,9 +46,80 @@ class addresstable(models.Model):
         # +", "+str(self.zipCode)
         return str(self.streetNum)+" "+str(self.streetName)+", "+str(self.city)
 
-# Baserate- NonLevee
+# Risk Rating 2.0 inputs
 
 
+class userTypeID(models.Model):
+    Name = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.Name
+
+
+class typeUseID(models.Model):
+    Name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.Name
+
+
+class homeCondition(models.Model):
+    Name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.Name
+
+
+class numOfStories(models.Model):
+    Name = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.Name
+
+
+class mortgage(models.Model):
+    Name = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.Name
+
+
+class foundationDesignID(models.Model):
+    Name = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.Name
+
+
+class floodInsurance(models.Model):
+    Name = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.Name
+
+
+class priorClaims(models.Model):
+    Name = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.Name
+
+
+class federalAssistance(models.Model):
+    Name = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.Name
+
+
+class investmentType(models.Model):
+    Name = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.Name
+
+
+# Risk rating 2.0 datatables
 class baseRateMultipliers(models.Model):
     id = models.IntegerField(primary_key=True)
     levee = models.CharField(max_length=10)

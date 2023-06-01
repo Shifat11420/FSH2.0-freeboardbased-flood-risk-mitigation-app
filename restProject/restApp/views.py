@@ -28,30 +28,6 @@ path = r'F:\fsh-django-rest-api\restProject\restApp\nfip'
 
 # imports for risk rating 2
 
-
-class UserViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
-    queryset = User.objects.all().order_by('-date_joined')
-    serializer_class = UserSerializer
-    # permission_classes = [permissions.IsAuthenticated]
-
-
-class GroupViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
-    queryset = Group.objects.all()
-    serializer_class = GroupSerializer
-    # permission_classes = [permissions.IsAuthenticated]
-
-
-class SampledatamodelViewSet(viewsets.ModelViewSet):
-    queryset = Sampledatamodel.objects.all().order_by('name')
-    serializer_class = SampledatamodelSerializer
-
-
 class unitcostViewSet(viewsets.ModelViewSet):
     queryset = unitcost.objects.all().order_by('zipCode')
     serializer_class = unitcostSerializer
@@ -302,7 +278,7 @@ class CalculateRR2APIView(APIView):
         inputs['State'] = 'MI'
         inputs['State (Long)'] = 'Michigan'
         inputs['County'] = 'Bay County'
-        inputs['Levee'] = 'Yes'  # 'NL'
+        inputs['Levee'] = 'No'  # 'NL'
         inputs['Levee System ID'] = '004305000025'  # needed for levee yes case
         inputs['HUC12'] = '010700061401'
         inputs['Barrier island indicator'] = 'No'
@@ -363,9 +339,24 @@ class riskrating2resultsViewSet(viewsets.ModelViewSet):
     queryset = riskrating2results.objects.all()
     serializer_class = riskrating2resultsSerializer
 
-    filter_backends = [DjangoFilterBackend,
-                       filters.SearchFilter, filters.OrderingFilter]
+    # filter_backends = [DjangoFilterBackend,
+    #                    filters.SearchFilter, filters.OrderingFilter]
 
-    filterset_fields = ['id', 'items']
-    search_fields = ['id', 'items']
-    ordering_fields = ['id', 'items']
+    # filterset_fields = ['id', 'items']
+    # search_fields = ['id', 'items']
+    # ordering_fields = ['id', 'items']
+
+
+class riskrating2resultsLeveeViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows groups to be viewed or edited.
+    """
+    queryset = riskrating2resultsLevee.objects.all()
+    serializer_class = riskrating2resultsLeveeSerializer
+
+    # filter_backends = [DjangoFilterBackend,
+    #                    filters.SearchFilter, filters.OrderingFilter]
+
+    # filterset_fields = ['id', 'items']
+    # search_fields = ['id', 'items']
+    # ordering_fields = ['id', 'items']

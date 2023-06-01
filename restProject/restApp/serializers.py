@@ -3,25 +3,6 @@ from rest_framework import serializers
 from .models import *
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = User
-        fields = ['url', 'username', 'email', 'groups']
-
-
-class GroupSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Group
-        fields = ['url', 'name']
-        # fields = '__all__'
-
-
-class SampledatamodelSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Sampledatamodel
-        fields = ('id', 'name', 'alias')
-
-
 class unitcostSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = unitcost
@@ -67,4 +48,10 @@ class territorySerializer(serializers.HyperlinkedModelSerializer):
 class riskrating2resultsSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = riskrating2results
+        fields = '__all__'
+
+
+class riskrating2resultsLeveeSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = riskrating2resultsLevee
         fields = '__all__'

@@ -5,12 +5,24 @@ from .models import *
 
 # Register your models here.
 
-admin.site.register(Sampledatamodel)
 admin.site.register(unitcost)
 admin.site.register(address)
 admin.site.register(addresstable)
 
 
+# RR2 inputs
+admin.site.register(typeUseID)
+admin.site.register(userTypeID)
+admin.site.register(homeCondition)
+admin.site.register(numOfStories)
+admin.site.register(mortgage)
+admin.site.register(foundationDesignID)
+admin.site.register(floodInsurance)
+admin.site.register(federalAssistance)
+admin.site.register(priorClaims)
+admin.site.register(investmentType)
+
+# RR2 datatables
 admin.site.register(baseRateMultipliers)
 admin.site.register(distToCoastMultipliers)
 admin.site.register(distToLakeMultipliers)
@@ -37,6 +49,11 @@ admin.site.register(deductibleLimitITVCovA)
 admin.site.register(deductibleLimitITVCovC)
 admin.site.register(concentrationRiskMapping)
 admin.site.register(concentrationRisk)
+
+
+# RR2 results
 admin.site.register(riskrating2results)
+admin.site.register(riskrating2resultsLevee)
+
 
 # admin.site.register(models.User, UserAdmin)
