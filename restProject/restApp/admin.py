@@ -21,6 +21,7 @@ admin.site.register(floodInsurance)
 admin.site.register(federalAssistance)
 admin.site.register(priorClaims)
 admin.site.register(investmentType)
+admin.site.register(homeShape)
 
 # RR2 datatables
 admin.site.register(baseRateMultipliers)

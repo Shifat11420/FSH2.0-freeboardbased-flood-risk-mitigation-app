@@ -118,3 +118,10 @@ class investmentTypeSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = investmentType
         fields = '__all__'
+
+
+
+class homeShapeSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = homeShape
+        fields = '__all__'

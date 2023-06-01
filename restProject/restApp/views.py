@@ -295,32 +295,32 @@ class CalculateRR2APIView(APIView):
         # 'Single-Family Home - Frame'
         inputs['Type of Use'] = 'Single-Family Home - Frame'
         inputs['Single family home indicator'] = 'Yes'
-        inputs['Condo unit owner indicator'] = 'No'
-        inputs['Floor of interest'] = '1-2'
+        inputs['Condo unit owner indicator'] = 'No'  #
+        inputs['Floor of interest'] = '1-2'  #
         # 'Elevated without Enclosure, Post, Pile, or Pier'
         # 'Slab'
         inputs['Foundation type'] = 'Slab'
-        inputs['First floor height'] = 0.5
+        inputs['First floor height'] = 0.5   #
         inputs['Foundation design'] = 'Closed, Wall'
-        inputs['Flood vents'] = 'No'
-        inputs['M&E'] = 'No'
+        inputs['Flood vents'] = 'No'          #
+        inputs['M&E'] = 'No'       #
         inputs['Prior claims'] = 0
-        inputs['Coverage A value'] = 250000
+        inputs['Coverage A value'] = 250000  #
         inputs['Coverage C value'] = 100000
-        inputs['Coverage A limit'] = 250000
-        inputs['Coverage C limit'] = 100000
+        inputs['Coverage A limit'] = 250000   #
+        inputs['Coverage C limit'] = 100000   #
         inputs['Coverage A deductible'] = 1250
         inputs['Coverage C deductible'] = 1250
-        inputs['CRS discount'] = 15
-        inputs['Reserve fund'] = 1.15
-        inputs['Probation surcharge'] = 0
-        inputs['Primary residence indicator'] = 'Yes'
-        inputs['Federal policy fee'] = 50
-        inputs['ICC premium'] = 4
+        inputs['CRS discount'] = 15  #
+        inputs['Reserve fund'] = 1.15  #
+        inputs['Probation surcharge'] = 0   #
+        inputs['Primary residence indicator'] = 'Yes'  #
+        inputs['Federal policy fee'] = 50  #
+        inputs['ICC premium'] = 4  #
 
-        inputs['Prior Claim Rate'] = 2
-        inputs['Loss Constant'] = 130
-        inputs['Expense Constant'] = 62.99
+        inputs['Prior Claim Rate'] = 2  #
+        inputs['Loss Constant'] = 130   #
+        inputs['Expense Constant'] = 62.99  #
 
         rr2res = []
         if inputs['Levee'] == 'No':
@@ -332,6 +332,8 @@ class CalculateRR2APIView(APIView):
         # return Response({'Risk rating 2 Calculator Results': riskrating_2_results})
 
 # Risk Rating 2.0 results
+
+
 class riskrating2resultsViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows groups to be viewed or edited.
@@ -362,48 +364,57 @@ class riskrating2resultsLeveeViewSet(viewsets.ModelViewSet):
     # ordering_fields = ['id', 'items']
 
 
-
 # Risk Rating 2.0 inputs
 class userTypeIDViewSet(viewsets.ModelViewSet):
     queryset = userTypeID.objects.all()
     serializer_class = userTypeIDSerializer
 
+
 class typeUseIDViewSet(viewsets.ModelViewSet):
     queryset = typeUseID.objects.all()
-    serializer_class = typeUseIDSerializer    
+    serializer_class = typeUseIDSerializer
+
 
 class homeConditionViewSet(viewsets.ModelViewSet):
     queryset = homeCondition.objects.all()
-    serializer_class = homeConditionSerializer        
+    serializer_class = homeConditionSerializer
 
 
 class numOfStoriesViewSet(viewsets.ModelViewSet):
     queryset = numOfStories.objects.all()
-    serializer_class = numOfStoriesSerializer  
+    serializer_class = numOfStoriesSerializer
 
 
 class mortgageViewSet(viewsets.ModelViewSet):
     queryset = mortgage.objects.all()
-    serializer_class = mortgageSerializer 
+    serializer_class = mortgageSerializer
+
 
 class foundationDesignIDViewSet(viewsets.ModelViewSet):
     queryset = foundationDesignID.objects.all()
-    serializer_class = foundationDesignIDSerializer 
+    serializer_class = foundationDesignIDSerializer
+
 
 class floodInsuranceViewSet(viewsets.ModelViewSet):
     queryset = floodInsurance.objects.all()
-    serializer_class = floodInsuranceSerializer    
+    serializer_class = floodInsuranceSerializer
+
 
 class priorClaimsViewSet(viewsets.ModelViewSet):
     queryset = priorClaims.objects.all()
-    serializer_class = priorClaimsSerializer 
+    serializer_class = priorClaimsSerializer
+
 
 class federalAssistanceViewSet(viewsets.ModelViewSet):
     queryset = federalAssistance.objects.all()
-    serializer_class = federalAssistanceSerializer 
+    serializer_class = federalAssistanceSerializer
+
 
 class investmentTypeViewSet(viewsets.ModelViewSet):
     queryset = investmentType.objects.all()
-    serializer_class = investmentTypeSerializer                      
+    serializer_class = investmentTypeSerializer
 
 
+class homeShapeViewSet(viewsets.ModelViewSet):
+    queryset = homeShape.objects.all()
+    serializer_class = homeShapeSerializer

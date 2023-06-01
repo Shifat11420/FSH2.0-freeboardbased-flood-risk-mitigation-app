@@ -29,9 +29,7 @@ router.register(r'rr2-floodInsurance', views.floodInsuranceViewSet)
 router.register(r'rr2-priorClaims', views.priorClaimsViewSet)
 router.register(r'rr2-federalAssistance', views.federalAssistanceViewSet)
 router.register(r'rr2-investmentType', views.investmentTypeViewSet)
-
-
-
+router.register(r'rr2-homeShape', views.homeShapeViewSet)
 
 
 # Wire up our API using automatic URL routing.
