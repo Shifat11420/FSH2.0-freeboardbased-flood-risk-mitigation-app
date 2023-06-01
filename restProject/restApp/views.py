@@ -423,3 +423,8 @@ class investmentTypeViewSet(viewsets.ModelViewSet):
 class homeShapeViewSet(viewsets.ModelViewSet):
     queryset = homeShape.objects.all()
     serializer_class = homeShapeSerializer
+
+
+class scenarioViewSet(viewsets.ModelViewSet):
+    queryset = scenario.objects.all()
+    serializer_class = scenarioSerializer

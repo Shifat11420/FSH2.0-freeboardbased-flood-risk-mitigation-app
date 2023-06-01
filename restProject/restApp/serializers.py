@@ -95,10 +95,11 @@ class foundationDesignIDSerializer(serializers.HyperlinkedModelSerializer):
         model = foundationDesignID
         fields = '__all__'
 
+
 class foundationTypeIDSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = foundationTypeID
-        fields = '__all__'        
+        fields = '__all__'
 
 
 class floodInsuranceSerializer(serializers.HyperlinkedModelSerializer):
@@ -125,8 +126,13 @@ class investmentTypeSerializer(serializers.HyperlinkedModelSerializer):
         fields = '__all__'
 
 
-
 class homeShapeSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = homeShape
+        fields = '__all__'
+
+
+class scenarioSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = scenario
         fields = '__all__'

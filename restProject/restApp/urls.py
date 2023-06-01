@@ -31,6 +31,7 @@ router.register(r'rr2-priorClaims', views.priorClaimsViewSet)
 router.register(r'rr2-federalAssistance', views.federalAssistanceViewSet)
 router.register(r'rr2-investmentType', views.investmentTypeViewSet)
 router.register(r'rr2-homeShape', views.homeShapeViewSet)
+router.register(r'rr2-scenario', views.scenarioViewSet)
 
 
 # Wire up our API using automatic URL routing.
