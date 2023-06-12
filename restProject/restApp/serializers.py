@@ -3,20 +3,20 @@ from rest_framework import serializers
 from .models import *
 
 
-class unitcostSerializer(serializers.HyperlinkedModelSerializer):
+class unitcostSerializer(serializers.ModelSerializer):
     class Meta:
         model = unitcost
         fields = ('zipCode', 'constructionCost', 'movingCost', 'lodgingRate')
 
 
-class addressSerializer(serializers.HyperlinkedModelSerializer):
+class addressSerializer(serializers.ModelSerializer):
     class Meta:
         model = address
         fields = ('id', 'zipCode', 'streetNum', 'streetName', 'city', 'zipCode',
                   'state', 'parishId', 'firstFloorHeight', 'floodLocation', 'floodScale')
 
 
-class addresstableSerializer(serializers.HyperlinkedModelSerializer):
+class addresstableSerializer(serializers.ModelSerializer):
     class Meta:
         model = addresstable
         fields = ('id', 'unitCost', 'streetNum', 'streetName', 'city',  'state',
@@ -26,32 +26,32 @@ class addresstableSerializer(serializers.HyperlinkedModelSerializer):
 #######################
 
 
-class baserateSerializer(serializers.HyperlinkedModelSerializer):
+class baserateSerializer(serializers.ModelSerializer):
     class Meta:
         model = baseRateMultipliers
         fields = ('id', 'levee', 'bi', 'region', 'segment', 'singleFamilyHomeIndicator', 'ifType', 'ifBuilding', 'ifContents',
                   'ssBuilding', 'ssContents', 'tsuBuilding', 'tsuContents', 'glBuilding', 'glContents', 'ceBuilding', 'ceContents')
 
 
-class distToRiverSerializer(serializers.HyperlinkedModelSerializer):
+class distToRiverSerializer(serializers.ModelSerializer):
     class Meta:
         model = distToRiverMultipliers
         fields = ('id', 'levee', 'region', 'dtr_meters', 'ifvalue', 'ifType')
 
 
-class territorySerializer(serializers.HyperlinkedModelSerializer):
+class territorySerializer(serializers.ModelSerializer):
     class Meta:
         model = territory
         fields = '__all__'
 
 
-class riskrating2resultsSerializer(serializers.HyperlinkedModelSerializer):
+class riskrating2resultsSerializer(serializers.ModelSerializer):
     class Meta:
         model = riskrating2results
         fields = '__all__'
 
 
-class riskrating2resultsLeveeSerializer(serializers.HyperlinkedModelSerializer):
+class riskrating2resultsLeveeSerializer(serializers.ModelSerializer):
     class Meta:
         model = riskrating2resultsLevee
         fields = '__all__'
@@ -60,79 +60,79 @@ class riskrating2resultsLeveeSerializer(serializers.HyperlinkedModelSerializer):
 # Risk Rating 2.0 inputs
 
 
-class userTypeIDSerializer(serializers.HyperlinkedModelSerializer):
+class userTypeIDSerializer(serializers.ModelSerializer):
     class Meta:
         model = userTypeID
         fields = '__all__'
 
 
-class typeUseIDSerializer(serializers.HyperlinkedModelSerializer):
+class typeUseIDSerializer(serializers.ModelSerializer):
     class Meta:
         model = typeUseID
         fields = '__all__'
 
 
-class homeConditionSerializer(serializers.HyperlinkedModelSerializer):
+class homeConditionSerializer(serializers.ModelSerializer):
     class Meta:
         model = homeCondition
         fields = '__all__'
 
 
-class numOfStoriesSerializer(serializers.HyperlinkedModelSerializer):
+class numOfStoriesSerializer(serializers.ModelSerializer):
     class Meta:
         model = numOfStories
         fields = '__all__'
 
 
-class mortgageSerializer(serializers.HyperlinkedModelSerializer):
+class mortgageSerializer(serializers.ModelSerializer):
     class Meta:
         model = mortgage
         fields = '__all__'
 
 
-class foundationDesignIDSerializer(serializers.HyperlinkedModelSerializer):
+class foundationDesignIDSerializer(serializers.ModelSerializer):
     class Meta:
         model = foundationDesignID
         fields = '__all__'
 
 
-class foundationTypeIDSerializer(serializers.HyperlinkedModelSerializer):
+class foundationTypeIDSerializer(serializers.ModelSerializer):
     class Meta:
         model = foundationTypeID
         fields = '__all__'
 
 
-class floodInsuranceSerializer(serializers.HyperlinkedModelSerializer):
+class floodInsuranceSerializer(serializers.ModelSerializer):
     class Meta:
         model = floodInsurance
         fields = '__all__'
 
 
-class priorClaimsSerializer(serializers.HyperlinkedModelSerializer):
+class priorClaimsSerializer(serializers.ModelSerializer):
     class Meta:
         model = priorClaims
         fields = '__all__'
 
 
-class federalAssistanceSerializer(serializers.HyperlinkedModelSerializer):
+class federalAssistanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = federalAssistance
         fields = '__all__'
 
 
-class investmentTypeSerializer(serializers.HyperlinkedModelSerializer):
+class investmentTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = investmentType
         fields = '__all__'
 
 
-class homeShapeSerializer(serializers.HyperlinkedModelSerializer):
+class homeShapeSerializer(serializers.ModelSerializer):
     class Meta:
         model = homeShape
         fields = '__all__'
 
 
-class scenarioSerializer(serializers.HyperlinkedModelSerializer):
+class scenarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = scenario
         fields = '__all__'
