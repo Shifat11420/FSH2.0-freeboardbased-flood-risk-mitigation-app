@@ -2580,62 +2580,94 @@ def RRFunctionsLevee(inputs):
                                              )
     premiumResults.save()
 
-    return [{"baserate results": baserateResults_dict}, {"distToRiver results": distToRiverResults_dict}, {"elevRelToRiver Results": elevRelToRiverResults_dict},
-            {"drainageArea Results": drainageAreaResults_dict}, {
-                "strucRelElv Results": strucRelElvResults_dict}, {"distToCoast Results": distToCoastResults_dict},
-            {"distToOcean Results": distToOceanResults_dict}, {
-                "elevation Results": elevationResults_dict},
-            {"disttolake Results": disttolakeResults_dict}, {
-                "elevationRelToLake Results": elevationRelToLakeResults_dict},
-            {"leveeQuality Results": leveeQualityResults_dict}, {
-                "territory Results": territoryResults_dict},
-            {"typeOfUse Results": typeOfUseResults_dict}, {
-                "floorsOfInt Results": floorsOfIntResults_dict},
-            {"foundation Results": foundationResults_dict}, {
-                "firstFloorHeight Results": firstFloorHeightResults_dict},
-            {"meAbovefirstFloor Results": meAbovefirstFloorResults_dict}, {
-                "coverageValueFactor Results": coverageValueFactorResults_dict},
-            {"deductibleLimittoCoverageValue Results": deductibleLimittoCoverageValueResults_dict},
-            {"deductibletoCoverageValue Results": deductibletoCoverageValueResults_dict},
-            {"initialDeductibleITV Results": initialDeductibleITVResults_dict},
-            {"finalDeductibleITV Results": finalDeductibleITVResults_dict},
-            {"concRisk Results": concRiskResults_dict}, {
-                "CRSDiscountPerc Results": CRSDiscountPercResults_dict},
-            {"CRSDiscountFactor Results": CRSDiscountFactorResults_dict},
-            {"geographicRate Results": geographicRateResults_dict},
-            {"ratebyPerilCoverage Results": ratebyPerilCoverageResults_dict},
-            {"rateBuildingValue Results": rateBuildingValueResults_dict}, {
-                "rateContentsValue Results": rateContentsValueResults_dict},
-            {"rateWeightsbyCoverage Results": rateWeightsbyCoverageResults_dict},
-            {"weightedDeductibleITVBuilding Results": weightedDeductibleITVBuildingResults_dict},
-            {"weightedDeductibleITVContents Results": weightedDeductibleITVContentsResults_dict},
-            {"min_rate_building Results": min_rate_buildingResults_dict},
-            {"max_rate_building Results": max_rate_buildingResults_dict},
-            {"min_rate_contents Results": min_rate_contentsResults_dict},
-            {"max_rate_contents Results": max_rate_contentsResults_dict},
-            {"min_rate_PerilCoverage Results": min_rate_PerilCoverageResults_dict},
-            {"max_rate_PerilCoverage Results": max_rate_PerilCoverageResults_dict},
-            {"final_rate_building Results": final_rate_buildingResults_dict},
-            {"final_rate_contents Results": final_rate_contentsResults_dict},
+    return [{"baserate results": baserateResults_dict["allPerils"]}, {"distToRiver results": distToRiverResults_dict["allPerils"]},
+            {"elevRelToRiver Results":
+                elevRelToRiverResults_dict["allPerils"]},
+            {"drainageArea Results": drainageAreaResults_dict["allPerils"]}, {
+                "strucRelElv Results": strucRelElvResults_dict["allPerils"]},
+            {"distToCoast Results": distToCoastResults_dict["allPerils"]},
+            {"distToOcean Results": distToOceanResults_dict["allPerils"]}, {
+                "elevation Results": elevationResults_dict["allPerils"]},
+            {"disttolake Results": disttolakeResults_dict["allPerils"]}, {
+                "elevationRelToLake Results": elevationRelToLakeResults_dict["allPerils"]},
+            {"leveeQuality Results": leveeQualityResults_dict["allPerils"]}, {
+                "territory Results": territoryResults_dict["allPerils"]},
+            {"typeOfUse Results": typeOfUseResults_dict["allPerils"]}, {
+                "floorsOfInt Results": floorsOfIntResults_dict["allPerils"]},
+            {"foundation Results": foundationResults_dict["allPerils"]}, {
+                "firstFloorHeight Results": firstFloorHeightResults_dict["allPerils"]},
+            {"meAbovefirstFloor Results": meAbovefirstFloorResults_dict["allPerils"]}, {
+                "coverageValueFactor Results": coverageValueFactorResults_dict["allPerils"]},
+            {"deductibleLimittoCoverageValue Results":
+                deductibleLimittoCoverageValueResults_dict["allPerils"]},
+            {"deductibletoCoverageValue Results":
+                deductibletoCoverageValueResults_dict["allPerils"]},
+            {"initialDeductibleITV Results":
+                initialDeductibleITVResults_dict["allPerils"]},
+            {"finalDeductibleITV Results":
+                finalDeductibleITVResults_dict["allPerils"]},
+            {"concRisk Results": concRiskResults_dict["allPerils"]}, {
+                "CRSDiscountPerc Results": CRSDiscountPercResults_dict["allPerils"]},
+            {"CRSDiscountFactor Results":
+                CRSDiscountFactorResults_dict["allPerils"]},
+            {"geographicRate Results":
+                geographicRateResults_dict["allPerils"]},
+            {"ratebyPerilCoverage Results":
+                ratebyPerilCoverageResults_dict["allPerils"]},
+            {"rateBuildingValue Results": rateBuildingValueResults_dict["allPerils"]}, {
+                "rateContentsValue Results": rateContentsValueResults_dict["allPerils"]},
+            {"rateWeightsbyCoverage Results":
+                rateWeightsbyCoverageResults_dict["allPerils"]},
+            {"weightedDeductibleITVBuilding Results":
+                weightedDeductibleITVBuildingResults_dict["allPerils"]},
+            {"weightedDeductibleITVContents Results":
+                weightedDeductibleITVContentsResults_dict["allPerils"]},
+            {"min_rate_building Results":
+                min_rate_buildingResults_dict["allPerils"]},
+            {"max_rate_building Results":
+                max_rate_buildingResults_dict["allPerils"]},
+            {"min_rate_contents Results":
+                min_rate_contentsResults_dict["allPerils"]},
+            {"max_rate_contents Results":
+                max_rate_contentsResults_dict["allPerils"]},
+            {"min_rate_PerilCoverage Results":
+                min_rate_PerilCoverageResults_dict["allPerils"]},
+            {"max_rate_PerilCoverage Results":
+                max_rate_PerilCoverageResults_dict["allPerils"]},
+            {"final_rate_building Results":
+                final_rate_buildingResults_dict["allPerils"]},
+            {"final_rate_contents Results":
+                final_rate_contentsResults_dict["allPerils"]},
             {"coverage_building_thousandsfinal_rate_contents Results":
-                coverage_building_thousandsfinal_rate_contentsResults_dict},
-            {"coverage_contents_thousands Results": coverage_contents_thousandsResults_dict},
+                coverage_building_thousandsfinal_rate_contentsResults_dict["allPerils"]},
+            {"coverage_contents_thousands Results":
+                coverage_contents_thousandsResults_dict["allPerils"]},
             {"initial_premium_without_fees_building Results":
-                initial_premium_without_fees_buildingResults_dict},
+                initial_premium_without_fees_buildingResults_dict["allPerils"]},
             {"initial_premium_without_fees_contents Results":
-                initial_premium_without_fees_contentsResults_dict},
-            {"initial_premium_without_fees Results": initial_premium_without_feesResults_dict},
-            {"prior_claim_premium Results": prior_claim_premiumResults_dict},
-            {"premium_exc_fees_expense Results": premium_exc_fees_expenseResults_dict},
-            {"expense_Constant Results": expense_ConstantResults_dict},
-            {"loss_Constant Results": loss_ConstantResults_dict},
-            {"premium_without_fees Results": premium_without_feesResults_dict},
-            {"icc_premium Results": icc_premiumResults_dict},
-            {"icc_crs Results": icc_crsResults_dict},
-            {"subtotal Results": subtotalResults_dict},
-            {"reserve_fund_factor Results": reserve_fund_factorResults_dict},
-            {"subtotal_with_reservefund Results": subtotal_with_reservefundResults_dict},
-            {"probation_surcharge Results": probation_surchargeResults_dict},
-            {"hfiaa_surcharge Results": hfiaa_surchargeResults_dict},
-            {"federal_policy_fee Results": federal_policy_feeResults_dict},
-            {"premium Results": premiumResults_dict}]
+                initial_premium_without_fees_contentsResults_dict["allPerils"]},
+            {"initial_premium_without_fees Results":
+                initial_premium_without_feesResults_dict["allPerils"]},
+            {"prior_claim_premium Results":
+                prior_claim_premiumResults_dict["allPerils"]},
+            {"premium_exc_fees_expense Results":
+                premium_exc_fees_expenseResults_dict["allPerils"]},
+            {"expense_Constant Results":
+                expense_ConstantResults_dict["allPerils"]},
+            {"loss_Constant Results": loss_ConstantResults_dict["allPerils"]},
+            {"premium_without_fees Results":
+                premium_without_feesResults_dict["allPerils"]},
+            {"icc_premium Results": icc_premiumResults_dict["allPerils"]},
+            {"icc_crs Results": icc_crsResults_dict["allPerils"]},
+            {"subtotal Results": subtotalResults_dict["allPerils"]},
+            {"reserve_fund_factor Results":
+                reserve_fund_factorResults_dict["allPerils"]},
+            {"subtotal_with_reservefund Results":
+                subtotal_with_reservefundResults_dict["allPerils"]},
+            {"probation_surcharge Results":
+                probation_surchargeResults_dict["allPerils"]},
+            {"hfiaa_surcharge Results":
+                hfiaa_surchargeResults_dict["allPerils"]},
+            {"federal_policy_fee Results":
+                federal_policy_feeResults_dict["allPerils"]},
+            {"premium Results": premiumResults_dict["allPerils"]}]
