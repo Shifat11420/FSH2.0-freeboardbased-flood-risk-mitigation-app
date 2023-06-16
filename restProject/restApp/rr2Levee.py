@@ -5,10 +5,10 @@ import numpy as np
 from django.db.models import Q
 
 
-def RRFunctionsLevee(inputs):
+def RRFunctionsLevee(inputs, currentScenario):
     # Base Rate
-    baserate = baseRateMultipliers.objects.filter(
-        levee=inputs['Levee'], region=inputs['State'], singleFamilyHomeIndicator=inputs['Single family home indicator']).all()
+    baserate = baseRateMultipliers.objects.filter(levee="Yes",
+                                                  region=currentScenario.state, singleFamilyHomeIndicator=inputs['Single family home indicator']).all()
 
     item1 = "Base Rate (per $1000 of Coverage Value)"
     ifFluvialBuilding = baserate.filter(
@@ -50,8 +50,7 @@ def RRFunctionsLevee(inputs):
     baseRateResult.save()
 
     # Distance To River
-    disttoriver = distToRiverMultipliers.objects.filter(
-        levee=inputs['Levee']).all()
+    disttoriver = distToRiverMultipliers.objects.filter(levee="Yes").all()
 
     dtrMetersFluvial = disttoriver.filter(
         ifType='Fluvial').values_list("dtr_meters", flat=True)
@@ -67,10 +66,10 @@ def RRFunctionsLevee(inputs):
         ifType='Pluvial').values_list("ifvalue", flat=True)
     ifvalueBPluvial = list(ifvalueBPluvial)
 
-    if inputs['DTR'] != 'N/A' and inputs['DTR'] <= 1700:
-        B1 = np.interp([inputs['DTR']], dtrMetersFluvial,
+    if currentScenario.distToRiver != None and currentScenario.distToRiver <= 1700:
+        B1 = np.interp([currentScenario.distToRiver], dtrMetersFluvial,
                        ifvalueBFluvial)
-        B2 = np.interp([inputs['DTR']], dtrMetersPluvial,
+        B2 = np.interp([currentScenario.distToRiver], dtrMetersPluvial,
                        ifvalueBPluvial)
 
     item2 = "Distance to River"
@@ -104,8 +103,8 @@ def RRFunctionsLevee(inputs):
     distToRiverResult.save()
 
     # Elevation Relative To River
-    elevRiver = elevRelToRiver.objects.filter(
-        levee=inputs['Levee'], riverClass='Class '+str(inputs['River class'])).all()
+    elevRiver = elevRelToRiver.objects.filter(levee="Yes",
+                                              riverClass='Class '+str(currentScenario.riverClass)).all()
 
     err_feetFluvial = elevRiver.filter(
         ifType='Fluvial').values_list("err_feet", flat=True)
@@ -121,13 +120,13 @@ def RRFunctionsLevee(inputs):
         ifType='Pluvial').values_list("ifvalue", flat=True)
     ifvalueCPluvial = list(ifvalueCPluvial)
 
-    if inputs['ERR'] == 'N/A':
+    if currentScenario.elevRelToRiver == None:  # 'N/A':
         C1 = -9999.0  # np.nan
         C2 = -9999.0  # np.nan
     else:
-        C1 = np.interp([inputs['ERR']], err_feetFluvial,
+        C1 = np.interp([currentScenario.elevRelToRiver], err_feetFluvial,
                        ifvalueCFluvial)
-        C2 = np.interp([inputs['ERR']], err_feetPluvial,
+        C2 = np.interp([currentScenario.elevRelToRiver], err_feetPluvial,
                        ifvalueCPluvial)
 
     item3 = "Elevation Relative to River by River Class"
@@ -193,8 +192,7 @@ def RRFunctionsLevee(inputs):
     drainageAreaResults.save()
 
     # Strucral Relative Elevation
-    strucRelElv = structuralRelElevation.objects.filter(
-        levee=inputs['Levee']).all()
+    strucRelElv = structuralRelElevation.objects.filter(levee="Yes").all()
 
     sre_feetFluvial = strucRelElv.filter(
         ifType='Fluvial').values_list("sre_feet", flat=True)
@@ -209,8 +207,10 @@ def RRFunctionsLevee(inputs):
         ifType='Pluvial').values_list("ifvalue", flat=True)
     ifvalueEPluvial = list(ifvalueEPluvial)
 
-    E1 = np.interp([inputs['SRE']], sre_feetFluvial, ifvalueEFluvial)
-    E2 = np.interp([inputs['SRE']], sre_feetPluvial, ifvalueEPluvial)
+    E1 = np.interp([currentScenario.strRelElev],
+                   sre_feetFluvial, ifvalueEFluvial)
+    E2 = np.interp([currentScenario.strRelElev],
+                   sre_feetPluvial, ifvalueEPluvial)
 
     item5 = "Structural Relative Elevation"
     ifFluvialBuilding = round(float(E1), 4)
@@ -243,8 +243,7 @@ def RRFunctionsLevee(inputs):
     strucRelElvResults.save()
 
     # Distance To Coast
-    distToCoast = distToCoastMultipliers.objects.filter(
-        levee=inputs['Levee']).all()
+    distToCoast = distToCoastMultipliers.objects.filter(levee="Yes").all()
 
     dtc_meters = distToCoast.filter(
         ~Q(ce=-9999.0)).values_list("dtc_meters", flat=True)
@@ -253,24 +252,24 @@ def RRFunctionsLevee(inputs):
         ~Q(ce=-9999.0)).values_list("ce", flat=True)
     ce = list(ce)
 
-    if inputs['DTC'] == 'N/A':
+    if currentScenario.distToCoast == None:
         coast = -9999.0  # np.nan
     else:
-        coast = np.interp([inputs['DTC']], dtc_meters, ce)
+        coast = np.interp([currentScenario.distToCoast], dtc_meters, ce)
 
-    if inputs['DTC'] != 'N/A':
-        dtc_others = distToCoastMultipliers.objects.filter(
-            levee=inputs['Levee']).all()
-        if inputs['State'] != "LA":
+    if currentScenario.distToCoast != None:
+        dtc_others = distToCoastMultipliers.objects.filter(levee="Yes").all()
+        if currentScenario.state != "LA":
             dtc_others = dtc_others.filter(region='Non-LA').all()
         else:
-            dtc_others = dtc_others.filter(region=inputs['State']).all()
+            dtc_others = dtc_others.filter(
+                region=currentScenario.state).all()
 
         dtc_meters_ss = dtc_others.filter(
             ~Q(ss=-9999.0)).values_list("dtc_meters", flat=True)
         dtc_meters_ss = list(dtc_meters_ss)
 
-        dtc_meters_tsu = dtc_others.filter(region=inputs['State']).filter(
+        dtc_meters_tsu = dtc_others.filter(region=currentScenario.state).filter(
             ~Q(tsu=-9999.0)).values_list("dtc_meters", flat=True)
         dtc_meters_tsu = list(dtc_meters_tsu)
 
@@ -278,7 +277,7 @@ def RRFunctionsLevee(inputs):
             ss = dtc_others.filter(
                 ~Q(ss=-9999.0)).values_list("ss", flat=True)
             ss = list(ss)
-            storm = np.interp([inputs['DTC']], dtc_meters_ss, ss)
+            storm = np.interp([currentScenario.distToCoast], dtc_meters_ss, ss)
         else:
             storm = -9999.0  # np.nan
 
@@ -286,7 +285,8 @@ def RRFunctionsLevee(inputs):
             tsu = dtc_others.filter(
                 ~Q(tsu=-9999.0)).values_list("tsu", flat=True)
             tsu = list(tsu)
-            tsunami = np.interp([inputs['DTC']], dtc_meters_tsu, tsu)
+            tsunami = np.interp(
+                [currentScenario.distToCoast], dtc_meters_tsu, tsu)
         else:
             tsunami = -9999.0  # np.nan
     else:
@@ -325,9 +325,9 @@ def RRFunctionsLevee(inputs):
     distToCoastResults.save()
 
     # Distance To Ocean
-    if inputs['DTO'] != 'N/A':
-        dto = distToOceanMultipliers.objects.filter(
-            levee=inputs['Levee'], region=inputs['State']).all()
+    if currentScenario.distToOcean != None:
+        dto = distToOceanMultipliers.objects.filter(levee="Yes",
+                                                    region=currentScenario.state).all()
         dto_ss = dto.filter(
             ~Q(ss=-9999.0)).values_list("dto_meters", flat=True)
         dto_ss = list(dto_ss)
@@ -342,12 +342,12 @@ def RRFunctionsLevee(inputs):
         tsu = list(tsu)
 
         if len(dto_ss) != 0:
-            storm = np.interp([inputs['DTO']], dto_ss, ss)
+            storm = np.interp([currentScenario.distToOcean], dto_ss, ss)
         else:
             storm = -9999.0  # np.nan
 
         if len(dto_tsu) != 0:
-            tsunami = np.interp([inputs['DTO']], dto_tsu, tsu)
+            tsunami = np.interp([currentScenario.distToOcean], dto_tsu, tsu)
         else:
             tsunami = -9999.0  # np.nan
     else:
@@ -386,13 +386,13 @@ def RRFunctionsLevee(inputs):
     distToOceanResults.save()
 
     # Elevation
-    if inputs['State'] != "LA":
+    if currentScenario.state != "LA":
         # if inputs['State'] == "Non-LA":
-        elev = elevation.objects.filter(
-            levee=inputs['Levee'], region="Non-LA").all()
+        elev = elevation.objects.filter(levee="Yes",
+                                        region="Non-LA").all()
     else:
-        elev = elevation.objects.filter(
-            levee=inputs['Levee'], region=inputs['State']).all()
+        elev = elevation.objects.filter(levee="Yes",
+                                        region=currentScenario.state).all()
 
     elev_ifF = elev.filter(
         ifType='Fluvial').filter(
@@ -426,22 +426,22 @@ def RRFunctionsLevee(inputs):
     tsu = list(tsu)
 
     if len(elev_ifF) != 0:
-        ifFluvial = np.interp([inputs['Elevation']], elev_ifF, iff)
+        ifFluvial = np.interp([currentScenario.elevation], elev_ifF, iff)
     else:
         ifFluvial = -9999.0  # np.nan
 
     if len(elev_ifP) != 0:
-        ifPluvial = np.interp([inputs['Elevation']], elev_ifP, ifp)
+        ifPluvial = np.interp([currentScenario.elevation], elev_ifP, ifp)
     else:
         ifPluvial = -9999.0  # np.nan
 
     if len(elev_ss) != 0:
-        storm = np.interp([inputs['Elevation']], elev_ss, ss)
+        storm = np.interp([currentScenario.elevation], elev_ss, ss)
     else:
         storm = -9999.0  # np.nan
 
     if len(elev_tsu) != 0:
-        tsunami = np.interp([inputs['Elevation']], elev_tsu, tsu)
+        tsunami = np.interp([currentScenario.elevation], elev_tsu, tsu)
     else:
         tsunami = -9999.0  # np.nan
 
@@ -479,10 +479,9 @@ def RRFunctionsLevee(inputs):
     elevationResults.save()
 
     # Distance To Lake
-    dist_lake = distToLakeMultipliers.objects.filter(
-        levee=inputs['Levee']).all()
+    dist_lake = distToLakeMultipliers.objects.filter(levee="Yes").all()
 
-    if inputs['DTL'] == 'N/A':
+    if currentScenario.distToLake == None:
         greatlakesbuilding = 0.525
         greatlakescontent = 0.525
     else:
@@ -493,7 +492,7 @@ def RRFunctionsLevee(inputs):
             ~Q(gl=-9999.0)).values_list("gl", flat=True)
         gl = list(gl)
 
-        I = np.interp([inputs['DTL']], dtl_meters, gl)
+        I = np.interp([currentScenario.distToLake], dtl_meters, gl)
         greatlakesbuilding = round(float(I), 4)
         greatlakescontent = round(float(I), 4)
 
@@ -528,10 +527,9 @@ def RRFunctionsLevee(inputs):
     disttolakeResults.save()
 
     # Elevation Relative To Lake
-    elev_lake = elevRelToLake.objects.filter(
-        levee=inputs['Levee']).all()
+    elev_lake = elevRelToLake.objects.filter(levee="Yes").all()
 
-    if inputs['DTL'] == 'N/A':
+    if currentScenario.distToLake == None:
         greatlakesbuilding = 0.004
         greatlakescontent = 0.004
     else:
@@ -542,7 +540,7 @@ def RRFunctionsLevee(inputs):
             ~Q(gl=-9999.0)).values_list("gl", flat=True)
         gl = list(gl)
 
-        J = np.interp([inputs['ERL']], erl_feet, gl)
+        J = np.interp([currentScenario.elevRelToLake], erl_feet, gl)
         greatlakesbuilding = round(float(J), 4)
         greatlakescontent = round(float(J), 4)
 
@@ -576,18 +574,8 @@ def RRFunctionsLevee(inputs):
                                                         )
     elevationRelToLakeResults.save()
 
-    # Levee Quality
-    # levee_qual = pd.read_excel(
-    #     path1+'Levee Quality - '+inputs['Levee'] + '.xlsx')
-    # levee_qual = levee_qual.loc[levee_qual['Levee System ID'] == int(
-    #     inputs['Levee System ID'])]
-
-    # iff = levee_qual[levee_qual.columns[3]]
-    # risk_rating_2.iloc[10, 1] = round(float(iff), 4)
-    # risk_rating_2.iloc[10, 2] = round(float(iff), 4)
-
     levee_qual = leveeQuality.objects.filter(leveeSystemID=int(
-        inputs['Levee System ID'])).all()
+        currentScenario.leveeID)).all()
     iff = levee_qual.values_list("leveeQualityFactor", flat=True)
     iff = list(iff)
 
@@ -622,8 +610,8 @@ def RRFunctionsLevee(inputs):
 
     # # Territory
     # # TSU
-    territory_huc12_tsu = territory.objects.filter(
-        levee=inputs['Levee'], huc12=int(inputs['HUC12']), peril='Tsu').all()
+    territory_huc12_tsu = territory.objects.filter(levee="Yes",
+                                                   huc12=int(currentScenario.HUC12), peril='Tsu').all()
 
     if territory_huc12_tsu.count() == 0:
         tsuBldg = -9999.0
@@ -636,8 +624,8 @@ def RRFunctionsLevee(inputs):
         tsuCont = round(territory_tsu[0], 4)
 
     # # GL
-    territory_huc12_gl = territory.objects.filter(
-        levee=inputs['Levee'], huc12=int(inputs['HUC12']), peril='GL').all()
+    territory_huc12_gl = territory.objects.filter(levee="Yes",
+                                                  huc12=int(currentScenario.HUC12), peril='GL').all()
 
     if territory_huc12_gl.count() == 0:
         glBldg = -9999.0
@@ -650,8 +638,8 @@ def RRFunctionsLevee(inputs):
         glCont = round(territory_gl[0], 4)
 
     # # IF
-    territory_huc12_if = territory.objects.filter(levee=inputs['Levee'], leveeSystemID=int(
-        inputs['Levee System ID']), huc12=int(inputs['HUC12']), peril='IF').all()
+    territory_huc12_if = territory.objects.filter(levee="Yes", leveeSystemID=int(
+        currentScenario.leveeID), huc12=int(currentScenario.HUC12), peril='IF').all()
 
     territory_if = territory_huc12_if.filter(
         ~Q(ratingFactors=-9999.0)).values_list("ratingFactors", flat=True)
@@ -660,8 +648,8 @@ def RRFunctionsLevee(inputs):
     ifCont = round(territory_if[0], 4)
 
     # SS
-    territory_huc12_ss = territory.objects.filter(
-        levee=inputs['Levee'], huc12=int(inputs['HUC12']), leveeSystemID=int(inputs['Levee System ID']), peril='SS').all()
+    territory_huc12_ss = territory.objects.filter(levee="Yes",
+                                                  huc12=int(currentScenario.HUC12), leveeSystemID=int(currentScenario.leveeID), peril='SS').all()
 
     territory_ss = territory_huc12_ss.filter(
         ~Q(ratingFactors=-9999.0)).values_list("ratingFactors", flat=True)
@@ -877,11 +865,11 @@ def RRFunctionsLevee(inputs):
     elif inputs['Flood vents'] == "No":
         P = np.interp([inputs['First floor height']],
                       fffvHeight, floodEventnoWbyFV)
-    print("fffvHeight = ")
-    print(fffvHeight)
-    print("floodEventnoWbyFV = ")
-    print(floodEventnoWbyFV)
-    print("First_floor_foundation_vent = ", P)
+    # print("fffvHeight = ")
+    # print(fffvHeight)
+    # print("floodEventnoWbyFV = ")
+    # print(floodEventnoWbyFV)
+    # print("First_floor_foundation_vent = ", P)
 
     P = round(float(P), 4)
 
@@ -1001,7 +989,8 @@ def RRFunctionsLevee(inputs):
                                        "ceBuilding": ceBuilding, "ceContents": ceContents,
                                        "allPerils": allPerils}
 
-    # print("coverageValueFactorResults_dict  : ", coverageValueFactorResults_dict)
+    # print("coverageValueFactorResults_dict  : ",
+    #       coverageValueFactorResults_dict)
     coverageValueFactorResults = riskrating2resultsLevee(items=item18,
                                                          inlandFloodFluvialBuldings=ifFluvialBuilding, inlandFloodFluvialContents=ifFluvialContents,
                                                          inlandFloodPluvialBuldings=ifPluvialBuilding, inlandFloodPluvialContents=ifPluvialContents,
@@ -1250,8 +1239,7 @@ def RRFunctionsLevee(inputs):
 
     # Concentration Risk
     conc_risk_mapping = concentrationRiskMapping.objects.filter(
-        state=inputs['State (Long)'], county=inputs['County']).all()
-    print("conc_risk_mapping = ", conc_risk_mapping)
+        state=currentScenario.stateLongName, county=currentScenario.county).all()
     msa = conc_risk_mapping.values()[0]['concentrationRiskTerritory']
 
     conc_risk = concentrationRisk.objects.filter(
@@ -1417,22 +1405,20 @@ def RRFunctionsLevee(inputs):
     # Rate by Peril & Coverage
     ratebyPerilCoverage = []
     for x in componentList:
-        # print(x)
         RatingFuncList = [geographicRateResults_dict[x], typeOfUseResults_dict[x], floorsOfIntResults_dict[x], foundationResults_dict[x], firstFloorHeightResults_dict[x],
                           meAbovefirstFloorResults_dict[x], coverageValueFactorResults_dict[x],  deductibleLimittoCoverageValueResults_dict[x]]
-        print("RatingFuncList = ", RatingFuncList)
         y = 1
         for i in range(len(RatingFuncList)):
             if RatingFuncList[i] not in ['', -9999.0]:
                 y *= RatingFuncList[i]
         ratebyPerilCoverage.append(round(y, 4))
-    print("RatebyPerilCoverage = ", ratebyPerilCoverage)
+    # print("RatebyPerilCoverage = ", ratebyPerilCoverage)
 
-    print("firstFloorHeightResults_dict = ",
-          firstFloorHeightResults_dict.values())
-    print("coverageValueFactorResults_dict = ",
-          coverageValueFactorResults_dict.values())
-    print("ratebyPerilCoverage = ", ratebyPerilCoverage)
+    # print("firstFloorHeightResults_dict = ",
+    #       firstFloorHeightResults_dict.values())
+    # print("coverageValueFactorResults_dict = ",
+    #       coverageValueFactorResults_dict.values())
+    # print("ratebyPerilCoverage = ", ratebyPerilCoverage)
 
     ratebyPerilCoverage1 = []
     for i, x in enumerate(componentList):
@@ -1443,7 +1429,7 @@ def RRFunctionsLevee(inputs):
 
             y = a * b * c
             ratebyPerilCoverage1.append(round(y, 4))
-    print("RatebyPerilCoverage1 = ", ratebyPerilCoverage1)
+    # print("RatebyPerilCoverage1 = ", ratebyPerilCoverage1)
 
     ratebyPerilCoverage1[0] = float(
         ratebyPerilCoverage1[0])*float(concRiskResults_dict['ifFluvialBuilding'])
@@ -1458,7 +1444,7 @@ def RRFunctionsLevee(inputs):
         ratebyPerilCoverage1[4])*float(concRiskResults_dict['ssBuilding'])
     ratebyPerilCoverage1[5] = float(
         ratebyPerilCoverage1[5])*float(concRiskResults_dict['ssContents'])
-    print("RatebyPerilCoverage1 = ", ratebyPerilCoverage1)
+    # print("RatebyPerilCoverage1 = ", ratebyPerilCoverage1)
 
     item27 = "Rate by Peril & Coverage"
     segment = ''
@@ -1958,7 +1944,8 @@ def RRFunctionsLevee(inputs):
                                        "ceBuilding": ceBuilding, "ceContents": ceContents,
                                        "allPerils": allPerils}
 
-    # print("final_rate_contentsResults_dict  : ", final_rate_contentsResults_dict)
+    # print("final_rate_contentsResults_dict  : ",
+    #       final_rate_contentsResults_dict)
     final_rate_contentsResults = riskrating2resultsLevee(items=item40,
                                                          allPerilsAllCoverage=allPerils
                                                          )
@@ -1972,8 +1959,10 @@ def RRFunctionsLevee(inputs):
         coverage_contents_thousands
     initial_premium_without_fees = initial_premium_without_fees_building + \
         initial_premium_without_fees_contents
-    prior_claim_premium = (inputs['Prior Claim Rate'] * coverage_building_thousands *
-                           weighted_deductible_building * max(0, inputs['Prior claims']-1))
+
+    priorClaim = str(currentScenario.priorClaimsID)
+    prior_claim_premium = (float(priorClaim) * coverage_building_thousands *
+                           weighted_deductible_building * max(0, float(priorClaim)-1))
     premium_exc_fees_expense = initial_premium_without_fees + prior_claim_premium
     premium_without_fees = premium_exc_fees_expense + \
         inputs['Loss Constant'] + inputs['Expense Constant']
@@ -2037,7 +2026,8 @@ def RRFunctionsLevee(inputs):
                                                "ceBuilding": ceBuilding, "ceContents": ceContents,
                                                "allPerils": allPerils}
 
-    # print("coverage_contents_thousandsResults_dict  : ", coverage_contents_thousandsResults_dict)
+    # print("coverage_contents_thousandsResults_dict  : ",
+    #       coverage_contents_thousandsResults_dict)
     coverage_contents_thousandsResults = riskrating2resultsLevee(items=item42,
                                                                  allPerilsAllCoverage=allPerils
                                                                  )
@@ -2067,7 +2057,8 @@ def RRFunctionsLevee(inputs):
                                                          "ceBuilding": ceBuilding, "ceContents": ceContents,
                                                          "allPerils": allPerils}
 
-    # print("initial_premium_without_fees_buildingResults_dict  : ", initial_premium_without_fees_buildingResults_dict)
+    # print("initial_premium_without_fees_buildingResults_dict  : ",
+    #       initial_premium_without_fees_buildingResults_dict)
     initial_premium_without_fees_buildingResults = riskrating2resultsLevee(items=item43,
                                                                            allPerilsAllCoverage=allPerils
                                                                            )
@@ -2098,7 +2089,8 @@ def RRFunctionsLevee(inputs):
                                                          "ceBuilding": ceBuilding, "ceContents": ceContents,
                                                          "allPerils": allPerils}
 
-    # print("initial_premium_without_fees_contentsResults_dict  : ", initial_premium_without_fees_contentsResults_dict)
+    # print("initial_premium_without_fees_contentsResults_dict  : ",
+    #       initial_premium_without_fees_contentsResults_dict)
     initial_premium_without_fees_contentsResults = riskrating2resultsLevee(items=item44,
                                                                            allPerilsAllCoverage=allPerils
                                                                            )
@@ -2129,7 +2121,8 @@ def RRFunctionsLevee(inputs):
                                                 "ceBuilding": ceBuilding, "ceContents": ceContents,
                                                 "allPerils": allPerils}
 
-    # print("initial_premium_without_feesResults_dict  : ", initial_premium_without_feesResults_dict)
+    # print("initial_premium_without_feesResults_dict  : ",
+    #       initial_premium_without_feesResults_dict)
     initial_premium_without_feesResults = riskrating2resultsLevee(items=item45,
                                                                   allPerilsAllCoverage=allPerils
                                                                   )
@@ -2161,7 +2154,8 @@ def RRFunctionsLevee(inputs):
                                        "ceBuilding": ceBuilding, "ceContents": ceContents,
                                        "allPerils": allPerils}
 
-    # print("prior_claim_premiumResults_dict  : ", prior_claim_premiumResults_dict)
+    # print("prior_claim_premiumResults_dict  : ",
+    #       prior_claim_premiumResults_dict)
     prior_claim_premiumResults = riskrating2resultsLevee(items=item46,
                                                          allPerilsAllCoverage=allPerils
                                                          )
@@ -2192,7 +2186,8 @@ def RRFunctionsLevee(inputs):
                                             "ceBuilding": ceBuilding, "ceContents": ceContents,
                                             "allPerils": allPerils}
 
-    # print("premium_exc_fees_expenseResults_dict  : ", premium_exc_fees_expenseResults_dict)
+    # print("premium_exc_fees_expenseResults_dict  : ",
+    #       premium_exc_fees_expenseResults_dict)
     premium_exc_fees_expenseResults = riskrating2resultsLevee(items=item47,
                                                               allPerilsAllCoverage=allPerils
                                                               )
@@ -2444,7 +2439,8 @@ def RRFunctionsLevee(inputs):
                                              "ceBuilding": ceBuilding, "ceContents": ceContents,
                                              "allPerils": allPerils}
 
-    # print("subtotal_with_reservefundResults_dict  : ", subtotal_with_reservefundResults_dict)
+    # print("subtotal_with_reservefundResults_dict  : ",
+    #        subtotal_with_reservefundResults_dict)
     subtotal_with_reservefundResults = riskrating2resultsLevee(items=item55,
                                                                allPerilsAllCoverage=allPerils
                                                                )
@@ -2549,6 +2545,7 @@ def RRFunctionsLevee(inputs):
 
     premium = round(subtotal_with_reservefund + inputs['Probation surcharge'] +
                     HFIAA_surcharge + inputs['Federal policy fee'], 2)
+
 #   premium
     item59 = "Premium with Fees"
     ifFluvialBuilding = ''

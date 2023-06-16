@@ -90,11 +90,12 @@ class foundationDesignID(models.Model):
     def __str__(self):
         return self.Name
 
+
 class foundationTypeID(models.Model):
     Name = models.CharField(max_length=20)
 
     def __str__(self):
-        return self.Name    
+        return self.Name
 
 
 class floodInsurance(models.Model):
@@ -126,6 +127,13 @@ class investmentType(models.Model):
 
 
 class homeShape(models.Model):
+    Name = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.Name
+
+
+class barrierIslandIndicators(models.Model):
     Name = models.CharField(max_length=30)
 
     def __str__(self):
@@ -529,7 +537,8 @@ class scenario(models.Model):
     segment = models.CharField(null=True, max_length=20)
     concentrationRiskMapping = models.CharField(null=True, max_length=50)
     HUC12 = models.CharField(null=True, max_length=100)
-    barrierIslandIndicator = models.BooleanField(null=True)
+    barrierIslandIndicator = models.ForeignKey(
+        barrierIslandIndicators, on_delete=models.PROTECT,default=None)
     baseRatePer1000ofCoverageValue = models.FloatField(null=True)
     MSA = models.CharField(null=True, max_length=50)
     distToRiver = models.FloatField(null=True)

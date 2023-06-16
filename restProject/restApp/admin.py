@@ -23,6 +23,7 @@ admin.site.register(priorClaims)
 admin.site.register(investmentType)
 admin.site.register(homeShape)
 admin.site.register(foundationTypeID)
+admin.site.register(barrierIslandIndicators)
 admin.site.register(scenario)
 
 # RR2 datatables

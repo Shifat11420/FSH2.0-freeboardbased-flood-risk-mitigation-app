@@ -270,66 +270,93 @@ class territoryViewSet(viewsets.ModelViewSet):
 class CalculateRR2APIView(APIView):
     def get(self, request, format=None):
 
-        # inputs = request.data
+        inputs = request.data
 
         # --------------------------
-        inputs = {}
-        # added variables to inputs
-        inputs['State'] = 'MI'
-        inputs['State (Long)'] = 'Michigan'
-        inputs['County'] = 'Bay County'
-        inputs['Levee'] = 'No'  # 'NL'
-        inputs['Levee System ID'] = '004305000025'  # needed for levee yes case
-        inputs['HUC12'] = '010700061401'
-        inputs['Barrier island indicator'] = 'No'
-        inputs['DTR'] = 420.8
-        inputs['ERR'] = 10.2
-        inputs['DA'] = 12.6
-        inputs['SRE'] = 4.2
-        inputs['DTC'] = "N/A"
-        inputs['DTO'] = "N/A"
-        inputs['Elevation'] = 585.3
-        inputs['DTL'] = 48.3
-        inputs['ERL'] = 6.2
-        inputs['River class'] = 'A'
-        # 'Single-Family Home - Frame'
-        inputs['Type of Use'] = 'Single-Family Home - Frame'
-        inputs['Single family home indicator'] = 'Yes'
-        inputs['Condo unit owner indicator'] = 'No'  #
-        inputs['Floor of interest'] = '1-2'  #
-        # 'Elevated without Enclosure, Post, Pile, or Pier'
-        # 'Slab'
-        inputs['Foundation type'] = 'Slab'
-        inputs['First floor height'] = 0.5   #
-        inputs['Foundation design'] = 'Closed, Wall'
-        inputs['Flood vents'] = 'No'          #
-        inputs['M&E'] = 'No'       #
-        inputs['Prior claims'] = 0
-        inputs['Coverage A value'] = 250000  #
-        inputs['Coverage C value'] = 100000
-        inputs['Coverage A limit'] = 250000   #
-        inputs['Coverage C limit'] = 100000   #
-        inputs['Coverage A deductible'] = 1250
-        inputs['Coverage C deductible'] = 1250
-        inputs['CRS discount'] = 15  #
-        inputs['Reserve fund'] = 1.15  #
-        inputs['Probation surcharge'] = 0   #
-        inputs['Primary residence indicator'] = 'Yes'  #
-        inputs['Federal policy fee'] = 50  #
-        inputs['ICC premium'] = 4  #
+        # inputs = {}
+        # # added variables to inputs
+        # inputs['State'] = 'MI'
+        # inputs['State (Long)'] = 'Michigan'
+        # inputs['County'] = 'Bay County'
+        # inputs['Levee'] = 'Yes'  # 'NL'
+        # inputs['Levee System ID'] = '004305000025'  # needed for levee yes case
+        # inputs['HUC12'] = '010700061401'
+        # inputs['Barrier island indicator'] = 'No'
+        # inputs['DTR'] = 420.8
+        # inputs['ERR'] = 10.2
+        # inputs['DA'] = 12.6
+        # inputs['SRE'] = 4.2
+        # inputs['DTC'] = "N/A"
+        # inputs['DTO'] = "N/A"
+        # inputs['Elevation'] = 585.3
+        # inputs['DTL'] = 48.3
+        # inputs['ERL'] = 6.2
+        # inputs['River class'] = 'A'
+        # inputs['Type of Use'] = 'Single-Family Home - Frame'
+        # inputs['Single family home indicator'] = 'Yes'
+        # inputs['Condo unit owner indicator'] = 'No'  #
+        # inputs['Floor of interest'] = '1-2'  #
+        # # 'Elevated without Enclosure, Post, Pile, or Pier'
+        # # 'Slab'
+        # inputs['Foundation type'] = 'Slab'
+        # inputs['First floor height'] = 0.5   #
+        # inputs['Foundation design'] = 'Closed, Wall'
+        # inputs['Flood vents'] = 'No'          #
+        # inputs['M&E'] = 'No'       #
+        # inputs['Prior claims'] = 0
+        # inputs['Coverage A value'] = 250000  #
+        # inputs['Coverage C value'] = 100000
+        # inputs['Coverage A limit'] = 250000   #
+        # inputs['Coverage C limit'] = 100000   #
+        # inputs['Coverage A deductible'] = 1250
+        # inputs['Coverage C deductible'] = 1250
+        # inputs['CRS discount'] = 15  #
+        # inputs['Reserve fund'] = 1.15  #
+        # inputs['Probation surcharge'] = 0   #
+        # inputs['Primary residence indicator'] = 'Yes'  #
+        # inputs['Federal policy fee'] = 50  #
+        # inputs['ICC premium'] = 4  #
 
-        inputs['Prior Claim Rate'] = 2  #
-        inputs['Loss Constant'] = 130   #
-        inputs['Expense Constant'] = 62.99  #
+        # inputs['Prior Claim Rate'] = 2  #
+        # inputs['Loss Constant'] = 130   #
+        # inputs['Expense Constant'] = 62.99  #
+
+        scenariosearch = inputs["Scenario"]
+        currentScenario = scenario.objects.get(id=scenariosearch)
+        print("infofromScenarioId : ", currentScenario)
+
+        # where in scenario (should be in scenario or use constant value)
+        # # inputs['Single family home indicator'] = 'Yes'
+        # inputs['Type of Use'] = 'Single-Family Home - Frame'
+        # inputs['Condo unit owner indicator'] = 'No'  #
+        # inputs['Floor of interest'] = '1-2'  #
+        # # inputs['Foundation type'] = 'Slab'
+        # inputs['Foundation design'] = 'Closed, Wall'
+        # inputs['First floor height'] = 0.5   #
+        # inputs['Flood vents'] = 'No'          #
+        # inputs['M&E'] = 'No'       #
+        # inputs['Coverage A value'] = 250000  #
+        # inputs['Coverage C value'] = 100000
+        # inputs['Coverage A limit'] = 250000   #
+        # inputs['Coverage C limit'] = 100000   #
+        # inputs['Coverage A deductible'] = 1250
+        # inputs['Coverage C deductible'] = 1250
+        # inputs['CRS discount'] = 15  #
+        # inputs['Loss Constant'] = 130   #
+        # inputs['Expense Constant'] = 62.99  #
+        # inputs['ICC premium'] = 4  #
+        # inputs['Reserve fund'] = 1.15  #
+        # inputs['Probation surcharge'] = 0   #
+        # inputs['Primary residence indicator'] = 'Yes'  #
+        # inputs['Federal policy fee'] = 50  #
 
         rr2res = []
-        if inputs['Levee'] == 'No':
-            rr2res = RRFunctionsNonLevee(inputs)
-        if inputs['Levee'] == 'Yes':
-            rr2res = RRFunctionsLevee(inputs)
+        if not currentScenario.levee:
+            rr2res = RRFunctionsNonLevee(inputs, currentScenario)
+        elif currentScenario.levee:
+            rr2res = RRFunctionsLevee(inputs, currentScenario)
         return Response({'Risk rating 2 Calculator Results': rr2res})
 
-        # return Response({'Risk rating 2 Calculator Results': riskrating_2_results})
 
 # Risk Rating 2.0 results
 
