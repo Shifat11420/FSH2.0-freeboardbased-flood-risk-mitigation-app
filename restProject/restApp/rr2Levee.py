@@ -8,7 +8,7 @@ from django.db.models import Q
 def RRFunctionsLevee(inputs, currentScenario):
     # Base Rate
     baserate = baseRateMultipliers.objects.filter(levee="Yes",
-                                                  region=currentScenario.state, singleFamilyHomeIndicator=inputs['Single family home indicator']).all()
+                                                  region=currentScenario.state, singleFamilyHomeIndicator=currentScenario.singleFamilyHomeIndicatorID).all()
 
     item1 = "Base Rate (per $1000 of Coverage Value)"
     ifFluvialBuilding = baserate.filter(
@@ -740,7 +740,7 @@ def RRFunctionsLevee(inputs, currentScenario):
 
     # Floors Of Interest
     floorsOfInt = floorsOfInterest.objects.filter(
-        homeIndicator=inputs['Single family home indicator'], ownerIndicator=inputs['Condo unit owner indicator'], interest=inputs['Floor of interest']).all()
+        homeIndicator=currentScenario.singleFamilyHomeIndicatorID, ownerIndicator=currentScenario.condoUnitOwnerIndicatorID, interest=inputs['Floor of interest']).all()
 
     floorsOfInt_allexclCE = floorsOfInt.values_list('allExclCE', flat=True)
     floorsOfInt_allexclCE = list(floorsOfInt_allexclCE)
@@ -781,7 +781,7 @@ def RRFunctionsLevee(inputs, currentScenario):
 
     # Foundation type
     foundation = foundationType.objects.filter(
-        foundationtypes=inputs['Foundation type']).all()
+        foundationtypes=currentScenario.foundationTypeID).all()
 
     foundation_allexclCE = foundation.values_list('allExclCE', flat=True)
     foundation_allexclCE = list(foundation_allexclCE)
@@ -859,10 +859,10 @@ def RRFunctionsLevee(inputs, currentScenario):
         floodEventnoWbyFV = fffvClosedWallWbyFV
 
     # floodEventnoWbyFV = fffvOpenNoObsWbyFV  # testing purpose, to be excluded
-    if inputs['Flood vents'] == "Yes":
+    if str(currentScenario.floodVentsID) == "Yes":
         P = np.interp([inputs['First floor height']],
                       fffvHeight, floodEventyesWFV)
-    elif inputs['Flood vents'] == "No":
+    elif str(currentScenario.floodVentsID) == "No":
         P = np.interp([inputs['First floor height']],
                       fffvHeight, floodEventnoWbyFV)
     # print("fffvHeight = ")
@@ -909,7 +909,7 @@ def RRFunctionsLevee(inputs, currentScenario):
 
     # ME Above First Floor
     me = MEAboveFirstFloor.objects.filter(
-        machineryEquipmentAboveFirstFloor=inputs['M&E']).all()
+        machineryEquipmentAboveFirstFloor=currentScenario.MandEID).all()
 
     meCE = float(me.values()[0]['coastalErosion'])
 
@@ -960,9 +960,9 @@ def RRFunctionsLevee(inputs, currentScenario):
     contValue_allexclCE = contValue.values_list('allExclCE', flat=True)
     contValue_allexclCE = list(contValue_allexclCE)
 
-    build = np.interp([inputs['Coverage A value']], bldgValue_value,
+    build = np.interp([currentScenario.buildingValue], bldgValue_value,
                       bldgValue_allexclCE)
-    content = np.interp([inputs['Coverage C value']], contValue_value,
+    content = np.interp([currentScenario.contentsValue], contValue_value,
                         contValue_allexclCE)
 
     item18 = "Coverage Value Factor"
@@ -1004,10 +1004,10 @@ def RRFunctionsLevee(inputs, currentScenario):
     deductible_limit_coverage_A = deductibleLimitITVCovA.objects.all()
     deductible_limit_coverage_C = deductibleLimitITVCovC.objects.all()
 
-    ratio_A = max(min((inputs['Coverage A deductible'] +
-                  inputs['Coverage A limit']) / inputs['Coverage A value'], 1), 0)
-    ratio_C = max(min((inputs['Coverage C deductible'] +
-                  inputs['Coverage C limit']) / inputs['Coverage C value'], 1), 0)
+    ratio_A = max(min((currentScenario.buildingDeductible +
+                  currentScenario.buildingCoverage) / currentScenario.buildingValue, 1), 0)
+    ratio_C = max(min((currentScenario.contentsDeductible +
+                  currentScenario.contentsCoverage) / currentScenario.contentsValue, 1), 0)
 
     coverageValueRatioLimitA = deductible_limit_coverage_A.values_list(
         'coverageValueRatio', flat=True)
@@ -1079,9 +1079,9 @@ def RRFunctionsLevee(inputs, currentScenario):
     deductible_coverage_C = deductibleITVCovC.objects.all()
 
     ratio_A = max(
-        min((inputs['Coverage A deductible']) / inputs['Coverage A value'], 1), 0)
+        min((currentScenario.buildingDeductible) / currentScenario.buildingValue, 1), 0)
     ratio_C = max(
-        min((inputs['Coverage C deductible']) / inputs['Coverage C value'], 1), 0)
+        min((currentScenario.contentsDeductible) / currentScenario.contentsValue, 1), 0)
 
     coverageValueRatioA = deductible_coverage_A.values_list(
         'coverageValueRatio', flat=True)
@@ -1187,7 +1187,7 @@ def RRFunctionsLevee(inputs, currentScenario):
 
     # Final Deductible & ITV
     item22 = "Final Deductible & ITV"
-    if inputs['Coverage A limit'] == 0:
+    if currentScenario.buildingCoverage == 0:
         ifFluvialBuilding = 0
         ifPluvialBuilding = 0
         ssBuilding = 0
@@ -1202,7 +1202,7 @@ def RRFunctionsLevee(inputs, currentScenario):
         glBuilding = max(0.001, S_build2int)
         ceBuilding = max(0.001, S_build2int)
 
-    if inputs['Coverage A limit'] == 0:
+    if currentScenario.buildingCoverage == 0:
         ifFluvialContents = 0
         ifPluvialContents = 0
         ssContents = 0
@@ -1951,8 +1951,8 @@ def RRFunctionsLevee(inputs, currentScenario):
                                                          )
     final_rate_contentsResults.save()
 
-    coverage_building_thousands = inputs['Coverage A value']/1000
-    coverage_contents_thousands = inputs['Coverage C value']/1000
+    coverage_building_thousands = currentScenario.buildingValue/1000
+    coverage_contents_thousands = currentScenario.contentsValue/1000
     initial_premium_without_fees_building = final_rate_building * \
         coverage_building_thousands
     initial_premium_without_fees_contents = final_rate_contents * \
@@ -2477,7 +2477,7 @@ def RRFunctionsLevee(inputs, currentScenario):
                                                          )
     probation_surchargeResults.save()
 
-    if inputs['Primary residence indicator'] == 'Yes':
+    if str(currentScenario.primaryResidenceIndicatorID) == 'Yes':
         HFIAA_surcharge = 50
     else:
         HFIAA_surcharge = 250

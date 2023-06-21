@@ -24,6 +24,13 @@ admin.site.register(investmentType)
 admin.site.register(homeShape)
 admin.site.register(foundationTypeID)
 admin.site.register(barrierIslandIndicators)
+admin.site.register(singleFamilyHomeIndicator)
+admin.site.register(condoUnitOwnerIndicator)
+admin.site.register(floodVents)
+admin.site.register(MandE)
+admin.site.register(primaryResidenceIndicator)
+
+
 admin.site.register(scenario)
 
 # RR2 datatables

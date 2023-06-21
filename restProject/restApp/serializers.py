@@ -136,3 +136,29 @@ class scenarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = scenario
         fields = '__all__'
+
+
+class singleFamilyHomeIndicatorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = singleFamilyHomeIndicator
+        fields = '__all__'
+
+class condoUnitOwnerIndicatorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = condoUnitOwnerIndicator
+        fields = '__all__'
+
+class floodVentsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = floodVents
+        fields = '__all__'
+
+class MandESerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MandE
+        fields = '__all__'
+
+class primaryResidenceIndicatorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = primaryResidenceIndicator
+        fields = '__all__'                                        

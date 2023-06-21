@@ -296,20 +296,18 @@ class CalculateRR2APIView(APIView):
         # inputs['Single family home indicator'] = 'Yes'
         # inputs['Condo unit owner indicator'] = 'No'  #
         # inputs['Floor of interest'] = '1-2'  #
-        # # 'Elevated without Enclosure, Post, Pile, or Pier'
-        # # 'Slab'
-        # inputs['Foundation type'] = 'Slab'     
+        # inputs['Foundation type'] = 'Slab'
         # inputs['First floor height'] = 0.5   #
         # inputs['Foundation design'] = 'Closed, Wall'
         # inputs['Flood vents'] = 'No'          #
         # inputs['M&E'] = 'No'       #
         # inputs['Prior claims'] = 0
-        # inputs['Coverage A value'] = 250000  #
-        # inputs['Coverage C value'] = 100000
-        # inputs['Coverage A limit'] = 250000   #
-        # inputs['Coverage C limit'] = 100000   #
-        # inputs['Coverage A deductible'] = 1250
-        # inputs['Coverage C deductible'] = 1250
+        # inputs['Coverage A value'] = 250000  #         building value
+        # inputs['Coverage C value'] = 100000   #         contents value
+        # inputs['Coverage A limit'] = 250000   #        building coverage
+        # inputs['Coverage C limit'] = 100000   #        contents coverage
+        # inputs['Coverage A deductible'] = 1250        building deductible
+        # inputs['Coverage C deductible'] = 1250        contents deductible
         # inputs['CRS discount'] = 15  #
         # inputs['Reserve fund'] = 1.15  #
         # inputs['Probation surcharge'] = 0   #
@@ -320,37 +318,26 @@ class CalculateRR2APIView(APIView):
         # inputs['Prior Claim Rate'] = 2  #
         # inputs['Loss Constant'] = 130   #
         # inputs['Expense Constant'] = 62.99  #
+        # A=building, C=contents   value=total replacement value, limit = coverage, deductible=deductible
 
         scenariosearch = inputs["Scenario"]
         currentScenario = scenario.objects.get(id=scenariosearch)
         print("infofromScenarioId : ", currentScenario)
 
         # where in scenario (should be in scenario or use constant value)
-        # # inputs['Single family home indicator'] = 'Yes' or 'No'
-        # inputs['Type of Use'] = 'Single-Family Home - Frame'   # todo
-        # inputs['Condo unit owner indicator'] = 'No'         # yes or no
-        # inputs['Floor of interest'] = '1-2'  #   # 1, 2  ..100, 100+, 3+, 4+
-        # # inputs['Foundation type'] = 'Slab'   #choices from foundation types 6 choices
-        # inputs['Foundation design'] = 'Closed, Wall'    # three type from foundation type, Adil will give the logic (chat), not user input
-        # inputs['First floor height'] = 0.5   #    # user provided, no specific choices, float value,  or from AAL flood parameter #todo, need to be discussed 
-        # inputs['Flood vents'] = 'No'          # yes or no
-        # inputs['M&E'] = 'No'       #           yes or no  
 
-        ####A=building, C=contents   value=total replacement value, limit = coverage, deductible=deductible
-        # inputs['Coverage A value'] = 250000  #         building value
-        # inputs['Coverage C value'] = 100000   #         contents value 
-        # inputs['Coverage A limit'] = 250000   #        building coverage
-        # inputs['Coverage C limit'] = 100000   #        contents coverage
-        # inputs['Coverage A deductible'] = 1250        building deductible
-        # inputs['Coverage C deductible'] = 1250        contents deductible
+        # inputs['Type of Use'] = 'Single-Family Home - Frame'   # todo
+        # inputs['Floor of interest'] = '1-2'  #   # 1, 2  ..100, 100+, 3+, 4+
+        # inputs['Foundation design'] = 'Closed, Wall'    # three type from foundation type, Adil will give the logic (chat), not user input
+        # inputs['First floor height'] = 0.5   #    # user provided, no specific choices, float value,  or from AAL flood parameter #todo, need to be discussed
         # inputs['CRS discount'] = 15  #                check snpshot from chat
-        # inputs['Loss Constant'] = 130   #            ok           
-        # inputs['Expense Constant'] = 62.99  #   ok
-        # inputs['ICC premium'] = 4  # ok for now---tables coming
-        # inputs['Reserve fund'] = 1.15  #  ok
-        # inputs['Probation surcharge'] = 0   # ok for now---tables coming
-        # inputs['Primary residence indicator'] = 'Yes'  # yes or no
-        # inputs['Federal policy fee'] = 50  #       ok
+
+        inputs['Loss Constant'] = 130  # ok
+        inputs['Expense Constant'] = 62.99  # ok
+        inputs['ICC premium'] = 4  # ok for now---tables coming
+        inputs['Reserve fund'] = 1.15  # ok
+        inputs['Probation surcharge'] = 0   # ok for now---tables coming
+        inputs['Federal policy fee'] = 50  # ok
 
         rr2res = []
         if not currentScenario.levee:

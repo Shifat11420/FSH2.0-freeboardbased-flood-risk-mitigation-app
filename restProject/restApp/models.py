@@ -92,7 +92,7 @@ class foundationDesignID(models.Model):
 
 
 class foundationTypeID(models.Model):
-    Name = models.CharField(max_length=20)
+    Name = models.CharField(max_length=50)
 
     def __str__(self):
         return self.Name
@@ -134,6 +134,41 @@ class homeShape(models.Model):
 
 
 class barrierIslandIndicators(models.Model):
+    Name = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.Name
+
+
+class singleFamilyHomeIndicator(models.Model):
+    Name = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.Name
+
+
+class condoUnitOwnerIndicator(models.Model):
+    Name = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.Name
+
+
+class floodVents(models.Model):
+    Name = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.Name
+
+
+class MandE(models.Model):
+    Name = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.Name
+
+
+class primaryResidenceIndicator(models.Model):
     Name = models.CharField(max_length=30)
 
     def __str__(self):
@@ -511,6 +546,8 @@ class scenario(models.Model):
     annualFloodRisk = models.FloatField(null=True)
     floodInsuranceID = models.ForeignKey(
         floodInsurance, on_delete=models.PROTECT)
+    buildingValue = models.IntegerField(null=True)
+    contentsValue = models.IntegerField(null=True)
     buildingCoverage = models.IntegerField(null=True)
     buildingDeductible = models.IntegerField(null=True)
     contentsCoverage = models.IntegerField(null=True)
@@ -538,7 +575,7 @@ class scenario(models.Model):
     concentrationRiskMapping = models.CharField(null=True, max_length=50)
     HUC12 = models.CharField(null=True, max_length=100)
     barrierIslandIndicator = models.ForeignKey(
-        barrierIslandIndicators, on_delete=models.PROTECT,default=None)
+        barrierIslandIndicators, on_delete=models.PROTECT, default=None)
     baseRatePer1000ofCoverageValue = models.FloatField(null=True)
     MSA = models.CharField(null=True, max_length=50)
     distToRiver = models.FloatField(null=True)
@@ -552,6 +589,16 @@ class scenario(models.Model):
     elevation = models.FloatField(null=True)
     distToLake = models.FloatField(null=True)
     elevRelToLake = models.FloatField(null=True)
+    singleFamilyHomeIndicatorID = models.ForeignKey(
+        singleFamilyHomeIndicator, on_delete=models.PROTECT, default=None)
+    condoUnitOwnerIndicatorID = models.ForeignKey(
+        condoUnitOwnerIndicator, on_delete=models.PROTECT, default=None)
+    floodVentsID = models.ForeignKey(
+        floodVents, on_delete=models.PROTECT, default=None)
+    MandEID = models.ForeignKey(
+        MandE, on_delete=models.PROTECT, default=None)
+    primaryResidenceIndicatorID = models.ForeignKey(
+        primaryResidenceIndicator, on_delete=models.PROTECT, default=None)
 
     def __str__(self):
         return "Id : "+str(self.id) + " userTypeID : "+str(self.userTypeID)
