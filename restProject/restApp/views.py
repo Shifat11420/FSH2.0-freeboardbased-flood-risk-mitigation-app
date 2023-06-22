@@ -444,3 +444,13 @@ class homeShapeViewSet(viewsets.ModelViewSet):
 class scenarioViewSet(viewsets.ModelViewSet):
     queryset = scenario.objects.all()
     serializer_class = scenarioSerializer
+
+
+class floodVentsViewSet(viewsets.ModelViewSet):
+    queryset = floodVents.objects.all()
+    serializer_class = floodVentsSerializer
+
+
+class MandEViewSet(viewsets.ModelViewSet):
+    queryset = MandE.objects.all()
+    serializer_class = MandESerializer

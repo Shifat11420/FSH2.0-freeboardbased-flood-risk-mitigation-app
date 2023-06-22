@@ -14,7 +14,7 @@ router.register(r'rr2-baserate', views.baserateViewSet,
                 basename='rr2-baserate')
 router.register(r'rr2-disttoriver', views.distToRiverViewSet,
                 basename='rr2-disttoriver')
-router.register(r'territory', views.territoryViewSet,
+router.register(r'rr2-territory', views.territoryViewSet,
                 basename='territory')
 router.register(r'rr2-Nonlevee-results', views.riskrating2resultsViewSet)
 router.register(r'rr2-Levee-results', views.riskrating2resultsLeveeViewSet)
@@ -31,6 +31,8 @@ router.register(r'rr2-priorClaims', views.priorClaimsViewSet)
 router.register(r'rr2-federalAssistance', views.federalAssistanceViewSet)
 router.register(r'rr2-investmentType', views.investmentTypeViewSet)
 router.register(r'rr2-homeShape', views.homeShapeViewSet)
+router.register(r'rr2-floodVents', views.floodVentsViewSet)
+router.register(r'rr2-MandE', views.MandEViewSet)
 router.register(r'rr2-scenario', views.scenarioViewSet)
 
 
