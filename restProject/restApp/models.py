@@ -534,7 +534,7 @@ class scenario(models.Model):
     livableArea = models.FloatField(null=True)
     numOfStoriesID = models.ForeignKey(
         numOfStories, on_delete=models.PROTECT, default=None)
-    floor = models.IntegerField(null=True, default=0)
+    floor = models.IntegerField(null=True, blank=True)
     mortgageID = models.ForeignKey(
         mortgage, on_delete=models.PROTECT, default=None)
     foundationTypeID = models.ForeignKey(
