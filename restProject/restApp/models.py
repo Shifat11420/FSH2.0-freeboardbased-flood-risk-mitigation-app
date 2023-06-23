@@ -525,27 +525,27 @@ class riskrating2resultsLevee(models.Model):
 class scenario(models.Model):
     id = models.IntegerField(primary_key=True)
     userTypeID = models.ForeignKey(
-        userTypeID, on_delete=models.PROTECT)
+        userTypeID, on_delete=models.PROTECT, default=None)
     address = models.CharField(null=True, max_length=200)
     typeUseID = models.ForeignKey(
-        typeUseID, on_delete=models.PROTECT)
+        typeUseID, on_delete=models.PROTECT, default=None)
     homeConditionID = models.ForeignKey(
-        homeCondition, on_delete=models.PROTECT)
+        homeCondition, on_delete=models.PROTECT, default=None)
     livableArea = models.FloatField(null=True)
     numOfStoriesID = models.ForeignKey(
-        numOfStories, on_delete=models.PROTECT)
+        numOfStories, on_delete=models.PROTECT, default=None)
     floor = models.IntegerField(null=True)
     mortgageID = models.ForeignKey(
-        mortgage, on_delete=models.PROTECT)
+        mortgage, on_delete=models.PROTECT, default=None)
     foundationTypeID = models.ForeignKey(
-        foundationTypeID, on_delete=models.PROTECT)
+        foundationTypeID, on_delete=models.PROTECT, default=None)
     foundationDesignID = models.ForeignKey(
-        foundationDesignID, on_delete=models.PROTECT)
+        foundationDesignID, on_delete=models.PROTECT, default=None)
     homeShapeID = models.ForeignKey(
-        homeShape, on_delete=models.PROTECT)
+        homeShape, on_delete=models.PROTECT, default=None)
     annualFloodRisk = models.FloatField(null=True)
     floodInsuranceID = models.ForeignKey(
-        floodInsurance, on_delete=models.PROTECT)
+        floodInsurance, on_delete=models.PROTECT, default=None)
     buildingValue = models.IntegerField(null=True)
     contentsValue = models.IntegerField(null=True)
     buildingCoverage = models.IntegerField(null=True)
@@ -553,11 +553,11 @@ class scenario(models.Model):
     contentsCoverage = models.IntegerField(null=True)
     contentsDeductible = models.IntegerField(null=True)
     priorClaimsID = models.ForeignKey(
-        priorClaims, on_delete=models.PROTECT)
+        priorClaims, on_delete=models.PROTECT, default=None)
     federalAssistanceID = models.ForeignKey(
-        federalAssistance, on_delete=models.PROTECT)
+        federalAssistance, on_delete=models.PROTECT, default=None)
     investmentTypeID = models.ForeignKey(
-        investmentType, on_delete=models.PROTECT)
+        investmentType, on_delete=models.PROTECT, default=None)
     homeEquityLoanInterestRate = models.FloatField(null=True)
     homeEquityLoanPeriod = models.IntegerField(null=True)
     mortgageInterestRate = models.FloatField(null=True)
