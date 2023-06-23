@@ -133,26 +133,26 @@ class homeShapeSerializer(serializers.ModelSerializer):
 
 
 class scenarioSerializer(serializers.ModelSerializer):
-    buildingValue = serializers.IntegerField(required=False)
-    contentsValue = serializers.IntegerField(required=False)
-    buildingCoverage = serializers.IntegerField(required=False)
-    contentsCoverage = serializers.IntegerField(required=False)
-    buildingDeductible = serializers.IntegerField(required=False)
-    contentsDeductible = serializers.IntegerField(required=False)
-    floor = serializers.IntegerField(required=False)
-    annualFloodRisk = serializers.IntegerField(required=False)
+    # buildingValue = serializers.IntegerField(required=False)
+    # contentsValue = serializers.IntegerField(required=False)
+    # buildingCoverage = serializers.IntegerField(required=False)
+    # contentsCoverage = serializers.IntegerField(required=False)
+    # buildingDeductible = serializers.IntegerField(required=False)
+    # contentsDeductible = serializers.IntegerField(required=False)
+    # floor = serializers.IntegerField(required=False)
+    # annualFloodRisk = serializers.FloatField(required=False)
 
     class Meta:
         model = scenario
         fields = '__all__'
-        extra_kwargs = {"buildingValue": {"required": False, "allow_null": True},
-                        "contentsValue": {"required": False, "allow_null": True},
-                        "buildingCoverage": {"required": False, "allow_null": True},
-                        "contentsCoverage": {"required": False, "allow_null": True},
-                        "buildingDeductible": {"required": False, "allow_null": True},
-                        "contentsDeductible": {"required": False, "allow_null": True},
-                        "floor": {"required": False, "allow_null": True},
-                        "annualFloodRisk": {"required": False, "allow_null": True}}
+        # extra_kwargs = {"buildingValue": {"required": False, "allow_null": True},
+        #                 "contentsValue": {"required": False, "allow_null": True},
+        #                 "buildingCoverage": {"required": False, "allow_null": True},
+        #                 "contentsCoverage": {"required": False, "allow_null": True},
+        #                 "buildingDeductible": {"required": False, "allow_null": True},
+        #                 "contentsDeductible": {"required": False, "allow_null": True},
+        #                 "floor": {"required": False, "allow_null": True},
+        #                 "annualFloodRisk": {"required": False, "allow_null": True}}
 
 
 class singleFamilyHomeIndicatorSerializer(serializers.ModelSerializer):

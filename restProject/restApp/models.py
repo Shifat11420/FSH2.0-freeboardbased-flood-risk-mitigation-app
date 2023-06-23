@@ -543,7 +543,7 @@ class scenario(models.Model):
         foundationDesignID, on_delete=models.PROTECT, default=None)
     homeShapeID = models.ForeignKey(
         homeShape, on_delete=models.PROTECT, default=None)
-    annualFloodRisk = models.FloatField(null=True, default=None)
+    annualFloodRisk = models.FloatField(null=True, blank=True)
     floodInsuranceID = models.ForeignKey(
         floodInsurance, on_delete=models.PROTECT, default=None)
     buildingValue = models.IntegerField(null=True, blank=True)
