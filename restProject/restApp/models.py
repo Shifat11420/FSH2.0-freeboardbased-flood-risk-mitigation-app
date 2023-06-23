@@ -534,7 +534,7 @@ class scenario(models.Model):
     livableArea = models.FloatField(null=True)
     numOfStoriesID = models.ForeignKey(
         numOfStories, on_delete=models.PROTECT, default=None)
-    floor = models.IntegerField(null=True)
+    floor = models.IntegerField(null=True, default=None)
     mortgageID = models.ForeignKey(
         mortgage, on_delete=models.PROTECT, default=None)
     foundationTypeID = models.ForeignKey(
@@ -543,15 +543,15 @@ class scenario(models.Model):
         foundationDesignID, on_delete=models.PROTECT, default=None)
     homeShapeID = models.ForeignKey(
         homeShape, on_delete=models.PROTECT, default=None)
-    annualFloodRisk = models.FloatField(null=True)
+    annualFloodRisk = models.FloatField(null=True, default=None)
     floodInsuranceID = models.ForeignKey(
         floodInsurance, on_delete=models.PROTECT, default=None)
     buildingValue = models.IntegerField(null=True)
     contentsValue = models.IntegerField(null=True)
-    buildingCoverage = models.IntegerField(null=True)
-    buildingDeductible = models.IntegerField(null=True)
-    contentsCoverage = models.IntegerField(null=True)
-    contentsDeductible = models.IntegerField(null=True)
+    buildingCoverage = models.IntegerField(null=True, default=None)
+    buildingDeductible = models.IntegerField(null=True, default=None)
+    contentsCoverage = models.IntegerField(null=True, default=None)
+    contentsDeductible = models.IntegerField(null=True, default=None)
     priorClaimsID = models.ForeignKey(
         priorClaims, on_delete=models.PROTECT, default=None)
     federalAssistanceID = models.ForeignKey(
