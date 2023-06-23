@@ -523,7 +523,7 @@ class riskrating2resultsLevee(models.Model):
 # Scenaio entity
 
 class scenario(models.Model):
-    id = models.IntegerField(primary_key=True)
+    # id = models.IntegerField(primary_key=True)
     userTypeID = models.ForeignKey(
         userTypeID, on_delete=models.PROTECT, default=None)
     address = models.CharField(null=True, max_length=200)
@@ -534,7 +534,7 @@ class scenario(models.Model):
     livableArea = models.FloatField(null=True)
     numOfStoriesID = models.ForeignKey(
         numOfStories, on_delete=models.PROTECT, default=None)
-    floor = models.IntegerField(null=True, default=None)
+    floor = models.IntegerField(null=True, default=0)
     mortgageID = models.ForeignKey(
         mortgage, on_delete=models.PROTECT, default=None)
     foundationTypeID = models.ForeignKey(
@@ -548,10 +548,10 @@ class scenario(models.Model):
         floodInsurance, on_delete=models.PROTECT, default=None)
     buildingValue = models.IntegerField(null=True)
     contentsValue = models.IntegerField(null=True)
-    buildingCoverage = models.IntegerField(null=True, default=None)
-    buildingDeductible = models.IntegerField(null=True, default=None)
-    contentsCoverage = models.IntegerField(null=True, default=None)
-    contentsDeductible = models.IntegerField(null=True, default=None)
+    buildingCoverage = models.IntegerField(null=True, default=0)
+    buildingDeductible = models.IntegerField(null=True, default=0)
+    contentsCoverage = models.IntegerField(null=True, default=0)
+    contentsDeductible = models.IntegerField(null=True, default=0)
     priorClaimsID = models.ForeignKey(
         priorClaims, on_delete=models.PROTECT, default=None)
     federalAssistanceID = models.ForeignKey(
