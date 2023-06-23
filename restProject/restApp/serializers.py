@@ -133,8 +133,17 @@ class homeShapeSerializer(serializers.ModelSerializer):
 
 
 class scenarioSerializer(serializers.ModelSerializer):
-    buildingCoverage = serializers.IntegerField(default=0, required=False)
-    contentsCoverage = serializers.IntegerField(default=0, required=False)
+    buildingCoverage = serializers.IntegerField(
+        required=False, allow_null=True, allow_blank=True)
+    # contentsCoverage = serializers.IntegerField(default=0, required=False)
+
+    def validate_buildingCoverage(self, value):
+        if not value:
+            return 0
+        try:
+            return int(value)
+        except ValueError:
+            raise serializers.ValidationError('You must supply an integer')
 
     class Meta:
         model = scenario
