@@ -546,12 +546,12 @@ class scenario(models.Model):
     annualFloodRisk = models.FloatField(null=True, default=None)
     floodInsuranceID = models.ForeignKey(
         floodInsurance, on_delete=models.PROTECT, default=None)
-    buildingValue = models.IntegerField(null=True)
-    contentsValue = models.IntegerField(null=True)
-    buildingCoverage = models.IntegerField(null=True, default=0)
-    buildingDeductible = models.IntegerField(null=True, default=0)
-    contentsCoverage = models.IntegerField(null=True, default=0)
-    contentsDeductible = models.IntegerField(null=True, default=0)
+    buildingValue = models.IntegerField(null=True, blank=True)
+    contentsValue = models.IntegerField(null=True, blank=True)
+    buildingCoverage = models.IntegerField(null=True, blank=True)
+    contentsCoverage = models.IntegerField(null=True, blank=True)
+    buildingDeductible = models.IntegerField(null=True, blank=True)
+    contentsDeductible = models.IntegerField(null=True, blank=True)
     priorClaimsID = models.ForeignKey(
         priorClaims, on_delete=models.PROTECT, default=None)
     federalAssistanceID = models.ForeignKey(
