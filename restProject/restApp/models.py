@@ -548,8 +548,8 @@ class scenario(models.Model):
         floodInsurance, on_delete=models.PROTECT, default=None)
     buildingValue = models.IntegerField(null=True, blank=True)
     contentsValue = models.IntegerField(null=True, blank=True)
-    buildingCoverage = models.IntegerField(null=True, blank=True)
-    contentsCoverage = models.IntegerField(null=True, blank=True)
+    buildingCoverage = models.IntegerField(blank=True,null=True)
+    contentsCoverage = models.IntegerField(blank=True,null=True)
     buildingDeductible = models.IntegerField(null=True, blank=True)
     contentsDeductible = models.IntegerField(null=True, blank=True)
     priorClaimsID = models.ForeignKey(

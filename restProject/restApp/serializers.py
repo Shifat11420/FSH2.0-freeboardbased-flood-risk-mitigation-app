@@ -139,27 +139,23 @@ class barrierIslandIndicatorsSerializer(serializers.ModelSerializer):
 
 
 class scenarioSerializer(serializers.ModelSerializer):
-    buildingValue = serializers.IntegerField(required=False)
-    # contentsValue = serializers.IntegerField(required=False)
-    # buildingCoverage = serializers.IntegerField(required=False)
-    # contentsCoverage = serializers.IntegerField(required=False)
-    # buildingDeductible = serializers.IntegerField(required=False)
-    # contentsDeductible = serializers.IntegerField(required=False)
-    # floor = serializers.IntegerField(required=False)
-    # annualFloodRisk = serializers.FloatField(required=False)
+    buildingCoverage = serializers.IntegerField(default=0, required=False)
+    contentsCoverage = serializers.IntegerField(default=0, required=False)
 
     class Meta:
         model = scenario
         fields = '__all__'
-        extra_kwargs = {"buildingValue": {
-            "required": False, "allow_null": True}}
-        #                 "contentsValue": {"required": False, "allow_null": True},
-        #                 "buildingCoverage": {"required": False, "allow_null": True},
-        #                 "contentsCoverage": {"required": False, "allow_null": True},
-        #                 "buildingDeductible": {"required": False, "allow_null": True},
-        #                 "contentsDeductible": {"required": False, "allow_null": True},
-        #                 "floor": {"required": False, "allow_null": True},
-        #                 "annualFloodRisk": {"required": False, "allow_null": True}}
+
+    def to_internal_value(self, data):
+        if data.get('buildingCoverage') == '':
+            data['buildingCoverage'] = 0
+        if data.get('contentsCoverage') == '':
+            data['contentsCoverage'] = 0
+
+        return super(scenarioSerializer, self).to_internal_value(data)
+
+    def create(self, validated_data):
+        return scenario.objects.create(**validated_data)
 
 
 class singleFamilyHomeIndicatorSerializer(serializers.ModelSerializer):
