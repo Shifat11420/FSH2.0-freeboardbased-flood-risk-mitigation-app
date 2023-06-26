@@ -132,6 +132,12 @@ class homeShapeSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class barrierIslandIndicatorsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = barrierIslandIndicators
+        fields = '__all__'
+
+
 class scenarioSerializer(serializers.ModelSerializer):
     # buildingValue = serializers.IntegerField(required=False)
     # contentsValue = serializers.IntegerField(required=False)

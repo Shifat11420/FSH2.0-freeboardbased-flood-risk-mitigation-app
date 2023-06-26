@@ -453,4 +453,9 @@ class floodVentsViewSet(viewsets.ModelViewSet):
 
 class MandEViewSet(viewsets.ModelViewSet):
     queryset = MandE.objects.all()
-    serializer_class = MandESerializer
+    serializer_class =
+
+
+class barrierIslandIndicatorsViewSet(viewsets.ModelViewSet):
+    queryset = barrierIslandIndicators.objects.all()
+    serializer_class = barrierIslandIndicatorsSerializer
