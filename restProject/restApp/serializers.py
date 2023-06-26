@@ -141,16 +141,17 @@ class barrierIslandIndicatorsSerializer(serializers.ModelSerializer):
 class scenarioSerializer(serializers.ModelSerializer):
     buildingCoverage = serializers.IntegerField(default=0, required=False)
     contentsCoverage = serializers.IntegerField(default=0, required=False)
+    buildingDeductibe = serializers.IntegerField(default=0, required=False)
+    contentsDeductible = serializers.IntegerField(default=0, required=False)
 
     class Meta:
         model = scenario
         fields = '__all__'
 
     def to_internal_value(self, data):
-        if data.get('buildingCoverage') == '':
-            data['buildingCoverage'] = 0
-        if data.get('contentsCoverage') == '':
-            data['contentsCoverage'] = 0
+        for field in ['buildingValue', 'contentsValue', 'buildingCoverage', 'contentsCoverage', 'buildingDeductible', 'contentsDeductible', 'annualFloodRisk']:
+            if data.get(field) == '':
+                data[field] = None
 
         return super(scenarioSerializer, self).to_internal_value(data)
 
