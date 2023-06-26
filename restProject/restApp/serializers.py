@@ -139,7 +139,7 @@ class barrierIslandIndicatorsSerializer(serializers.ModelSerializer):
 
 
 class scenarioSerializer(serializers.ModelSerializer):
-    # buildingValue = serializers.IntegerField(required=False)
+    buildingValue = serializers.IntegerField(required=False)
     # contentsValue = serializers.IntegerField(required=False)
     # buildingCoverage = serializers.IntegerField(required=False)
     # contentsCoverage = serializers.IntegerField(required=False)
@@ -151,7 +151,8 @@ class scenarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = scenario
         fields = '__all__'
-        # extra_kwargs = {"buildingValue": {"required": False, "allow_null": True},
+        extra_kwargs = {"buildingValue": {
+            "required": False, "allow_null": True}}
         #                 "contentsValue": {"required": False, "allow_null": True},
         #                 "buildingCoverage": {"required": False, "allow_null": True},
         #                 "contentsCoverage": {"required": False, "allow_null": True},
