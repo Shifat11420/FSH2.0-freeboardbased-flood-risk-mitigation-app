@@ -459,3 +459,18 @@ class MandEViewSet(viewsets.ModelViewSet):
 class barrierIslandIndicatorsViewSet(viewsets.ModelViewSet):
     queryset = barrierIslandIndicators.objects.all()
     serializer_class = barrierIslandIndicatorsSerializer
+
+
+class singleFamilyHomeIndicatorViewSet(viewsets.ModelViewSet):
+    queryset = singleFamilyHomeIndicator.objects.all()
+    serializer_class = singleFamilyHomeIndicatorSerializer
+
+
+class condoUnitOwnerIndicatorViewSet(viewsets.ModelViewSet):
+    queryset = condoUnitOwnerIndicator.objects.all()
+    serializer_class = condoUnitOwnerIndicatorSerializer
+
+
+class primaryResidenceIndicatorViewSet(viewsets.ModelViewSet):
+    queryset = primaryResidenceIndicator.objects.all()
+    serializer_class = primaryResidenceIndicatorSerializer
