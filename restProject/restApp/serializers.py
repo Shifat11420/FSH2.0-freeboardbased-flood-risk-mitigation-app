@@ -139,6 +139,8 @@ class barrierIslandIndicatorsSerializer(serializers.ModelSerializer):
 
 
 class scenarioSerializer(serializers.ModelSerializer):
+    buildingValue = serializers.IntegerField(default=0, required=False)
+    contentsValue = serializers.IntegerField(default=0, required=False)
     buildingCoverage = serializers.IntegerField(default=0, required=False)
     contentsCoverage = serializers.IntegerField(default=0, required=False)
     buildingDeductibe = serializers.IntegerField(default=0, required=False)
@@ -151,9 +153,7 @@ class scenarioSerializer(serializers.ModelSerializer):
     def to_internal_value(self, data):
         for field in ['buildingValue', 'contentsValue', 'buildingCoverage', 'contentsCoverage', 'buildingDeductible', 'contentsDeductible', 'annualFloodRisk']:
             if data.get(field) == '':
-                data[field] = None
-
-        return super(scenarioSerializer, self).to_internal_value(data)
+                data[field] = 0
 
     def create(self, validated_data):
         return scenario.objects.create(**validated_data)
