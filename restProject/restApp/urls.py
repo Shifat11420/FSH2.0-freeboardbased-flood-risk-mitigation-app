@@ -41,6 +41,11 @@ router.register(r'rr2-condoUnitOwner', views.condoUnitOwnerIndicatorViewSet)
 router.register(r'rr2-primaryResidence',
                 views.primaryResidenceIndicatorViewSet)
 
+router.register(r'rr2-buildingValue',
+                views.buildingValueViewSet)
+router.register(r'rr2-contentsValue',
+                views.contentsValueViewSet)                                
+
 
 router.register(r'rr2-scenario', views.scenarioViewSet)
 

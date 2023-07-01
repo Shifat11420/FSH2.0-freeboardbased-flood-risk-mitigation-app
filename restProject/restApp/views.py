@@ -482,3 +482,12 @@ class primaryResidenceIndicatorViewSet(viewsets.ModelViewSet):
 class CRSRatingViewSet(viewsets.ModelViewSet):
     queryset = CRSRating.objects.all()
     serializer_class = CRSRatingSerializer
+
+
+class buildingValueViewSet(viewsets.ModelViewSet):
+    queryset = buildingValue.objects.all()
+    serializer_class = buildingValueSerializer
+
+class contentsValueViewSet(viewsets.ModelViewSet):
+    queryset = contentsValue.objects.all()
+    serializer_class = contentsValueSerializer        

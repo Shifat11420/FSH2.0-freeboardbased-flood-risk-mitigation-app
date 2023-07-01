@@ -138,6 +138,18 @@ class barrierIslandIndicatorsSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class buildingValueSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = buildingValue
+        fields = '__all__'
+
+
+class contentsValueSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = contentsValue
+        fields = '__all__'
+
+
 class scenarioSerializer(serializers.ModelSerializer):
     buildingValue = serializers.IntegerField(default=0, required=False)
     contentsValue = serializers.IntegerField(default=0, required=False)
