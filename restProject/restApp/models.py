@@ -175,6 +175,14 @@ class primaryResidenceIndicator(models.Model):
         return self.Name
 
 
+class CRSRating(models.Model):
+    Name = models.CharField(max_length=30)
+    Value = models.FloatField()
+
+    def __str__(self):
+        return self.Name
+
+
 # Risk rating 2.0 datatables
 class baseRateMultipliers(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -349,6 +357,13 @@ class typeOfUSe(models.Model):
 
     def __str__(self):
         return "Id "+str(self.id)+" Type of use: "+str(self.typeofuse)
+
+
+class floor(models.Model):
+    Name = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.Name
 
 
 class floorsOfInterest(models.Model):
@@ -534,7 +549,8 @@ class scenario(models.Model):
     livableArea = models.FloatField(null=True)
     numOfStoriesID = models.ForeignKey(
         numOfStories, on_delete=models.PROTECT, default=None)
-    floor = models.IntegerField(null=True, blank=True)
+    floorID = models.ForeignKey(
+        floor, on_delete=models.PROTECT, default=None)
     mortgageID = models.ForeignKey(
         mortgage, on_delete=models.PROTECT, default=None)
     foundationTypeID = models.ForeignKey(
@@ -599,6 +615,8 @@ class scenario(models.Model):
         MandE, on_delete=models.PROTECT, default=None)
     primaryResidenceIndicatorID = models.ForeignKey(
         primaryResidenceIndicator, on_delete=models.PROTECT, default=None)
+    crsRating = models.ForeignKey(
+        CRSRating, on_delete=models.PROTECT, default=None)
 
     def __str__(self):
         return "Id : "+str(self.id) + " userTypeID : "+str(self.userTypeID)

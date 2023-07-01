@@ -740,7 +740,7 @@ def RRFunctionsLevee(inputs, currentScenario):
 
     # Floors Of Interest
     floorsOfInt = floorsOfInterest.objects.filter(
-        homeIndicator=currentScenario.singleFamilyHomeIndicatorID, ownerIndicator=currentScenario.condoUnitOwnerIndicatorID, interest=inputs['Floor of interest']).all()
+        homeIndicator=currentScenario.singleFamilyHomeIndicatorID, ownerIndicator=currentScenario.condoUnitOwnerIndicatorID, interest=currentScenario.floorID).all()
 
     floorsOfInt_allexclCE = floorsOfInt.values_list('allExclCE', flat=True)
     floorsOfInt_allexclCE = list(floorsOfInt_allexclCE)
@@ -1278,7 +1278,7 @@ def RRFunctionsLevee(inputs, currentScenario):
     concRiskResults.save()
 
     # CRS Discount Percentage
-    CRSDiscountPercentage = float(inputs['CRS discount']/100)
+    CRSDiscountPercentage = float(currentScenario.crsRating.Value/100)
     item24 = "CRS Discount Percentage"
     ifFluvialBuilding = CRSDiscountPercentage
     ifFluvialContents = CRSDiscountPercentage
@@ -1315,7 +1315,7 @@ def RRFunctionsLevee(inputs, currentScenario):
     CRSDiscountPercResults.save()
 
     # CRS Discount Factor
-    CRSDiscountFactor = 1-float(inputs['CRS discount']/100)
+    CRSDiscountFactor = 1-float(currentScenario.crsRating.Value/100)
     item25 = "CRS Discount Factor"
     ifFluvialBuilding = CRSDiscountFactor
     ifFluvialContents = CRSDiscountFactor
@@ -1966,7 +1966,7 @@ def RRFunctionsLevee(inputs, currentScenario):
     premium_exc_fees_expense = initial_premium_without_fees + prior_claim_premium
     premium_without_fees = premium_exc_fees_expense + \
         inputs['Loss Constant'] + inputs['Expense Constant']
-    icc_crs = inputs['ICC premium'] * (100-inputs['CRS discount'])/100
+    icc_crs = inputs['ICC premium'] * (100-currentScenario.crsRating.Value)/100
     subtotal = (premium_without_fees + icc_crs)
 
 #   coverage_building_thousands

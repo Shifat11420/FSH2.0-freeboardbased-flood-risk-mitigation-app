@@ -29,7 +29,8 @@ admin.site.register(condoUnitOwnerIndicator)
 admin.site.register(floodVents)
 admin.site.register(MandE)
 admin.site.register(primaryResidenceIndicator)
-
+admin.site.register(CRSRating)
+admin.site.register(floor)
 
 admin.site.register(scenario)
 

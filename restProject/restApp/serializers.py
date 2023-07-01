@@ -187,3 +187,9 @@ class primaryResidenceIndicatorSerializer(serializers.ModelSerializer):
     class Meta:
         model = primaryResidenceIndicator
         fields = '__all__'
+
+
+class CRSRatingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CRSRating
+        fields = '__all__'
