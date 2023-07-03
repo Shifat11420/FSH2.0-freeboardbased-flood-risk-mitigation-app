@@ -48,7 +48,7 @@ admin.site.register(leveeQuality)
 admin.site.register(structuralRelElevation)
 admin.site.register(territory)
 
-admin.site.register(typeOfUSe)
+admin.site.register(typeOfUse)
 admin.site.register(foundationType)
 admin.site.register(floorsOfInterest)
 admin.site.register(firstFloorHeight)

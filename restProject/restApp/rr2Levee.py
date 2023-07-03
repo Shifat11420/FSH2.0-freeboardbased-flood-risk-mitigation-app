@@ -8,7 +8,7 @@ from django.db.models import Q
 def RRFunctionsLevee(inputs, currentScenario):
     # Base Rate
     baserate = baseRateMultipliers.objects.filter(levee="Yes",
-                                                  region=currentScenario.state, singleFamilyHomeIndicator=currentScenario.singleFamilyHomeIndicatorID).all()
+                                                  region=currentScenario.state, singleFamilyHomeIndicator=currentScenario.typeOfUseID.singleFamilyHomeIndicatorID).all()
 
     item1 = "Base Rate (per $1000 of Coverage Value)"
     ifFluvialBuilding = baserate.filter(
@@ -692,8 +692,8 @@ def RRFunctionsLevee(inputs, currentScenario):
     territoryResults.save()
 
     # Type Of Use
-    typeuse = typeOfUSe.objects.filter(
-        typeofuse=inputs['Type of Use']).all()
+    typeuse = typeOfUse.objects.filter(
+        typeofuse=currentScenario.typeOfUseID).all()
 
     typeuse_if = typeuse.values_list('flood', flat=True)
     typeuse_if = list(typeuse_if)
@@ -740,7 +740,7 @@ def RRFunctionsLevee(inputs, currentScenario):
 
     # Floors Of Interest
     floorsOfInt = floorsOfInterest.objects.filter(
-        homeIndicator=currentScenario.singleFamilyHomeIndicatorID, ownerIndicator=currentScenario.condoUnitOwnerIndicatorID, interest=currentScenario.floorID).all()
+        homeIndicator=currentScenario.typeOfUseID.singleFamilyHomeIndicatorID, ownerIndicator=currentScenario.typeOfUseID.condoUnitOwnerIndicatorID, interest=currentScenario.floorID).all()
 
     floorsOfInt_allexclCE = floorsOfInt.values_list('allExclCE', flat=True)
     floorsOfInt_allexclCE = list(floorsOfInt_allexclCE)

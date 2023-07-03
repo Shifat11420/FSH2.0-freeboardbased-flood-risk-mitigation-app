@@ -56,13 +56,6 @@ class userTypeID(models.Model):
         return self.Name
 
 
-class typeUseID(models.Model):
-    Name = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.Name
-
-
 class homeCondition(models.Model):
     Name = models.CharField(max_length=50)
 
@@ -149,6 +142,17 @@ class singleFamilyHomeIndicator(models.Model):
 
 class condoUnitOwnerIndicator(models.Model):
     Name = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.Name
+
+
+class typeUseID(models.Model):
+    Name = models.CharField(max_length=50)
+    singleFamilyHomeIndicatorID = models.ForeignKey(
+        singleFamilyHomeIndicator, on_delete=models.PROTECT, default=None)
+    condoUnitOwnerIndicatorID = models.ForeignKey(
+        condoUnitOwnerIndicator, on_delete=models.PROTECT, default=None)
 
     def __str__(self):
         return self.Name
@@ -347,13 +351,17 @@ class territory(models.Model):
         return "Levee? "+str(self.levee)+" Levee SystemID? "+str(self.leveeSystemID)
 
 
-class typeOfUSe(models.Model):
+class typeOfUse(models.Model):
     id = models.IntegerField(primary_key=True)
     typeofuse = models.CharField(max_length=60)
-    flood = models.FloatField()
-    surge = models.FloatField()
-    tsunami = models.FloatField()
-    lakes = models.FloatField()
+    flood = models.FloatField(null=True)
+    surge = models.FloatField(null=True)
+    tsunami = models.FloatField(null=True)
+    lakes = models.FloatField(null=True)
+    singleFamilyHomeIndicatorID = models.ForeignKey(
+        singleFamilyHomeIndicator, on_delete=models.PROTECT, default=None)
+    condoUnitOwnerIndicatorID = models.ForeignKey(
+        condoUnitOwnerIndicator, on_delete=models.PROTECT, default=None)
 
     def __str__(self):
         return "Id "+str(self.id)+" Type of use: "+str(self.typeofuse)
@@ -542,7 +550,7 @@ class scenario(models.Model):
     userTypeID = models.ForeignKey(
         userTypeID, on_delete=models.PROTECT, default=None)
     address = models.CharField(null=True, max_length=200)
-    typeUseID = models.ForeignKey(
+    typeOfUseID = models.ForeignKey(
         typeUseID, on_delete=models.PROTECT, default=None)
     homeConditionID = models.ForeignKey(
         homeCondition, on_delete=models.PROTECT, default=None)

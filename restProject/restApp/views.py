@@ -323,6 +323,11 @@ class CalculateRR2APIView(APIView):
         scenariosearch = inputs["Scenario"]
         currentScenario = scenario.objects.get(id=scenariosearch)
         print("infofromScenarioId : ", currentScenario)
+        print("typeofuse 1= ", currentScenario.typeOfUseID)
+        print("typeofuse 2= ",
+              currentScenario.typeOfUseID.singleFamilyHomeIndicatorID)
+        print("typeofuse 3= ",
+              currentScenario.typeOfUseID.condoUnitOwnerIndicatorID)
 
         # where in scenario (should be in scenario or use constant value)
 
@@ -493,4 +498,6 @@ class contentsValueViewSet(viewsets.ModelViewSet):
     serializer_class = contentsValueSerializer
 
 
-
+class typeOfUseViewSet(viewsets.ModelViewSet):
+    queryset = typeOfUse.objects.all()
+    serializer_class = typeOfUseSerializer

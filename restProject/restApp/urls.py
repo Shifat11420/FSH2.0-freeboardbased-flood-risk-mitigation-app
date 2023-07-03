@@ -47,6 +47,8 @@ router.register(r'rr2-contentsValue',
                 views.contentsValueViewSet)
 router.register(r'rr2-CRSRating',
                 views.CRSRatingViewSet)
+router.register(r'rr2-typeOfUse',
+                views.typeOfUseViewSet)
 
 
 router.register(r'rr2-scenario', views.scenarioViewSet)
