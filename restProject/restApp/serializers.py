@@ -60,9 +60,9 @@ class riskrating2resultsLeveeSerializer(serializers.ModelSerializer):
 # Risk Rating 2.0 inputs
 
 
-class userTypeIDSerializer(serializers.ModelSerializer):
+class userTypeSerializer(serializers.ModelSerializer):
     class Meta:
-        model = userTypeID
+        model = userType
         fields = '__all__'
 
 

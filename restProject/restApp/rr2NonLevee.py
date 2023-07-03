@@ -700,10 +700,10 @@ def RRFunctionsNonLevee(inputs, currentScenario):
 
     # floodEventnoWbyFV = fffvOpenNoObsWbyFV  # testing purpose, to be excluded
     if str(currentScenario.floodVentsID) == "Yes":
-        P = np.interp([inputs['First floor height']],
+        P = np.interp([currentScenario.firstFloorHeight],
                       fffvHeight, floodEventyesWFV)
     elif str(currentScenario.floodVentsID) == "No":
-        P = np.interp([inputs['First floor height']],
+        P = np.interp([currentScenario.firstFloorHeight],
                       fffvHeight, floodEventnoWbyFV)
     print("fffvHeight = ")
     print(fffvHeight)
@@ -2163,7 +2163,7 @@ def RRFunctionsNonLevee(inputs, currentScenario):
                                                     )
     probation_surchargeResults.save()
 
-    if str(currentScenario.primaryResidenceIndicatorID) == 'Yes':
+    if str(currentScenario.userTypeID.primaryResidenceIndicatorID) == 'Yes':
         HFIAA_surcharge = 50
     else:
         HFIAA_surcharge = 250

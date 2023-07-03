@@ -12,7 +12,7 @@ admin.site.register(addresstable)
 
 # RR2 inputs
 admin.site.register(typeUseID)
-admin.site.register(userTypeID)
+admin.site.register(userType)
 admin.site.register(homeCondition)
 admin.site.register(numOfStories)
 admin.site.register(mortgage)

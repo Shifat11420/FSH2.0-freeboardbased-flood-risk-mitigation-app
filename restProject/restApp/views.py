@@ -323,13 +323,8 @@ class CalculateRR2APIView(APIView):
         scenariosearch = inputs["Scenario"]
         currentScenario = scenario.objects.get(id=scenariosearch)
         print("infofromScenarioId : ", currentScenario)
-        print("foundationType = ", currentScenario.foundationTypeID)
-        print("foundationType design = ",
-              currentScenario.foundationTypeID.foundationDesignforType)
 
-        # where in scenario (should be in scenario or use constant value)
         # inputs['First floor height'] = 0.5   #    # user provided, no specific choices, float value,  or from AAL flood parameter #todo, need to be discussed
-
         inputs['Loss Constant'] = 130  # ok
         inputs['Expense Constant'] = 62.99  # ok
         inputs['ICC premium'] = 4  # ok for now---tables coming
@@ -379,9 +374,9 @@ class riskrating2resultsLeveeViewSet(viewsets.ModelViewSet):
 
 
 # Risk Rating 2.0 inputs
-class userTypeIDViewSet(viewsets.ModelViewSet):
-    queryset = userTypeID.objects.all()
-    serializer_class = userTypeIDSerializer
+class userTypeViewSet(viewsets.ModelViewSet):
+    queryset = userType.objects.all()
+    serializer_class = userTypeSerializer
 
 
 class typeUseIDViewSet(viewsets.ModelViewSet):

@@ -49,13 +49,6 @@ class addresstable(models.Model):
 # Risk Rating 2.0 inputs
 
 
-class userTypeID(models.Model):
-    Name = models.CharField(max_length=30)
-
-    def __str__(self):
-        return self.Name
-
-
 class homeCondition(models.Model):
     Name = models.CharField(max_length=50)
 
@@ -176,6 +169,15 @@ class MandE(models.Model):
 
 class primaryResidenceIndicator(models.Model):
     Name = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.Name
+
+
+class userType(models.Model):
+    Name = models.CharField(max_length=30)
+    primaryResidenceIndicatorID = models.ForeignKey(
+        primaryResidenceIndicator, on_delete=models.PROTECT, default=None)
 
     def __str__(self):
         return self.Name
@@ -550,13 +552,14 @@ class riskrating2resultsLevee(models.Model):
 class scenario(models.Model):
     # id = models.IntegerField(primary_key=True)
     userTypeID = models.ForeignKey(
-        userTypeID, on_delete=models.PROTECT, default=None)
+        userType, on_delete=models.PROTECT, default=None)
     address = models.CharField(null=True, max_length=200)
     typeOfUseID = models.ForeignKey(
         typeUseID, on_delete=models.PROTECT, default=None)
     homeConditionID = models.ForeignKey(
         homeCondition, on_delete=models.PROTECT, default=None)
     livableArea = models.FloatField(null=True)
+    firstFloorHeight = models.FloatField(null=True)
     numOfStoriesID = models.ForeignKey(
         numOfStories, on_delete=models.PROTECT, default=None)
     floorID = models.ForeignKey(
@@ -565,8 +568,6 @@ class scenario(models.Model):
         mortgage, on_delete=models.PROTECT, default=None)
     foundationTypeID = models.ForeignKey(
         foundationTypes, on_delete=models.PROTECT, default=None)
-    foundationDesignID = models.ForeignKey(
-        foundationDesigns, on_delete=models.PROTECT, default=None)
     homeShapeID = models.ForeignKey(
         homeShape, on_delete=models.PROTECT, default=None)
     annualFloodRisk = models.FloatField(blank=True, null=True)
@@ -615,16 +616,10 @@ class scenario(models.Model):
     elevation = models.FloatField(null=True)
     distToLake = models.FloatField(null=True)
     elevRelToLake = models.FloatField(null=True)
-    singleFamilyHomeIndicatorID = models.ForeignKey(
-        singleFamilyHomeIndicator, on_delete=models.PROTECT, default=None)
-    condoUnitOwnerIndicatorID = models.ForeignKey(
-        condoUnitOwnerIndicator, on_delete=models.PROTECT, default=None)
     floodVentsID = models.ForeignKey(
         floodVents, on_delete=models.PROTECT, default=None)
     MandEID = models.ForeignKey(
         MandE, on_delete=models.PROTECT, default=None)
-    primaryResidenceIndicatorID = models.ForeignKey(
-        primaryResidenceIndicator, on_delete=models.PROTECT, default=None)
     crsRating = models.ForeignKey(
         CRSRating, on_delete=models.PROTECT, default=None)
 

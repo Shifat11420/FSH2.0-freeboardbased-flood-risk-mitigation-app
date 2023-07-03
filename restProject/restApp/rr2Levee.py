@@ -858,18 +858,12 @@ def RRFunctionsLevee(inputs, currentScenario):
         floodEventyesWFV = fffvClosedWallWFV
         floodEventnoWbyFV = fffvClosedWallWbyFV
 
-    # floodEventnoWbyFV = fffvOpenNoObsWbyFV  # testing purpose, to be excluded
     if str(currentScenario.floodVentsID) == "Yes":
-        P = np.interp([inputs['First floor height']],
+        P = np.interp([currentScenario.firstFloorHeight],
                       fffvHeight, floodEventyesWFV)
     elif str(currentScenario.floodVentsID) == "No":
-        P = np.interp([inputs['First floor height']],
+        P = np.interp([currentScenario.firstFloorHeight],
                       fffvHeight, floodEventnoWbyFV)
-    # print("fffvHeight = ")
-    # print(fffvHeight)
-    # print("floodEventnoWbyFV = ")
-    # print(floodEventnoWbyFV)
-    # print("First_floor_foundation_vent = ", P)
 
     P = round(float(P), 4)
 
@@ -2477,7 +2471,7 @@ def RRFunctionsLevee(inputs, currentScenario):
                                                          )
     probation_surchargeResults.save()
 
-    if str(currentScenario.primaryResidenceIndicatorID) == 'Yes':
+    if str(currentScenario.userTypeID.primaryResidenceIndicatorID) == 'Yes':
         HFIAA_surcharge = 50
     else:
         HFIAA_surcharge = 250
