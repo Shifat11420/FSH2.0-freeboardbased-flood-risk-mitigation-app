@@ -487,3 +487,7 @@ class contentsValueViewSet(viewsets.ModelViewSet):
 class typeOfUseViewSet(viewsets.ModelViewSet):
     queryset = typeOfUse.objects.all()
     serializer_class = typeOfUseSerializer
+
+class floorViewSet(viewsets.ModelViewSet):
+    queryset = floor.objects.all()
+    serializer_class = floorSerializer

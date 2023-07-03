@@ -220,3 +220,9 @@ class typeOfUseSerializer(serializers.ModelSerializer):
     class Meta:
         model = typeOfUse
         fields = '__all__'
+
+
+class floorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = floor
+        fields = '__all__'
