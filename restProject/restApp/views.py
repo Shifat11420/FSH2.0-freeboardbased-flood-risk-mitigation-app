@@ -326,10 +326,9 @@ class CalculateRR2APIView(APIView):
 
         # where in scenario (should be in scenario or use constant value)
 
-        # inputs['Type of Use'] = 'Single-Family Home - Frame'   # todo   
+        # inputs['Type of Use'] = 'Single-Family Home - Frame'   # todo
         # inputs['Foundation design'] = 'Closed, Wall'    # three type from foundation type, Adil will give the logic (chat), not user input
         # inputs['First floor height'] = 0.5   #    # user provided, no specific choices, float value,  or from AAL flood parameter #todo, need to be discussed
-        
 
         # in progress
         # inputs['CRS discount'] = 15  #                check snpshot from chat
@@ -488,6 +487,10 @@ class buildingValueViewSet(viewsets.ModelViewSet):
     queryset = buildingValue.objects.all()
     serializer_class = buildingValueSerializer
 
+
 class contentsValueViewSet(viewsets.ModelViewSet):
     queryset = contentsValue.objects.all()
-    serializer_class = contentsValueSerializer        
+    serializer_class = contentsValueSerializer
+
+
+
