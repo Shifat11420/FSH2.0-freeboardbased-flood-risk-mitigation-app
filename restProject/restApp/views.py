@@ -323,21 +323,12 @@ class CalculateRR2APIView(APIView):
         scenariosearch = inputs["Scenario"]
         currentScenario = scenario.objects.get(id=scenariosearch)
         print("infofromScenarioId : ", currentScenario)
-        print("typeofuse 1= ", currentScenario.typeOfUseID)
-        print("typeofuse 2= ",
-              currentScenario.typeOfUseID.singleFamilyHomeIndicatorID)
-        print("typeofuse 3= ",
-              currentScenario.typeOfUseID.condoUnitOwnerIndicatorID)
+        print("foundationType = ", currentScenario.foundationTypeID)
+        print("foundationType design = ",
+              currentScenario.foundationTypeID.foundationDesignforType)
 
         # where in scenario (should be in scenario or use constant value)
-
-        # inputs['Type of Use'] = 'Single-Family Home - Frame'   # todo
-        # inputs['Foundation design'] = 'Closed, Wall'    # three type from foundation type, Adil will give the logic (chat), not user input
         # inputs['First floor height'] = 0.5   #    # user provided, no specific choices, float value,  or from AAL flood parameter #todo, need to be discussed
-
-        # in progress
-        # inputs['CRS discount'] = 15  #                check snpshot from chat
-        # inputs['Floor of interest'] = '1-2'  #   # 1, 2  ..100, 100+, 3+, 4+
 
         inputs['Loss Constant'] = 130  # ok
         inputs['Expense Constant'] = 62.99  # ok
@@ -414,12 +405,12 @@ class mortgageViewSet(viewsets.ModelViewSet):
 
 
 class foundationDesignIDViewSet(viewsets.ModelViewSet):
-    queryset = foundationDesignID.objects.all()
+    queryset = foundationDesigns.objects.all()
     serializer_class = foundationDesignIDSerializer
 
 
 class foundationTypeIDViewSet(viewsets.ModelViewSet):
-    queryset = foundationTypeID.objects.all()
+    queryset = foundationTypes.objects.all()
     serializer_class = foundationTypeIDSerializer
 
 

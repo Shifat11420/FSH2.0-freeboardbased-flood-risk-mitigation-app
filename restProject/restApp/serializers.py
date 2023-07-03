@@ -92,13 +92,13 @@ class mortgageSerializer(serializers.ModelSerializer):
 
 class foundationDesignIDSerializer(serializers.ModelSerializer):
     class Meta:
-        model = foundationDesignID
+        model = foundationDesigns
         fields = '__all__'
 
 
 class foundationTypeIDSerializer(serializers.ModelSerializer):
     class Meta:
-        model = foundationTypeID
+        model = foundationTypes
         fields = '__all__'
 
 
@@ -151,24 +151,33 @@ class contentsValueSerializer(serializers.ModelSerializer):
 
 
 class scenarioSerializer(serializers.ModelSerializer):
-    buildingValue = serializers.IntegerField(default=0, required=False)
-    contentsValue = serializers.IntegerField(default=0, required=False)
-    buildingCoverage = serializers.IntegerField(default=0, required=False)
-    contentsCoverage = serializers.IntegerField(default=0, required=False)
-    buildingDeductibe = serializers.IntegerField(default=0, required=False)
-    contentsDeductible = serializers.IntegerField(default=0, required=False)
+    # buildingValue = serializers.IntegerField(default=0, required=False)
+    # contentsValue = serializers.IntegerField(default=0, required=False)
+    # buildingCoverage = serializers.IntegerField(default=0, required=False)
+    # contentsCoverage = serializers.IntegerField(default=0, required=False)
+    # buildingDeductibe = serializers.IntegerField(default=0, required=False)
+    # contentsDeductible = serializers.IntegerField(default=0, required=False)
 
     class Meta:
         model = scenario
         fields = '__all__'
 
-    def to_internal_value(self, data):
-        for field in ['buildingValue', 'contentsValue', 'buildingCoverage', 'contentsCoverage', 'buildingDeductible', 'contentsDeductible', 'annualFloodRisk']:
-            if data.get(field) == '':
-                data[field] = 0
+    # def to_internal_value(self, data):
+    #     # remember old state
+    #     _mutable = data._mutable
 
-    def create(self, validated_data):
-        return scenario.objects.create(**validated_data)
+    #     # set to mutable
+    #     data._mutable = True
+    #     for field in ['buildingValue', 'contentsValue', 'buildingCoverage', 'contentsCoverage', 'buildingDeductible', 'contentsDeductible', 'annualFloodRisk']:
+    #         if data.get(field) == '':
+    #             data[field] = 0
+
+    #     # set mutable flag back
+    #     data._mutable = _mutable
+    #     return data
+
+    # def create(self, validated_data):
+    #     return scenario.objects.create(**validated_data)
 
 
 class singleFamilyHomeIndicatorSerializer(serializers.ModelSerializer):
@@ -204,4 +213,10 @@ class primaryResidenceIndicatorSerializer(serializers.ModelSerializer):
 class CRSRatingSerializer(serializers.ModelSerializer):
     class Meta:
         model = CRSRating
+        fields = '__all__'
+
+
+class typeOfUseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = typeOfUse
         fields = '__all__'

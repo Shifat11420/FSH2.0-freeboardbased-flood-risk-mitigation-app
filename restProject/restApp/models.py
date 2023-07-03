@@ -77,15 +77,17 @@ class mortgage(models.Model):
         return self.Name
 
 
-class foundationDesignID(models.Model):
+class foundationDesigns(models.Model):
     Name = models.CharField(max_length=20)
 
     def __str__(self):
         return self.Name
 
 
-class foundationTypeID(models.Model):
+class foundationTypes(models.Model):
     Name = models.CharField(max_length=50)
+    foundationDesignforType = models.ForeignKey(
+        foundationDesigns, on_delete=models.PROTECT, default=None)
 
     def __str__(self):
         return self.Name
@@ -562,9 +564,9 @@ class scenario(models.Model):
     mortgageID = models.ForeignKey(
         mortgage, on_delete=models.PROTECT, default=None)
     foundationTypeID = models.ForeignKey(
-        foundationTypeID, on_delete=models.PROTECT, default=None)
+        foundationTypes, on_delete=models.PROTECT, default=None)
     foundationDesignID = models.ForeignKey(
-        foundationDesignID, on_delete=models.PROTECT, default=None)
+        foundationDesigns, on_delete=models.PROTECT, default=None)
     homeShapeID = models.ForeignKey(
         homeShape, on_delete=models.PROTECT, default=None)
     annualFloodRisk = models.FloatField(blank=True, null=True)

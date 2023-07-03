@@ -848,13 +848,13 @@ def RRFunctionsLevee(inputs, currentScenario):
         'closedWallWbyFV', flat=True)
     fffvClosedWallWbyFV = list(fffvClosedWallWbyFV)
 
-    if inputs['Foundation design'] == "Open, No Obstruction":
+    if str(currentScenario.foundationTypeID.foundationDesignforType) == "Open, No Obstruction":
         floodEventyesWFV = fffvOpenNoObsWFV
         floodEventnoWbyFV = fffvOpenNoObsWbyFV
-    elif inputs['Foundation design'] == "Open, Obstruction":
+    elif str(currentScenario.foundationTypeID.foundationDesignforType) == "Open, Obstruction":
         floodEventyesWFV = fffvOpenObsWFV
         floodEventnoWbyFV = fffvOpenObsWbyFV
-    elif inputs['Foundation design'] == "Closed, Wall":
+    elif str(currentScenario.foundationTypeID.foundationDesignforType) == "Closed, Wall":
         floodEventyesWFV = fffvClosedWallWFV
         floodEventnoWbyFV = fffvClosedWallWbyFV
 
