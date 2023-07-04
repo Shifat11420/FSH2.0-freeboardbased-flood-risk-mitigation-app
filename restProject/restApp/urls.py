@@ -51,7 +51,12 @@ router.register(r'rr2-typeOfUse',
                 views.typeOfUseViewSet)
 router.register(r'rr2-floor',
                 views.floorViewSet)
-
+router.register(r'rr2-floor1to3',
+                views.floor1to3ViewSet)
+router.register(r'rr2-floor1to100',
+                views.floor1to100ViewSet)
+router.register(r'rr2-floor1to4',
+                views.floor1to4ViewSet)
 
 router.register(r'rr2-scenario', views.scenarioViewSet)
 

@@ -226,3 +226,18 @@ class floorSerializer(serializers.ModelSerializer):
     class Meta:
         model = floor
         fields = '__all__'
+
+class floor1to3Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = floor1to3
+        fields = '__all__'
+
+class floor1to100Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = floor1to100
+        fields = '__all__'
+
+class floor1to4Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = floor1to4
+        fields = '__all__'        

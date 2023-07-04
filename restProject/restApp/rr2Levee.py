@@ -739,8 +739,15 @@ def RRFunctionsLevee(inputs, currentScenario):
     typeOfUseResults.save()
 
     # Floors Of Interest
+    if str(currentScenario.typeOfUseID.singleFamilyHomeIndicatorID) == "Yes" and str(currentScenario.typeOfUseID.condoUnitOwnerIndicatorID) == "No":
+        floornumber = currentScenario.floor1to3ID
+    elif str(currentScenario.typeOfUseID.singleFamilyHomeIndicatorID) == "No" and str(currentScenario.typeOfUseID.condoUnitOwnerIndicatorID) == "No":
+        floornumber = currentScenario.floor1to100ID
+    elif str(currentScenario.typeOfUseID.singleFamilyHomeIndicatorID) == "No" and str(currentScenario.typeOfUseID.condoUnitOwnerIndicatorID) == "Yes":
+        floornumber = currentScenario.floor1to4ID
+    print("floornumber = ", floornumber)
     floorsOfInt = floorsOfInterest.objects.filter(
-        homeIndicator=currentScenario.typeOfUseID.singleFamilyHomeIndicatorID, ownerIndicator=currentScenario.typeOfUseID.condoUnitOwnerIndicatorID, interest=currentScenario.floorID).all()
+        homeIndicator=currentScenario.typeOfUseID.singleFamilyHomeIndicatorID, ownerIndicator=currentScenario.typeOfUseID.condoUnitOwnerIndicatorID, interest=floornumber).all()
 
     floorsOfInt_allexclCE = floorsOfInt.values_list('allExclCE', flat=True)
     floorsOfInt_allexclCE = list(floorsOfInt_allexclCE)

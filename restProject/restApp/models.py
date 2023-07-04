@@ -378,6 +378,27 @@ class floor(models.Model):
         return self.Name
 
 
+class floor1to3(models.Model):
+    Name = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.Name
+
+
+class floor1to100(models.Model):
+    Name = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.Name
+
+
+class floor1to4(models.Model):
+    Name = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.Name
+
+
 class floorsOfInterest(models.Model):
     id = models.IntegerField(primary_key=True)
     homeIndicator = models.CharField(max_length=20)
@@ -564,6 +585,12 @@ class scenario(models.Model):
         numOfStories, on_delete=models.PROTECT, default=None)
     floorID = models.ForeignKey(
         floor, on_delete=models.PROTECT, default=None)
+    floor1to3ID = models.ForeignKey(
+        floor1to3, on_delete=models.PROTECT, default=None)
+    floor1to100ID = models.ForeignKey(
+        floor1to100, on_delete=models.PROTECT, default=None)
+    floor1to4ID = models.ForeignKey(
+        floor1to4, on_delete=models.PROTECT, default=None)
     mortgageID = models.ForeignKey(
         mortgage, on_delete=models.PROTECT, default=None)
     foundationTypeID = models.ForeignKey(
