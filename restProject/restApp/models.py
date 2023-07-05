@@ -581,10 +581,10 @@ class scenario(models.Model):
         homeCondition, on_delete=models.PROTECT, default=None)
     livableArea = models.FloatField(null=True)
     firstFloorHeight = models.FloatField(null=True)
-    numOfStoriesID = models.ForeignKey(
-        numOfStories, on_delete=models.PROTECT, default=None)
-    floorID = models.ForeignKey(
-        floor, on_delete=models.PROTECT, default=None)
+    # numOfStoriesID = models.ForeignKey(
+    #     numOfStories, on_delete=models.PROTECT, default=None)
+    # floorID = models.ForeignKey(
+    #     floor, on_delete=models.PROTECT, default=None)
     floor1to3ID = models.ForeignKey(
         floor1to3, on_delete=models.PROTECT, default=None)
     floor1to100ID = models.ForeignKey(
