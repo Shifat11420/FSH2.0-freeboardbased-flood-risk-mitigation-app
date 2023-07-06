@@ -581,10 +581,6 @@ class scenario(models.Model):
         homeCondition, on_delete=models.PROTECT, default=None)
     livableArea = models.FloatField(null=True)
     firstFloorHeight = models.FloatField(null=True)
-    # numOfStoriesID = models.ForeignKey(
-    #     numOfStories, on_delete=models.PROTECT, default=None)
-    # floorID = models.ForeignKey(
-    #     floor, on_delete=models.PROTECT, default=None)
     floor1to3ID = models.ForeignKey(
         floor1to3, on_delete=models.PROTECT, default=None)
     floor1to100ID = models.ForeignKey(
@@ -600,8 +596,8 @@ class scenario(models.Model):
     annualFloodRisk = models.FloatField(blank=True, null=True)
     floodInsuranceID = models.ForeignKey(
         floodInsurance, on_delete=models.PROTECT, default=None)
-    buildingValue = models.IntegerField(blank=True, null=True)
-    contentsValue = models.IntegerField(blank=True, null=True)
+    buildingReplacementValue = models.IntegerField(blank=True, null=True)
+    contentsReplacementValue = models.IntegerField(blank=True, null=True)
     buildingCoverage = models.IntegerField(blank=True, null=True)
     contentsCoverage = models.IntegerField(blank=True, null=True)
     buildingDeductible = models.IntegerField(blank=True, null=True)

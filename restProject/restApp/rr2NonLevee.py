@@ -800,9 +800,9 @@ def RRFunctionsNonLevee(inputs, currentScenario):
     contValue_allexclCE = contValue.values_list('allExclCE', flat=True)
     contValue_allexclCE = list(contValue_allexclCE)
 
-    build = np.interp([currentScenario.buildingValue], bldgValue_value,
+    build = np.interp([currentScenario.buildingReplacementValue], bldgValue_value,
                       bldgValue_allexclCE)
-    content = np.interp([currentScenario.contentsValue], contValue_value,
+    content = np.interp([currentScenario.contentsReplacementValue], contValue_value,
                         contValue_allexclCE)
 
     item16 = "Coverage Value Factor"
@@ -840,9 +840,9 @@ def RRFunctionsNonLevee(inputs, currentScenario):
     deductible_limit_coverage_C = deductibleLimitITVCovC.objects.all()
 
     ratio_A = max(min((currentScenario.buildingDeductible +
-                  currentScenario.buildingCoverage) / currentScenario.buildingValue, 1), 0)
+                  currentScenario.buildingCoverage) / currentScenario.buildingReplacementValue, 1), 0)
     ratio_C = max(min((currentScenario.contentsDeductible +
-                  currentScenario.contentsCoverage) / currentScenario.contentsValue, 1), 0)
+                  currentScenario.contentsCoverage) / currentScenario.contentsReplacementValue, 1), 0)
 
     coverageValueRatioLimitA = deductible_limit_coverage_A.values_list(
         'coverageValueRatio', flat=True)
@@ -910,9 +910,9 @@ def RRFunctionsNonLevee(inputs, currentScenario):
     deductible_coverage_C = deductibleITVCovC.objects.all()
 
     ratio_A = max(
-        min((currentScenario.buildingDeductible) / currentScenario.buildingValue, 1), 0)
+        min((currentScenario.buildingDeductible) / currentScenario.buildingReplacementValue, 1), 0)
     ratio_C = max(
-        min((currentScenario.contentsDeductible) / currentScenario.contentsValue, 1), 0)
+        min((currentScenario.contentsDeductible) / currentScenario.contentsReplacementValue, 1), 0)
 
     coverageValueRatioA = deductible_coverage_A.values_list(
         'coverageValueRatio', flat=True)
@@ -1696,8 +1696,8 @@ def RRFunctionsNonLevee(inputs, currentScenario):
                                                     )
     final_rate_contentsResults.save()
 
-    coverage_building_thousands = currentScenario.buildingValue/1000
-    coverage_contents_thousands = currentScenario.contentsValue/1000
+    coverage_building_thousands = currentScenario.buildingReplacementValue/1000
+    coverage_contents_thousands = currentScenario.contentsReplacementValue/1000
     initial_premium_without_fees_building = final_rate_building * \
         coverage_building_thousands
     initial_premium_without_fees_contents = final_rate_contents * \

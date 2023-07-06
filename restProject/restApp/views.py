@@ -332,7 +332,6 @@ class CalculateRR2APIView(APIView):
         inputs['Probation surcharge'] = 0   # ok for now---tables coming
         inputs['Federal policy fee'] = 50  # ok
 
-         
         rr2res = []
         if not currentScenario.levee:
             rr2res = RRFunctionsNonLevee(inputs, currentScenario)
@@ -489,18 +488,22 @@ class typeOfUseViewSet(viewsets.ModelViewSet):
     queryset = typeOfUse.objects.all()
     serializer_class = typeOfUseSerializer
 
+
 class floorViewSet(viewsets.ModelViewSet):
     queryset = floor.objects.all()
     serializer_class = floorSerializer
+
 
 class floor1to3ViewSet(viewsets.ModelViewSet):
     queryset = floor1to3.objects.all()
     serializer_class = floor1to3Serializer
 
+
 class floor1to100ViewSet(viewsets.ModelViewSet):
     queryset = floor1to100.objects.all()
-    serializer_class = floor1to100Serializer        
+    serializer_class = floor1to100Serializer
+
 
 class floor1to4ViewSet(viewsets.ModelViewSet):
     queryset = floor1to4.objects.all()
-    serializer_class = floor1to4Serializer    
+    serializer_class = floor1to4Serializer
