@@ -2266,7 +2266,7 @@ def RRFunctionsNonLevee(inputs, currentScenario, firstFloorHeightCurrentScenario
                                         )
     premiumResults.save()
 
-    listofFFH.append(firstFloorHeightCurrentScenario)
+    listofFFH.append('Ground + {} feet'.format(firstFloorHeightCurrentScenario))
     listofPremiums.append(int(premiumResults_dict["allPerils"]))
     listofPremiumsMonthly.append(int(premiumResults_dict["allPerils"]/12))
     premiumsNoRounding.append(premiumResults_dict["allPerils"]/12)
