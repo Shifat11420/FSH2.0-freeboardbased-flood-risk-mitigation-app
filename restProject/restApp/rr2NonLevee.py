@@ -4,8 +4,14 @@ import pandas as pd
 import numpy as np
 from django.db.models import Q
 
+listofPremiums = []
+listofFFH = []
+listofPremiumsMonthly = []
+listofPremiumsSavingsMonthly = []
+premiumsNoRounding = []
 
-def RRFunctionsNonLevee(inputs, currentScenario):
+
+def RRFunctionsNonLevee(inputs, currentScenario, firstFloorHeightCurrentScenario):
     # Base Rate
     baserate = baseRateMultipliers.objects.filter(levee="No",
                                                   region=currentScenario.state, singleFamilyHomeIndicator=currentScenario.typeOfUseID.singleFamilyHomeIndicatorID, bi=currentScenario.barrierIslandIndicator).all()
@@ -707,10 +713,10 @@ def RRFunctionsNonLevee(inputs, currentScenario):
 
     # floodEventnoWbyFV = fffvOpenNoObsWbyFV  # testing purpose, to be excluded
     if str(currentScenario.floodVentsID) == "Yes":
-        P = np.interp([currentScenario.firstFloorHeight],
+        P = np.interp([firstFloorHeightCurrentScenario],
                       fffvHeight, floodEventyesWFV)
     elif str(currentScenario.floodVentsID) == "No":
-        P = np.interp([currentScenario.firstFloorHeight],
+        P = np.interp([firstFloorHeightCurrentScenario],
                       fffvHeight, floodEventnoWbyFV)
     print("fffvHeight = ")
     print(fffvHeight)
@@ -2260,6 +2266,13 @@ def RRFunctionsNonLevee(inputs, currentScenario):
                                         )
     premiumResults.save()
 
+    listofFFH.append(firstFloorHeightCurrentScenario)
+    listofPremiums.append(int(premiumResults_dict["allPerils"]))
+    listofPremiumsMonthly.append(int(premiumResults_dict["allPerils"]/12))
+    premiumsNoRounding.append(premiumResults_dict["allPerils"]/12)
+    listofPremiumsSavingsMonthly.append(
+        int(premiumsNoRounding[0]-(premiumResults_dict["allPerils"]/12)))
+
 #     return risk_rating_2
 
     return [{"baserate results": baserateResults_dict["allPerils"]}, {"distToRiver results": distToRiverResults_dict["allPerils"]},
@@ -2351,4 +2364,8 @@ def RRFunctionsNonLevee(inputs, currentScenario):
                 hfiaa_surchargeResults_dict["allPerils"]},
             {"federal_policy_feeResults_dict":
                 federal_policy_feeResults_dict["allPerils"]},
-            {"premiumResults_dict": premiumResults_dict["allPerils"]}]
+            {"premiumResults_dict": premiumResults_dict["allPerils"]},
+            {"First floor height": listofFFH},
+            {"premium list": listofPremiums},
+            {"premium list monthly": listofPremiumsMonthly},
+            {"Premiums Savings Monthly": listofPremiumsSavingsMonthly}]

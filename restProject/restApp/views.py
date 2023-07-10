@@ -323,6 +323,7 @@ class CalculateRR2APIView(APIView):
         scenariosearch = inputs["Scenario"]
         currentScenario = scenario.objects.get(id=scenariosearch)
         print("infofromScenarioId : ", currentScenario)
+        firstFloorHeightCurrentScenario = currentScenario.firstFloorHeight
 
         # inputs['First floor height'] = 0.5   #    # user provided, no specific choices, float value,  or from AAL flood parameter #todo, need to be discussed
         inputs['Loss Constant'] = 130  # ok
@@ -333,10 +334,13 @@ class CalculateRR2APIView(APIView):
         inputs['Federal policy fee'] = 50  # ok
 
         rr2res = []
-        if not currentScenario.levee:
-            rr2res = RRFunctionsNonLevee(inputs, currentScenario)
-        elif currentScenario.levee:
-            rr2res = RRFunctionsLevee(inputs, currentScenario)
+        for i in range(5):
+            if not currentScenario.levee:
+                rr2res = RRFunctionsNonLevee(
+                    inputs, currentScenario, firstFloorHeightCurrentScenario+i)
+            elif currentScenario.levee:
+                rr2res = RRFunctionsLevee(
+                    inputs, currentScenario, firstFloorHeightCurrentScenario+i)
         return Response({'Risk rating 2 Calculator Results': rr2res})
 
 
