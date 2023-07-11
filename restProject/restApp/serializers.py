@@ -162,25 +162,25 @@ class scenarioSerializer(serializers.ModelSerializer):
         model = scenario
         fields = '__all__'
 
-    def to_internal_value(self, data):
-        # # remember old state
-        # _mutable = data._mutable
+    # def to_internal_value(self, data):
+    #     # # remember old state
+    #     # _mutable = data._mutable
 
-        # # set to mutable
-        # data._mutable = True
-        for field in ['buildingValue', 'contentsValue', 'buildingCoverage', 'contentsCoverage', 'buildingDeductible', 'contentsDeductible', 'annualFloodRisk']:
-            if data.get(field) == '':
-                data[field] = 0
-        for field in ['floor1to3ID', 'floor1to100ID', 'floor1to4ID', 'floorID']:
-            if data.get(field) == '':
-                data[field] = 1
+    #     # # set to mutable
+    #     # data._mutable = True
+    #     for field in ['buildingValue', 'contentsValue', 'buildingCoverage', 'contentsCoverage', 'buildingDeductible', 'contentsDeductible', 'annualFloodRisk']:
+    #         if data.get(field) == '':
+    #             data[field] = 0
+    #     for field in ['floor1to3ID', 'floor1to100ID', 'floor1to4ID', 'floorID']:
+    #         if data.get(field) == '':
+    #             data[field] = 1
 
-        # # set mutable flag back
-        # data._mutable = _mutable
-        # return data
+    #     # # set mutable flag back
+    #     # data._mutable = _mutable
+    #     # return data
 
-    def create(self, validated_data):
-        return scenario.objects.create(**validated_data)
+    # def create(self, validated_data):
+    #     return scenario.objects.create(**validated_data)
 
 
 class singleFamilyHomeIndicatorSerializer(serializers.ModelSerializer):
