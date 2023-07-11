@@ -587,8 +587,8 @@ class scenario(models.Model):
         floor1to100, on_delete=models.PROTECT, default=None)
     floor1to4ID = models.ForeignKey(
         floor1to4, on_delete=models.PROTECT, default=None)
-    mortgageID = models.ForeignKey(
-        mortgage, on_delete=models.PROTECT, default=None)
+    # mortgageID = models.ForeignKey(
+    #     mortgage, on_delete=models.PROTECT, default=None)
     foundationTypeID = models.ForeignKey(
         foundationTypes, on_delete=models.PROTECT, default=None)
     # homeShapeID = models.ForeignKey(
