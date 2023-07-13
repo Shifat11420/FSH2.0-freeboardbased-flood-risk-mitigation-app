@@ -25,9 +25,7 @@ SECRET_KEY = 'django-insecure-sm(ts(g1g*(lpkk3=)y12!_74zg-79%685=ajcwf#=9)x*=c+(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "lsuag.ngrok.io", "127.0.0.1",
-                 "https://floodsafehomeapi-dev.azurewebsites.net"]
-
+ALLOWED_HOSTS = ["localhost", "lsuag.ngrok.io", "127.0.0.1", "floodsafehomeapi-dev.azurewebsites.net"]
 
 # Application definition
 
@@ -35,7 +33,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'django.contrib.admin',
-    'django.contrib.auth', 
+    'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
