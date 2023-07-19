@@ -2651,7 +2651,7 @@ def RRFunctionsLevee(inputs, currentScenario, firstFloorHeightCurrentScenario):
             {"final_rate_contents Results":
                 final_rate_contentsResults_dict["allPerils"]},
             {"coverage_building_thousandsfinal_rate_contents Results":
-                coverage_building_thousandsfinal_rate_contentsResults_dict["allPerils"]},
+                coverage_building_thousandsResults_dict["allPerils"]},
             {"coverage_contents_thousands Results":
                 coverage_contents_thousandsResults_dict["allPerils"]},
             {"initial_premium_without_fees_building Results":
