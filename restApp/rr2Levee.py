@@ -1993,7 +1993,7 @@ def RRFunctionsLevee(inputs, currentScenario, firstFloorHeightCurrentScenario):
     ceContents = ''
     allPerils = coverage_building_thousands
 
-    coverage_building_thousandsfinal_rate_contentsResults_dict = {"items": item41,
+    coverage_building_thousandsResults_dict = {"items": item41,
                                                                   "ifFluvialBuilding": ifFluvialBuilding, "ifFluvialContents": ifFluvialContents,
                                                                   "ifPluvialBuilding": ifPluvialBuilding, "ifPluvialContents": ifPluvialContents,
                                                                   "ssBuilding": ssBuilding, "ssContents": ssContents,
