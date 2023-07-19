@@ -1994,13 +1994,13 @@ def RRFunctionsLevee(inputs, currentScenario, firstFloorHeightCurrentScenario):
     allPerils = coverage_building_thousands
 
     coverage_building_thousandsResults_dict = {"items": item41,
-                                                                  "ifFluvialBuilding": ifFluvialBuilding, "ifFluvialContents": ifFluvialContents,
-                                                                  "ifPluvialBuilding": ifPluvialBuilding, "ifPluvialContents": ifPluvialContents,
-                                                                  "ssBuilding": ssBuilding, "ssContents": ssContents,
-                                                                  "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
-                                                                  "glBuilding": glBuilding, "glContents": glContents,
-                                                                  "ceBuilding": ceBuilding, "ceContents": ceContents,
-                                                                  "allPerils": allPerils}
+                                                "ifFluvialBuilding": ifFluvialBuilding, "ifFluvialContents": ifFluvialContents,
+                                                "ifPluvialBuilding": ifPluvialBuilding, "ifPluvialContents": ifPluvialContents,
+                                                "ssBuilding": ssBuilding, "ssContents": ssContents,
+                                                "tsuBuilding": tsuBuilding, "tsuContents": tsuContents,
+                                                "glBuilding": glBuilding, "glContents": glContents,
+                                                "ceBuilding": ceBuilding, "ceContents": ceContents,
+                                                "allPerils": allPerils}
 
     # print("coverage_building_thousandsResults_dict  : ", coverage_building_thousandsResults_dict)
     coverage_building_thousandsResults = riskrating2resultsLevee(items=item41,
