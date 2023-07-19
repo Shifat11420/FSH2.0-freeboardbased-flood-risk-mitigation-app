@@ -399,6 +399,14 @@ class floor1to4(models.Model):
         return self.Name
 
 
+class stateAbbreviation(models.Model):
+    state = models.CharField(max_length=50)
+    abbreviation = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.state
+
+
 class floorsOfInterest(models.Model):
     id = models.IntegerField(primary_key=True)
     homeIndicator = models.CharField(max_length=20)

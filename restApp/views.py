@@ -334,13 +334,20 @@ class CalculateRR2APIView(APIView):
         inputs['Federal policy fee'] = 50  # ok
 
         rr2res = []
+
+        listofPremiums = []
+        listofFFH = []
+        listofPremiumsMonthly = []
+        listofPremiumsSavingsMonthly = []
+        premiumsNoRounding = []
+
         for i in range(5):
             if not currentScenario.levee:
                 rr2res = RRFunctionsNonLevee(
-                    inputs, currentScenario, firstFloorHeightCurrentScenario+i)
+                    inputs, currentScenario, firstFloorHeightCurrentScenario+i, listofPremiums, listofFFH, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding)
             elif currentScenario.levee:
                 rr2res = RRFunctionsLevee(
-                    inputs, currentScenario, firstFloorHeightCurrentScenario+i)
+                    inputs, currentScenario, firstFloorHeightCurrentScenario+i, listofPremiums, listofFFH, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding)
         return Response({'Risk rating 2 Calculator Results': rr2res})
 
 

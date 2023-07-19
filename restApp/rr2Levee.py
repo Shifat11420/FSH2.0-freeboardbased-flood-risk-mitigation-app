@@ -4,14 +4,8 @@ import pandas as pd
 import numpy as np
 from django.db.models import Q
 
-listofPremiums = []
-listofFFH = []
-listofPremiumsMonthly = []
-listofPremiumsSavingsMonthly = []
-premiumsNoRounding = []
 
-
-def RRFunctionsLevee(inputs, currentScenario, firstFloorHeightCurrentScenario):
+def RRFunctionsLevee(inputs, currentScenario, firstFloorHeightCurrentScenario, listofPremiums, listofFFH, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding):
     # Base Rate
     baserate = baseRateMultipliers.objects.filter(levee="Yes",
                                                   region=currentScenario.state, singleFamilyHomeIndicator=currentScenario.typeOfUseID.singleFamilyHomeIndicatorID).all()
@@ -93,6 +87,7 @@ def RRFunctionsLevee(inputs, currentScenario, firstFloorHeightCurrentScenario):
     ceContents = ''
     allPerils = ''
 
+    # print(" B1 = ", B1, " B2 = ", B2)
     distToRiverResults_dict = {"items": item2,
                                "ifFluvialBuilding": ifFluvialBuilding, "ifFluvialContents": ifFluvialContents,
                                "ifPluvialBuilding": ifPluvialBuilding, "ifPluvialContents": ifPluvialContents,
@@ -150,6 +145,7 @@ def RRFunctionsLevee(inputs, currentScenario, firstFloorHeightCurrentScenario):
     ceContents = ''
     allPerils = ''
 
+    # print(" C1 = ", C1, " C2 = ", C2)
     elevRelToRiverResults_dict = {"items": item3,
                                   "ifFluvialBuilding": ifFluvialBuilding, "ifFluvialContents": ifFluvialContents,
                                   "ifPluvialBuilding": ifPluvialBuilding, "ifPluvialContents": ifPluvialContents,
@@ -233,6 +229,7 @@ def RRFunctionsLevee(inputs, currentScenario, firstFloorHeightCurrentScenario):
     ceContents = ''
     allPerils = ''
 
+    # print(" E1 = ", E1, " E2 = ", E2)
     strucRelElvResults_dict = {"items": item5,
                                "ifFluvialBuilding": ifFluvialBuilding, "ifFluvialContents": ifFluvialContents,
                                "ifPluvialBuilding": ifPluvialBuilding, "ifPluvialContents": ifPluvialContents,
@@ -751,7 +748,7 @@ def RRFunctionsLevee(inputs, currentScenario, firstFloorHeightCurrentScenario):
         floornumber = currentScenario.floor1to100ID
     elif str(currentScenario.typeOfUseID.singleFamilyHomeIndicatorID) == "No" and str(currentScenario.typeOfUseID.condoUnitOwnerIndicatorID) == "Yes":
         floornumber = currentScenario.floor1to4ID
-    print("floornumber = ", floornumber)
+    # print("floornumber = ", floornumber)
     floorsOfInt = floorsOfInterest.objects.filter(
         homeIndicator=currentScenario.typeOfUseID.singleFamilyHomeIndicatorID, ownerIndicator=currentScenario.typeOfUseID.condoUnitOwnerIndicatorID, interest=floornumber).all()
 
@@ -1140,7 +1137,8 @@ def RRFunctionsLevee(inputs, currentScenario, firstFloorHeightCurrentScenario):
                                              "ceBuilding": ceBuilding, "ceContents": ceContents,
                                              "allPerils": allPerils}
 
-    # print("deductibletoCoverageValueResults_dict  : ", deductibletoCoverageValueResults_dict)
+    # print("deductibletoCoverageValueResults_dict  : ",
+    #   deductibletoCoverageValueResults_dict)
     deductibletoCoverageValueResults = riskrating2resultsLevee(items=item20,
                                                                inlandFloodFluvialBuldings=ifFluvialBuilding, inlandFloodFluvialContents=ifFluvialContents,
                                                                inlandFloodPluvialBuldings=ifPluvialBuilding, inlandFloodPluvialContents=ifPluvialContents,
@@ -1347,7 +1345,7 @@ def RRFunctionsLevee(inputs, currentScenario, firstFloorHeightCurrentScenario):
                                      "ceBuilding": ceBuilding, "ceContents": ceContents,
                                      "allPerils": allPerils}
 
-    # print("CRSDiscountFactorResults_dict  : ", CRSDiscountFactorResults_dict)
+    print("CRSDiscountFactorResults_dict  : ", CRSDiscountFactorResults_dict)
     CRSDiscountFactorResults = riskrating2resultsLevee(items=item25,
                                                        inlandFloodFluvialBuldings=ifFluvialBuilding, inlandFloodFluvialContents=ifFluvialContents,
                                                        inlandFloodPluvialBuldings=ifPluvialBuilding, inlandFloodPluvialContents=ifPluvialContents,

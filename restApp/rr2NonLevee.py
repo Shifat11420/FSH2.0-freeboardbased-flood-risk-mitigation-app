@@ -4,14 +4,8 @@ import pandas as pd
 import numpy as np
 from django.db.models import Q
 
-listofPremiums = []
-listofFFH = []
-listofPremiumsMonthly = []
-listofPremiumsSavingsMonthly = []
-premiumsNoRounding = []
 
-
-def RRFunctionsNonLevee(inputs, currentScenario, firstFloorHeightCurrentScenario):
+def RRFunctionsNonLevee(inputs, currentScenario, firstFloorHeightCurrentScenario, listofPremiums, listofFFH, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding):
     # Base Rate
     baserate = baseRateMultipliers.objects.filter(levee="No",
                                                   region=currentScenario.state, singleFamilyHomeIndicator=currentScenario.typeOfUseID.singleFamilyHomeIndicatorID, bi=currentScenario.barrierIslandIndicator).all()
@@ -30,6 +24,7 @@ def RRFunctionsNonLevee(inputs, currentScenario, firstFloorHeightCurrentScenario
     ceContents = baserate.values()[0]['ceContents']
     allPerils = ''
 
+    # print("Baserate = ", baserate)
     baserateResults_dict = {"items": item1, "Segment": segment,
                             "ifBuilding": ifBuilding, "ifContents": ifContents,
                             "ssBuilding": ssBuilding, "ssContents": ssContents,
@@ -77,6 +72,7 @@ def RRFunctionsNonLevee(inputs, currentScenario, firstFloorHeightCurrentScenario
     ceContents = ''
     allPerils = ''
 
+    # print("B = ", B)
     distToRiverResults_dict = {"items": item2,
                                "ifBuilding": ifBuilding, "ifContents": ifContents,
                                "ssBuilding": ssBuilding, "ssContents": ssContents,
@@ -121,6 +117,7 @@ def RRFunctionsNonLevee(inputs, currentScenario, firstFloorHeightCurrentScenario
     ceContents = ''
     allPerils = ''
 
+    # print("C = ", C)
     elevRelToRiverResults_dict = {"items": item3,
                                   "ifBuilding": ifBuilding, "ifContents": ifContents,
                                   "ssBuilding": ssBuilding, "ssContents": ssContents,
@@ -160,6 +157,7 @@ def RRFunctionsNonLevee(inputs, currentScenario, firstFloorHeightCurrentScenario
     ceContents = ''
     allPerils = ''
 
+    # print("D = ", D)
     drainageAreaResults_dict = {"items": item4,
                                 "ifBuilding": ifBuilding, "ifContents": ifContents,
                                 "ssBuilding": ssBuilding, "ssContents": ssContents,
@@ -637,7 +635,7 @@ def RRFunctionsNonLevee(inputs, currentScenario, firstFloorHeightCurrentScenario
     foundation = foundationType.objects.filter(
         foundationtypes=currentScenario.foundationTypeID).all()
 
-    print("foundation = ", foundation)
+    # print("foundation = ", foundation)
 
     foundation_allexclCE = foundation.values_list('allExclCE', flat=True)
     foundation_allexclCE = list(foundation_allexclCE)
@@ -707,7 +705,7 @@ def RRFunctionsNonLevee(inputs, currentScenario, firstFloorHeightCurrentScenario
         floodEventyesWFV = fffvOpenObsWFV
         floodEventnoWbyFV = fffvOpenObsWbyFV
     elif str(currentScenario.foundationTypeID.foundationDesignforType) == "Closed, Wall":
-        print("yes")
+        # print("yes")
         floodEventyesWFV = fffvClosedWallWFV
         floodEventnoWbyFV = fffvClosedWallWbyFV
 
@@ -718,11 +716,11 @@ def RRFunctionsNonLevee(inputs, currentScenario, firstFloorHeightCurrentScenario
     elif str(currentScenario.floodVentsID) == "No":
         P = np.interp([firstFloorHeightCurrentScenario],
                       fffvHeight, floodEventnoWbyFV)
-    print("fffvHeight = ")
-    print(fffvHeight)
-    print("floodEventnoWbyFV = ")
-    print(floodEventnoWbyFV)
-    print("First_floor_foundation_vent = ", P)
+    # print("fffvHeight = ")
+    # print(fffvHeight)
+    # print("floodEventnoWbyFV = ")
+    # print(floodEventnoWbyFV)
+    # print("First_floor_foundation_vent = ", P)
 
     P = round(float(P), 4)
 
@@ -1225,13 +1223,13 @@ def RRFunctionsNonLevee(inputs, currentScenario, firstFloorHeightCurrentScenario
             if RatingFuncList[i] not in ['', -9999.0]:
                 y *= RatingFuncList[i]
         ratebyPerilCoverage.append(round(y, 4))
-    print("RatebyPerilCoverage = ", ratebyPerilCoverage)
+    # print("RatebyPerilCoverage = ", ratebyPerilCoverage)
 
-    print("firstFloorHeightResults_dict = ",
-          firstFloorHeightResults_dict.values())
-    print("coverageValueFactorResults_dict = ",
-          coverageValueFactorResults_dict.values())
-    print("ratebyPerilCoverage = ", ratebyPerilCoverage)
+    # print("firstFloorHeightResults_dict = ",
+    #       firstFloorHeightResults_dict.values())
+    # print("coverageValueFactorResults_dict = ",
+    #       coverageValueFactorResults_dict.values())
+    # print("ratebyPerilCoverage = ", ratebyPerilCoverage)
 
     ratebyPerilCoverage1 = []
     for i, x in enumerate(componentList):
@@ -1242,7 +1240,7 @@ def RRFunctionsNonLevee(inputs, currentScenario, firstFloorHeightCurrentScenario
 
             y = a * b * c
             ratebyPerilCoverage1.append(round(y, 4))
-    print("RatebyPerilCoverage1 = ", ratebyPerilCoverage1)
+    # print("RatebyPerilCoverage1 = ", ratebyPerilCoverage1)
 
     ratebyPerilCoverage1[0] = float(
         ratebyPerilCoverage1[0])*float(concRiskResults_dict['ifBuilding'])
@@ -1252,7 +1250,7 @@ def RRFunctionsNonLevee(inputs, currentScenario, firstFloorHeightCurrentScenario
         ratebyPerilCoverage1[2])*float(concRiskResults_dict['ssBuilding'])
     ratebyPerilCoverage1[3] = float(
         ratebyPerilCoverage1[3])*float(concRiskResults_dict['ssContents'])
-    print("RatebyPerilCoverage1 = ", ratebyPerilCoverage1)
+    # print("RatebyPerilCoverage1 = ", ratebyPerilCoverage1)
 
     item24 = "Rate by Peril & Coverage"
     segment = ''
@@ -2266,7 +2264,8 @@ def RRFunctionsNonLevee(inputs, currentScenario, firstFloorHeightCurrentScenario
                                         )
     premiumResults.save()
 
-    listofFFH.append('Ground + {} feet'.format(firstFloorHeightCurrentScenario))
+    listofFFH.append(
+        'Ground + {} feet'.format(firstFloorHeightCurrentScenario))
     listofPremiums.append(int(premiumResults_dict["allPerils"]))
     listofPremiumsMonthly.append(int(premiumResults_dict["allPerils"]/12))
     premiumsNoRounding.append(premiumResults_dict["allPerils"]/12)
