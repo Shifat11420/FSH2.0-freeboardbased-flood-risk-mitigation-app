@@ -371,6 +371,9 @@ class CalculateRR2APIView(APIView):
         buildingReplacementValue = currentScenario.buildingReplacementValue
         insurance = 'Yes'
 
+        ddfBldg = ddfBuilding.objects.all()
+        ddfConts = ddfContents.objects.all()
+
         for i in range(5):
             # Risk rating 2.0
             if not currentScenario.levee:
@@ -383,10 +386,6 @@ class CalculateRR2APIView(APIView):
             # AAL start
             if ownerType == 'Homeowner':
                 floorInterest = ''
-                buildingLossFunction = pd.read_csv(
-                    "F:/fsh-django-rest-api/restApp/DDF_building.csv")
-                contentsLossFunction = pd.read_csv(
-                    "F:/fsh-django-rest-api/restApp/DDF_contents.csv")
 
                 if insurance == 'Yes':
                     coverageValueA = currentScenario.buildingCoverage
@@ -396,18 +395,18 @@ class CalculateRR2APIView(APIView):
 
                     random.seed(seed)
                     buildingAAL = aal_building(livableArea, buildingReplacementValue, ffh+i, gumbelLocation,
-                                               gumbelScale, buildingLossFunction, insurance, coverageValueA, deductibleValueA)
+                                               gumbelScale, ddfBldg, insurance, coverageValueA, deductibleValueA)
                     contentsAAL = aal_contents(livableArea, buildingReplacementValue, ffh+i, gumbelLocation,
-                                               gumbelScale, contentsLossFunction, insurance, coverageValueC, deductibleValueC)
+                                               gumbelScale, ddfConts, insurance, coverageValueC, deductibleValueC)
                     othersAAL = aal_others(livableArea, buildingReplacementValue, ffh+i,
                                            gumbelLocation, gumbelScale, unitDisplacementCost, unitMovingCost)
 
                 else:
                     random.seed(seed)
                     buildingAAL = aal_building(livableArea, buildingReplacementValue, ffh+i,
-                                               gumbelLocation, gumbelScale, buildingLossFunction, insurance)
+                                               gumbelLocation, gumbelScale, ddfBldg, insurance)
                     contentsAAL = aal_contents(livableArea, buildingReplacementValue, ffh+i,
-                                               gumbelLocation, gumbelScale, contentsLossFunction, insurance)
+                                               gumbelLocation, gumbelScale, ddfConts, insurance)
                     othersAAL = aal_others(livableArea, buildingReplacementValue, ffh+i,
                                            gumbelLocation, gumbelScale, unitDisplacementCost, unitMovingCost)
 
@@ -424,21 +423,21 @@ class CalculateRR2APIView(APIView):
 
             elif ownerType == 'Landlord':
                 floorInterest = ''  # cd StopAsyncIteration
-                buildingLossFunction = pd.read_csv("DDF_building.csv")
+                # buildingLossFunction = pd.read_csv("DDF_building.csv")
 
                 if insurance == 'Yes':
                     coverageValueA = currentScenario.buildingCoverage
                     deductibleValueA = currentScenario.buildingDeductible
                     random.seed(seed)
                     buildingAAL = aal_building(livableArea, buildingReplacementValue, ffh+i, gumbelLocation,
-                                               gumbelScale, buildingLossFunction, insurance, coverageValueA, deductibleValueA)
+                                               gumbelScale, ddfBldg, insurance, coverageValueA, deductibleValueA)
                     othersAAL = aal_others(livableArea, buildingReplacementValue, ffh+i,
                                            gumbelLocation, gumbelScale, unitDisplacementCost, unitMovingCost)
 
                 else:
                     random.seed(seed)
                     buildingAAL = aal_building(livableArea, buildingReplacementValue, ffh+i,
-                                               gumbelLocation, gumbelScale, buildingLossFunction, insurance)
+                                               gumbelLocation, gumbelScale, ddfBldg, insurance)
                     othersAAL = aal_others(livableArea, buildingReplacementValue, ffh+i,
                                            gumbelLocation, gumbelScale, unitDisplacementCost, unitMovingCost)
 
@@ -453,7 +452,7 @@ class CalculateRR2APIView(APIView):
 
             elif ownerType == 'Tenant':
                 floorInterest = ''
-                contentsLossFunction = pd.read_csv("DDF_contents.csv")
+                # contentsLossFunction = pd.read_csv("DDF_contents.csv")
 
                 if insurance == 'Yes':
                     coverageValueC = currentScenario.contentsCoverage
@@ -461,14 +460,14 @@ class CalculateRR2APIView(APIView):
 
                     random.seed(seed)
                     contentsAAL = aal_contents(livableArea, buildingReplacementValue, ffh+i, gumbelLocation,
-                                               gumbelScale, contentsLossFunction, insurance, coverageValueC, deductibleValueC)
+                                               gumbelScale, ddfConts, insurance, coverageValueC, deductibleValueC)
                     othersAAL = aal_others(livableArea, buildingReplacementValue, ffh+i,
                                            gumbelLocation, gumbelScale, unitDisplacementCost, unitMovingCost)
 
                 else:
                     random.seed(seed)
                     contentsAAL = aal_contents(livableArea, buildingReplacementValue, ffh+i,
-                                               gumbelLocation, gumbelScale, contentsLossFunction, insurance)
+                                               gumbelLocation, gumbelScale, ddfConts, insurance)
                     othersAAL = aal_others(livableArea, buildingReplacementValue, ffh+i,
                                            gumbelLocation, gumbelScale, unitDisplacementCost, unitMovingCost)
 
@@ -481,11 +480,11 @@ class CalculateRR2APIView(APIView):
                 aal['Moving Cost'].append(round(othersAAL[2], 0))
                 aal['Working hour loss'].append(round(othersAAL[3], 0))
 
-            print("aal = ", aal)
+        print("aal = ", aal)
 
-            # AAL ends
+        # AAL ends
 
-        return Response({'Risk rating 2 Calculator Results': rr2res, 'AAL': aal})
+        return Response({'Risk rating 2 Calculator Results': rr2res, 'AAL Results': aal})
 
 
 # Risk Rating 2.0 results

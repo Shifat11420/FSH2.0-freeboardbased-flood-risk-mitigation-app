@@ -10,17 +10,24 @@ def inv_flood_depth(x, u, a):
     return u - a * np.log(-(np.log(1-x)))
 
 
-def aal_building(livableArea, buildingReplacementValue, ffh, gumbelLocation, gumbelScale, buildingLossFunction, insurance, coverageValueA=150000, deductibleValueA=1500, num_samples=50000):
+def aal_building(livableArea, buildingReplacementValue, ffh, gumbelLocation, gumbelScale, ddfBldg, insurance, coverageValueA=150000, deductibleValueA=1500, num_samples=50000):
     sum_of_str = 0
     sum_of_homeowner = 0
     sum_of_nfip = 0
+
+    ddfBldg_depth = ddfBldg.values_list("depth", flat=True)
+    ddfBldg_depth = list(ddfBldg_depth)
+    ddfBldg_damage = ddfBldg.values_list(
+        "associatedDamage", flat=True)
+    ddfBldg_damage = list(ddfBldg_damage)
+
     for i in range(num_samples):
         x = get_probability()
         d = inv_flood_depth(x, gumbelLocation, gumbelScale)
         ds = d - ffh
 
-        build_dam = (buildingReplacementValue/100) * (np.interp(ds,
-                                                                buildingLossFunction[buildingLossFunction.columns[0]], buildingLossFunction[buildingLossFunction.columns[1]]))
+        build_dam = (buildingReplacementValue/100) * \
+            (np.interp(ds, ddfBldg_depth, ddfBldg_damage))
         # build_dam = ((0.0015*(ds**3)-0.3373*(ds**2)+9.0339*ds+15.413)/100) * building_value  #building loss in dollars
         if build_dam < 0:
             build_dam = 0  # if damage is negative, put 0
@@ -48,17 +55,23 @@ def aal_building(livableArea, buildingReplacementValue, ffh, gumbelLocation, gum
     return [float(sum_of_str/num_samples), float(sum_of_homeowner/num_samples), float(sum_of_nfip/num_samples),]
 
 
-def aal_contents(livableArea, buildingReplacementValue, ffh, gumbelLocation, gumbelScale, contentsLossFunction, insurance, coverageValueC=100000, deductibleValueC=1500, num_samples=50000):
+def aal_contents(livableArea, buildingReplacementValue, ffh, gumbelLocation, gumbelScale, ddfConts, insurance, coverageValueC=100000, deductibleValueC=1500, num_samples=50000):
     sum_of_str = 0
     sum_of_homeowner = 0
     sum_of_nfip = 0
+    ddfConts_depth = ddfConts.values_list("depth", flat=True)
+    ddfConts_depth = list(ddfConts_depth)
+    ddfConts_damage = ddfConts.values_list(
+        "associatedDamage", flat=True)
+    ddfConts_damage = list(ddfConts_damage)
+
     for i in range(num_samples):
         x = get_probability()
         d = inv_flood_depth(x, gumbelLocation, gumbelScale)
         ds = d - ffh
 
-        cont_dam = (buildingReplacementValue/100) * (np.interp(ds,
-                                                               contentsLossFunction[contentsLossFunction.columns[0]], contentsLossFunction[contentsLossFunction.columns[1]]))
+        cont_dam = (buildingReplacementValue/100) * \
+            (np.interp(ds, ddfConts_depth, ddfConts_damage))
         if cont_dam < 0:
             cont_dam = 0  # if damage is negative, put 0
         if cont_dam > buildingReplacementValue:

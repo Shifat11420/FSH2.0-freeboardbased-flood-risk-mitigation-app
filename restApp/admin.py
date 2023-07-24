@@ -66,6 +66,11 @@ admin.site.register(concentrationRiskMapping)
 admin.site.register(concentrationRisk)
 
 
+# AAL data
+admin.site.register(ddfBuilding)
+admin.site.register(ddfContents)
+
+
 # RR2 results
 admin.site.register(riskrating2results)
 admin.site.register(riskrating2resultsLevee)

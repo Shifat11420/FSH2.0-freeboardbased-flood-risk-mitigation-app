@@ -532,6 +532,24 @@ class concentrationRisk(models.Model):
     def __str__(self):
         return "Id "+str(self.id) + " MSA - "+str(self.MSA)
 
+# AAL
+
+
+class ddfBuilding(models.Model):
+    depth = models.FloatField()
+    associatedDamage = models.FloatField()
+
+    def __str__(self):
+        return "Id "+str(self.id)
+
+
+class ddfContents(models.Model):
+    depth = models.FloatField()
+    associatedDamage = models.FloatField()
+
+    def __str__(self):
+        return "Id "+str(self.id)
+
 
 # Results Non Levee
 class riskrating2results(models.Model):
