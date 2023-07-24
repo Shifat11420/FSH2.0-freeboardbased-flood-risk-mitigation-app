@@ -580,6 +580,8 @@ class riskrating2resultsLevee(models.Model):
 
 class scenario(models.Model):
     # id = models.IntegerField(primary_key=True)
+    lattitude = models.FloatField(null=True)
+    longitude = models.FloatField(null=True)
     userTypeID = models.ForeignKey(
         userType, on_delete=models.PROTECT, default=None)
     address = models.CharField(null=True, max_length=200)
