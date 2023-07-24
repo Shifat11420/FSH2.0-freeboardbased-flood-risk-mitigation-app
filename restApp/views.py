@@ -372,6 +372,7 @@ class CalculateRR2APIView(APIView):
         insurance = 'Yes'
 
         for i in range(5):
+            # Risk rating 2.0
             if not currentScenario.levee:
                 rr2res = RRFunctionsNonLevee(
                     inputs, currentScenario, firstFloorHeightCurrentScenario+i, listofPremiums, listofFFH, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding)
@@ -379,111 +380,110 @@ class CalculateRR2APIView(APIView):
                 rr2res = RRFunctionsLevee(
                     inputs, currentScenario, firstFloorHeightCurrentScenario+i, listofPremiums, listofFFH, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding)
 
-        # AAL start
+            # AAL start
+            if ownerType == 'Homeowner':
+                floorInterest = ''
+                buildingLossFunction = pd.read_csv(
+                    "F:/fsh-django-rest-api/restApp/DDF_building.csv")
+                contentsLossFunction = pd.read_csv(
+                    "F:/fsh-django-rest-api/restApp/DDF_contents.csv")
 
-        if ownerType == 'Homeowner':
-            floorInterest = ''
-            buildingLossFunction = pd.read_csv(
-                "F:/fsh-django-rest-api/restApp/DDF_building.csv")
-            contentsLossFunction = pd.read_csv(
-                "F:/fsh-django-rest-api/restApp/DDF_contents.csv")
+                if insurance == 'Yes':
+                    coverageValueA = currentScenario.buildingCoverage
+                    deductibleValueA = currentScenario.buildingDeductible
+                    coverageValueC = currentScenario.contentsCoverage
+                    deductibleValueC = currentScenario.contentsDeductible
 
-            if insurance == 'Yes':
-                coverageValueA = currentScenario.buildingCoverage
-                deductibleValueA = currentScenario.buildingDeductible
-                coverageValueC = currentScenario.contentsCoverage
-                deductibleValueC = currentScenario.contentsDeductible
+                    random.seed(seed)
+                    buildingAAL = aal_building(livableArea, buildingReplacementValue, ffh+i, gumbelLocation,
+                                               gumbelScale, buildingLossFunction, insurance, coverageValueA, deductibleValueA)
+                    contentsAAL = aal_contents(livableArea, buildingReplacementValue, ffh+i, gumbelLocation,
+                                               gumbelScale, contentsLossFunction, insurance, coverageValueC, deductibleValueC)
+                    othersAAL = aal_others(livableArea, buildingReplacementValue, ffh+i,
+                                           gumbelLocation, gumbelScale, unitDisplacementCost, unitMovingCost)
 
-                random.seed(seed)
-                buildingAAL = aal_building(livableArea, buildingReplacementValue, ffh, gumbelLocation,
-                                           gumbelScale, buildingLossFunction, insurance, coverageValueA, deductibleValueA)
-                contentsAAL = aal_contents(livableArea, buildingReplacementValue, ffh, gumbelLocation,
-                                           gumbelScale, contentsLossFunction, insurance, coverageValueC, deductibleValueC)
-                othersAAL = aal_others(livableArea, buildingReplacementValue, ffh,
-                                       gumbelLocation, gumbelScale, unitDisplacementCost, unitMovingCost)
+                else:
+                    random.seed(seed)
+                    buildingAAL = aal_building(livableArea, buildingReplacementValue, ffh+i,
+                                               gumbelLocation, gumbelScale, buildingLossFunction, insurance)
+                    contentsAAL = aal_contents(livableArea, buildingReplacementValue, ffh+i,
+                                               gumbelLocation, gumbelScale, contentsLossFunction, insurance)
+                    othersAAL = aal_others(livableArea, buildingReplacementValue, ffh+i,
+                                           gumbelLocation, gumbelScale, unitDisplacementCost, unitMovingCost)
 
-            else:
-                random.seed(seed)
-                buildingAAL = aal_building(livableArea, buildingReplacementValue, ffh,
-                                           gumbelLocation, gumbelScale, buildingLossFunction, insurance)
-                contentsAAL = aal_contents(livableArea, buildingReplacementValue, ffh,
-                                           gumbelLocation, gumbelScale, contentsLossFunction, insurance)
-                othersAAL = aal_others(livableArea, buildingReplacementValue, ffh,
-                                       gumbelLocation, gumbelScale, unitDisplacementCost, unitMovingCost)
+                aal['FFH'].append(ffh+i)
+                aal['AAL'].append(round(buildingAAL[0] + contentsAAL[0], 0))
+                aal['Homeowner AAL'].append(
+                    round(buildingAAL[1] + contentsAAL[1], 0))
+                aal['Insurer AAL'].append(
+                    round(buildingAAL[2] + contentsAAL[2], 0))
+                aal['Rental Loss'].append(round(othersAAL[0], 0))
+                aal['Displacement Cost'].append(round(othersAAL[1], 0))
+                aal['Moving Cost'].append(round(othersAAL[2], 0))
+                aal['Working hour loss'].append(round(othersAAL[3], 0))
 
-            aal['FFH'].append(ffh)
-            aal['AAL'].append(round(buildingAAL[0] + contentsAAL[0], 0))
-            aal['Homeowner AAL'].append(
-                round(buildingAAL[1] + contentsAAL[1], 0))
-            aal['Insurer AAL'].append(
-                round(buildingAAL[2] + contentsAAL[2], 0))
-            aal['Rental Loss'].append(round(othersAAL[0], 0))
-            aal['Displacement Cost'].append(round(othersAAL[1], 0))
-            aal['Moving Cost'].append(round(othersAAL[2], 0))
-            aal['Working hour loss'].append(round(othersAAL[3], 0))
+            elif ownerType == 'Landlord':
+                floorInterest = ''  # cd StopAsyncIteration
+                buildingLossFunction = pd.read_csv("DDF_building.csv")
 
-        elif ownerType == 'Landlord':
-            floorInterest = ''  # cd StopAsyncIteration
-            buildingLossFunction = pd.read_csv("DDF_building.csv")
+                if insurance == 'Yes':
+                    coverageValueA = currentScenario.buildingCoverage
+                    deductibleValueA = currentScenario.buildingDeductible
+                    random.seed(seed)
+                    buildingAAL = aal_building(livableArea, buildingReplacementValue, ffh+i, gumbelLocation,
+                                               gumbelScale, buildingLossFunction, insurance, coverageValueA, deductibleValueA)
+                    othersAAL = aal_others(livableArea, buildingReplacementValue, ffh+i,
+                                           gumbelLocation, gumbelScale, unitDisplacementCost, unitMovingCost)
 
-            if insurance == 'Yes':
-                coverageValueA = currentScenario.buildingCoverage
-                deductibleValueA = currentScenario.buildingDeductible
-                random.seed(seed)
-                buildingAAL = aal_building(livableArea, buildingReplacementValue, ffh, gumbelLocation,
-                                           gumbelScale, buildingLossFunction, insurance, coverageValueA, deductibleValueA)
-                othersAAL = aal_others(livableArea, buildingReplacementValue, ffh,
-                                       gumbelLocation, gumbelScale, unitDisplacementCost, unitMovingCost)
+                else:
+                    random.seed(seed)
+                    buildingAAL = aal_building(livableArea, buildingReplacementValue, ffh+i,
+                                               gumbelLocation, gumbelScale, buildingLossFunction, insurance)
+                    othersAAL = aal_others(livableArea, buildingReplacementValue, ffh+i,
+                                           gumbelLocation, gumbelScale, unitDisplacementCost, unitMovingCost)
 
-            else:
-                random.seed(seed)
-                buildingAAL = aal_building(livableArea, buildingReplacementValue, ffh,
-                                           gumbelLocation, gumbelScale, buildingLossFunction, insurance)
-                othersAAL = aal_others(livableArea, buildingReplacementValue, ffh,
-                                       gumbelLocation, gumbelScale, unitDisplacementCost, unitMovingCost)
+                aal['FFH'].append(ffh+i)
+                aal['AAL'].append(round(buildingAAL[0], 0))
+                aal['Homeowner AAL'].append(round(buildingAAL[1], 0))
+                aal['Insurer AAL'].append(round(buildingAAL[2], 0))
+                aal['Rental Loss'].append(round(othersAAL[0], 0))
+                aal['Displacement Cost'].append(round(othersAAL[1], 0))
+                aal['Moving Cost'].append(round(othersAAL[2], 0))
+                aal['Working hour loss'].append(round(othersAAL[3], 0))
 
-            aal['FFH'].append(ffh)
-            aal['AAL'].append(round(buildingAAL[0], 0))
-            aal['Homeowner AAL'].append(round(buildingAAL[1], 0))
-            aal['Insurer AAL'].append(round(buildingAAL[2], 0))
-            aal['Rental Loss'].append(round(othersAAL[0], 0))
-            aal['Displacement Cost'].append(round(othersAAL[1], 0))
-            aal['Moving Cost'].append(round(othersAAL[2], 0))
-            aal['Working hour loss'].append(round(othersAAL[3], 0))
+            elif ownerType == 'Tenant':
+                floorInterest = ''
+                contentsLossFunction = pd.read_csv("DDF_contents.csv")
 
-        elif ownerType == 'Tenant':
-            floorInterest = ''
-            contentsLossFunction = pd.read_csv("DDF_contents.csv")
+                if insurance == 'Yes':
+                    coverageValueC = currentScenario.contentsCoverage
+                    deductibleValueC = currentScenario.contentsDeductible
 
-            if insurance == 'Yes':
-                coverageValueC = currentScenario.contentsCoverage
-                deductibleValueC = currentScenario.contentsDeductible
+                    random.seed(seed)
+                    contentsAAL = aal_contents(livableArea, buildingReplacementValue, ffh+i, gumbelLocation,
+                                               gumbelScale, contentsLossFunction, insurance, coverageValueC, deductibleValueC)
+                    othersAAL = aal_others(livableArea, buildingReplacementValue, ffh+i,
+                                           gumbelLocation, gumbelScale, unitDisplacementCost, unitMovingCost)
 
-                random.seed(seed)
-                contentsAAL = aal_contents(livableArea, buildingReplacementValue, ffh, gumbelLocation,
-                                           gumbelScale, contentsLossFunction, insurance, coverageValueC, deductibleValueC)
-                othersAAL = aal_others(livableArea, buildingReplacementValue, ffh,
-                                       gumbelLocation, gumbelScale, unitDisplacementCost, unitMovingCost)
+                else:
+                    random.seed(seed)
+                    contentsAAL = aal_contents(livableArea, buildingReplacementValue, ffh+i,
+                                               gumbelLocation, gumbelScale, contentsLossFunction, insurance)
+                    othersAAL = aal_others(livableArea, buildingReplacementValue, ffh+i,
+                                           gumbelLocation, gumbelScale, unitDisplacementCost, unitMovingCost)
 
-            else:
-                random.seed(seed)
-                contentsAAL = aal_contents(livableArea, buildingReplacementValue, ffh,
-                                           gumbelLocation, gumbelScale, contentsLossFunction, insurance)
-                othersAAL = aal_others(livableArea, buildingReplacementValue, ffh,
-                                       gumbelLocation, gumbelScale, unitDisplacementCost, unitMovingCost)
+                aal['FFH'].append(ffh+i)
+                aal['AAL'].append(round(contentsAAL[0], 0))
+                aal['Homeowner AAL'].append(round(contentsAAL[1], 0))
+                aal['Insurer AAL'].append(round(contentsAAL[2], 0))
+                aal['Rental Loss'].append(round(othersAAL[0], 0))
+                aal['Displacement Cost'].append(round(othersAAL[1], 0))
+                aal['Moving Cost'].append(round(othersAAL[2], 0))
+                aal['Working hour loss'].append(round(othersAAL[3], 0))
 
-            aal['FFH'].append(ffh)
-            aal['AAL'].append(round(contentsAAL[0], 0))
-            aal['Homeowner AAL'].append(round(contentsAAL[1], 0))
-            aal['Insurer AAL'].append(round(contentsAAL[2], 0))
-            aal['Rental Loss'].append(round(othersAAL[0], 0))
-            aal['Displacement Cost'].append(round(othersAAL[1], 0))
-            aal['Moving Cost'].append(round(othersAAL[2], 0))
-            aal['Working hour loss'].append(round(othersAAL[3], 0))
+            print("aal = ", aal)
 
-        print("aal = ", aal)
-
-        # AAL ends
+            # AAL ends
 
         return Response({'Risk rating 2 Calculator Results': rr2res, 'AAL': aal})
 
