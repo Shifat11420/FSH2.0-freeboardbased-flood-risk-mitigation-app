@@ -409,10 +409,12 @@ class CalculateRR2APIView(APIView):
 
         for i in range(5):
             # Risk rating 2.0
-            if not currentScenario.levee:
+            if str(currentScenario.levee) == "No":
+                print("nonlevee", currentScenario.levee)
                 rr2res = RRFunctionsNonLevee(
                     inputs, currentScenario, firstFloorHeightCurrentScenario+i, listofPremiums, listofFFH, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding)
-            elif currentScenario.levee:
+            elif str(currentScenario.levee) == "Yes":
+                print("levee", currentScenario.levee)
                 rr2res = RRFunctionsLevee(
                     inputs, currentScenario, firstFloorHeightCurrentScenario+i, listofPremiums, listofFFH, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding)
 
