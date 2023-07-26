@@ -137,6 +137,10 @@ class barrierIslandIndicatorsSerializer(serializers.ModelSerializer):
         model = barrierIslandIndicators
         fields = '__all__'
 
+class leveeIndicatorsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = leveeIndicators
+        fields = '__all__'
 
 class buildingValueSerializer(serializers.ModelSerializer):
     class Meta:

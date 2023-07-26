@@ -126,7 +126,12 @@ class barrierIslandIndicators(models.Model):
 
     def __str__(self):
         return self.Name
+    
+class leveeIndicators(models.Model):
+    Name = models.CharField(max_length=30)
 
+    def __str__(self):
+        return self.Name
 
 class singleFamilyHomeIndicator(models.Model):
     Name = models.CharField(max_length=30)
@@ -597,7 +602,6 @@ class riskrating2resultsLevee(models.Model):
 # Scenaio entity
 
 class scenario(models.Model):
-    # id = models.IntegerField(primary_key=True)
     lattitude = models.FloatField(null=True)
     longitude = models.FloatField(null=True)
     userTypeID = models.ForeignKey(
@@ -615,13 +619,12 @@ class scenario(models.Model):
         floor1to100, on_delete=models.PROTECT, default="1")
     floor1to4ID = models.ForeignKey(
         floor1to4, on_delete=models.PROTECT, default="1")
-    # mortgageID = models.ForeignKey(
-    #     mortgage, on_delete=models.PROTECT, default=None)
+    mortgageID = models.ForeignKey(
+        mortgage, on_delete=models.PROTECT, default=None)
     foundationTypeID = models.ForeignKey(
         foundationTypes, on_delete=models.PROTECT, default=None)
-    # homeShapeID = models.ForeignKey(
-    #     homeShape, on_delete=models.PROTECT, default=None)
-    # annualFloodRisk = models.FloatField(blank=True, null=True)
+    homeShapeID = models.ForeignKey(
+        homeShape, on_delete=models.PROTECT, default=None)
     floodInsuranceID = models.ForeignKey(
         floodInsurance, on_delete=models.PROTECT, default=None)
     buildingReplacementValue = models.IntegerField(blank=True, null=True)
@@ -642,7 +645,8 @@ class scenario(models.Model):
     mortgagePeriod = models.IntegerField(null=True)
     multiplierVersion = models.IntegerField(null=True)
     userID = models.IntegerField(null=True)
-    levee = models.BooleanField(null=True)
+    levee = models.ForeignKey(
+        leveeIndicators, on_delete=models.PROTECT, default=None)
     leveeID = models.CharField(null=True, max_length=100)
     leveeQuality = models.FloatField(null=True)
     state = models.CharField(null=True, max_length=10)

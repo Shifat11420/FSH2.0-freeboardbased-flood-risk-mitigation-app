@@ -34,6 +34,7 @@ router.register(r'rr2-homeShape', views.homeShapeViewSet)
 router.register(r'rr2-floodVents', views.floodVentsViewSet)
 router.register(r'rr2-MandE', views.MandEViewSet)
 router.register(r'rr2-bi', views.barrierIslandIndicatorsViewSet)
+router.register(r'rr2-levee', views.leveeIndicatorsViewSet)
 
 router.register(r'rr2-singleFamilyHome',
                 views.singleFamilyHomeIndicatorViewSet)

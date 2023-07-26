@@ -1,4 +1,5 @@
 from restApp.aalFunctions import *
+from restApp.foundationCostFunctions import *
 import random
 import pandas as pd
 from restApp.serializers import riskrating2resultsSerializer
@@ -276,6 +277,7 @@ class territoryViewSet(viewsets.ModelViewSet):
 class CalculateRR2APIView(APIView):
     def get(self, request, format=None):
 
+        # user inputs
         inputs = request.data
 
         # --------------------------
@@ -330,7 +332,9 @@ class CalculateRR2APIView(APIView):
         currentScenario = scenario.objects.get(id=scenariosearch)
         print("infofromScenarioId : ", currentScenario)
         firstFloorHeightCurrentScenario = currentScenario.firstFloorHeight
+        livableArea = currentScenario.livableArea
 
+        # Risk Rating 2.0
         inputs['Loss Constant'] = 130  # ok
         inputs['Expense Constant'] = 62.99  # ok
         inputs['ICC premium'] = 4  # ok for now---tables coming
@@ -339,7 +343,6 @@ class CalculateRR2APIView(APIView):
         inputs['Federal policy fee'] = 50  # ok
 
         rr2res = []
-
         listofPremiums = []
         listofFFH = []
         listofPremiumsMonthly = []
@@ -367,12 +370,42 @@ class CalculateRR2APIView(APIView):
         unitMovingCost = 1.20
         ffh = firstFloorHeightCurrentScenario
         ownerType = str(currentScenario.userTypeID)
-        livableArea = currentScenario.livableArea
         buildingReplacementValue = currentScenario.buildingReplacementValue
         insurance = 'Yes'
 
         ddfBldg = ddfBuilding.objects.all()
         ddfConts = ddfContents.objects.all()
+
+        # Foundation Cost
+        h = firstFloorHeightCurrentScenario
+        bld_area = livableArea
+        homeshape = str(currentScenario.homeShapeID)
+        foundationType = str(currentScenario.foundationTypeID)
+        costResults = {}
+        materialsResults = {}
+        if foundationType == "Slab":
+            costResults = {'Building Area': [], 'Aspect ratio': [], 'Elevation (m)': [], '$_A_Grading': [], '$_V_Fill': [], '$_A_Insulation': [],
+                           '$_A_Gravel': [], '$_V_Excavation': [], '$_A_Vapor_Barrier': [], '$_V_Slab': [], '$_L_Edge_Beam': [], 'Total_Cost': []}
+            materialsResults = {'Building Area': [], 'Aspect ratio': [],
+                                'Elevation (m)': [], 'A_Grading': [], 'V_Fill': [], 'A_Gravel': [], 'V_Excavation': [], 'A_Vapor_Barrier': [], 'A_Insulation': [], 'V_Slab': [], 'L_Edge_Beam': []}
+
+        elif foundationType == "Elevated with Enclosure, Not Post, Pile, or Pier" or foundationType == "Crawlspace":
+            costResults = {'Building Area': [], 'Aspect ratio': [], 'Elevation (m)': [], 'w': [], '$_A_Mason': [], '$_V_Fill': [], '$_A_Insulation': [],
+                           '$_A_Gravel': [], '$_V_Excavation': [], '$_A_Vapor_Barrier': [], '$_V_Slab': [], '$_L_Footing': [], '$_A_Grading': [], 'Total_Cost': []}
+            materialsResults = {'Building Area': [], 'Aspect ratio': [], 'Elevation (m)': [], 'w': [], 'A_Mason': [], 'V_Fill': [],
+                                'A_Insulation': [], 'A_Gravel': [], 'V_Excavation': [], 'A_Vapor_Barrier': [], 'V_Slab': [], 'L_Footing': [], 'A_Grading': []}
+
+        elif foundationType == "Elevated with Enclosure, Post, Pile, or Pier":
+            costResults = {'Building Area': [], 'Aspect ratio': [], 'Elevation (m)': [], 'w': [], '$_A_Mason': [], '$_L_Pier': [], '$_A_Insulation': [],
+                           '$_A_Vapor_Barrier': [], '$_A_Gravel': [], '$_V_Excavation': [], '$_N_Pad': [], '$_V_Slab': [], '$_L_Footing': [], '$_A_Grading': [], 'Total_Cost': []}
+            materialsResults = {'Building Area': [], 'Aspect ratio': [], 'Elevation (m)': [], 'w': [], 'A_Mason': [], 'L_Pier': [],
+                                'A_Insulation': [], 'A_Vapor_Barrier': [], 'A_Gravel': [], 'V_Excavation': [], 'N_Pad': [], 'V_Slab': [], 'L_footing': [], 'A_Grading': []}
+
+        elif foundationType == "Elevated without Enclosure, Post, Pile, or Pier":
+            costResults = {'Building Area': [], 'Aspect ratio': [], 'Elevation (m)': [], '$_L_Pier': [], '$_V_Excavation': [],
+                           '$_A_Grading': [], '$_A_Gravel': [], '$_A_Insulation': [], '$_N_Pad': [], '$_V_Wood': [], '$_A_Wood': [], 'Total_Cost': []}
+            materialsResults = {'Building Area': [], 'Aspect ratio': [],
+                                'Elevation (m)': [], 'L_Pier': [], 'V_Excavation': [], 'A_Grading': [], 'A_Gravel': [], 'A_Insulation': [], 'N_Pad': [], 'V_Wood': [], 'A_Wood': []}
 
         for i in range(5):
             # Risk rating 2.0
@@ -383,7 +416,7 @@ class CalculateRR2APIView(APIView):
                 rr2res = RRFunctionsLevee(
                     inputs, currentScenario, firstFloorHeightCurrentScenario+i, listofPremiums, listofFFH, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding)
 
-            # AAL start
+            # AAL
             if ownerType == 'Homeowner':
                 floorInterest = ''
 
@@ -480,16 +513,86 @@ class CalculateRR2APIView(APIView):
                 aal['Moving Cost'].append(round(othersAAL[2], 0))
                 aal['Working hour loss'].append(round(othersAAL[3], 0))
 
-        print("aal = ", aal)
+            # Foundation Cost
 
-        # AAL ends
+            if homeshape == "Square":
+                aspect_ratio = 1.0
+            elif homeshape == "Rectangle":
+                aspect_ratio = 1.5
+            elif homeshape == "Long":
+                aspect_ratio = 2.0
 
-        return Response({'Risk rating 2 Calculator Results': rr2res, 'AAL Results': aal})
+            if foundationType == "Slab":
+                FoundationCost, costs, materials = slab_on_fill(
+                    bld_area, h+i, aspect_ratio, aspect="True", s=3, a=3, i=0.1, g=0.15, W=0.41, σ=30, t=0.1, D=0.51, h_=0.2)
+
+                costs_df = pd.DataFrame(costs)
+                costs_df.columns = ['Building Area', 'Aspect ratio', 'Elevation (m)', '$_A_Grading', '$_V_Fill', '$_A_Insulation',
+                                    '$_A_Gravel', '$_V_Excavation', '$_A_Vapor_Barrier', '$_V_Slab', '$_L_Edge_Beam', 'Total_Cost']
+                materials_df = pd.DataFrame(materials)
+                materials_df.columns = ['Building Area', 'Aspect ratio',
+                                        'Elevation (m)', 'A_Grading', 'V_Fill', 'A_Gravel', 'V_Excavation', 'A_Vapor_Barrier', 'A_Insulation', 'V_Slab', 'L_Edge_Beam']
+
+            elif foundationType == "Elevated with Enclosure, Not Post, Pile, or Pier" or foundationType == "Crawlspace":
+                FoundationCost, costs, materials = CS1(
+                    bld_area, h+i, aspect_ratio, aspect="True", i=0.1, g=0.15, W=0.41, σ=30, t=0.1, D=0.51, h_=0.2, w=0.2)
+
+                costs_df = pd.DataFrame(costs)
+                costs_df.columns = ['Building Area', 'Aspect ratio', 'Elevation (m)', 'w', '$_A_Mason', '$_V_Fill', '$_A_Insulation',
+                                    '$_A_Gravel', '$_V_Excavation', '$_A_Vapor_Barrier', '$_V_Slab', '$_L_Footing', '$_A_Grading', 'Total_Cost']
+                materials_df = pd.DataFrame(materials)
+                materials_df.columns = ['Building Area', 'Aspect ratio', 'Elevation (m)', 'w', 'A_Mason', 'V_Fill',
+                                        'A_Insulation', 'A_Gravel', 'V_Excavation', 'A_Vapor_Barrier', 'V_Slab', 'L_Footing', 'A_Grading']
+
+            elif foundationType == "Elevated with Enclosure, Post, Pile, or Pier":
+                FoundationCost, costs, materials = CS2(
+                    bld_area, h+i, aspect_ratio, aspect="True", i=0.1, g=0.15, W=0.41, σ=30, t=0.1, D=0.51, h_=0.2, w=0.2)
+
+                costs_df = pd.DataFrame(costs)
+                costs_df.columns = ['Building Area', 'Aspect ratio', 'Elevation (m)', 'w', '$_A_Mason', '$_L_Pier', '$_A_Insulation',
+                                    '$_A_Vapor_Barrier', '$_A_Gravel', '$_V_Excavation', '$_N_Pad', '$_V_Slab', '$_L_Footing', '$_A_Grading', 'Total_Cost']
+                materials_df = pd.DataFrame(materials)
+                materials_df.columns = ['Building Area', 'Aspect ratio', 'Elevation (m)', 'w', 'A_Mason', 'L_Pier',
+                                        'A_Insulation', 'A_Vapor_Barrier', 'A_Gravel', 'V_Excavation', 'N_Pad', 'V_Slab', 'L_footing', 'A_Grading']
+
+            # elif foundationType=="CMU stemwalls with wood frame floor assembly on internal CMU piers":
+            #     FoundationCost,costs,materials = CS3(bld_area,h+i,aspect_ratio=1.5,aspect="True",i=0.1,g=0.15,W=0.41,σ=30,t=0.1,D=0.51,h_=0.2,w=0.2)
+
+            #     costs_df = pd.DataFrame(costs)
+            #     costs_df.columns = ['Building Area','Aspect ratio','Elevation (m)','w','$_A_Mason','$_L_Pier','$_A_Vapor_Barrier','$_A_Insulation','$_A_Gravel','$_V_Excavation','$_N_Pad','$_V_Wood','$_L_Footing','$_A_Grading','$_A_Wood','Total_Cost']
+            #     materials_df = pd.DataFrame(materials)
+            #     materials_df.columns = ['Building Area','Aspect ratio','Elevation (m)','w','A_Mason','L_Pier','A_Vapor_Barrier','A_Insulation','A_Gravel','V_Excavation','N_Pad','V_Wood','L_Footing','A_Grading','A_Wood']
+
+            elif foundationType == "Elevated without Enclosure, Post, Pile, or Pier":
+                FoundationCost, costs, materials = CS4(
+                    bld_area, h+i, aspect_ratio, aspect="True", i=0.1, g=0.15, W=0.41, σ=30, t=0.1, D=0.51, h_=0.2, w=0.2)
+
+                costs_df = pd.DataFrame(costs)
+                costs_df.columns = ['Building Area', 'Aspect ratio', 'Elevation (m)', '$_L_Pier', '$_V_Excavation',
+                                    '$_A_Grading', '$_A_Gravel', '$_A_Insulation', '$_N_Pad', '$_V_Wood', '$_A_Wood', 'Total_Cost']
+                materials_df = pd.DataFrame(materials)
+                materials_df.columns = ['Building Area', 'Aspect ratio',
+                                        'Elevation (m)', 'L_Pier', 'V_Excavation', 'A_Grading', 'A_Gravel', 'A_Insulation', 'N_Pad', 'V_Wood', 'A_Wood']
+
+            costs_dict = costs_df.to_dict('list')
+            materials_dict = materials_df.to_dict('list')
+
+            for key in costResults:
+                costResults[key] += costs_dict.get(key, 'nan')
+
+            for key in materialsResults:
+                materialsResults[key] += materials_dict.get(key, 'nan')
+
+        print('\n')
+        print("Risk Rating 2.0  results= ", rr2res, '\n')
+        print("AAL results = ", aal, '\n')
+        print("Foundation cost results : ", '\n')
+        print("costResults = ", costResults, '\n')
+        print("materialsResults = ", materialsResults, '\n')
+        return Response({'Risk rating 2.0 Results': rr2res, 'AAL Results': aal, 'Foundation Cost Results': {'costResults': costResults, 'materialsResults': materialsResults}})
 
 
 # Risk Rating 2.0 results
-
-
 class riskrating2resultsViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows groups to be viewed or edited.
@@ -599,6 +702,11 @@ class MandEViewSet(viewsets.ModelViewSet):
 class barrierIslandIndicatorsViewSet(viewsets.ModelViewSet):
     queryset = barrierIslandIndicators.objects.all()
     serializer_class = barrierIslandIndicatorsSerializer
+
+
+class leveeIndicatorsViewSet(viewsets.ModelViewSet):
+    queryset = leveeIndicators.objects.all()
+    serializer_class = leveeIndicatorsSerializer
 
 
 class singleFamilyHomeIndicatorViewSet(viewsets.ModelViewSet):
