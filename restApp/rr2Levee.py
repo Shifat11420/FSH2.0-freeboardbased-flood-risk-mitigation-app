@@ -5,7 +5,7 @@ import numpy as np
 from django.db.models import Q
 
 
-def RRFunctionsLevee(inputs, currentScenario, firstFloorHeightCurrentScenario, listofPremiums, listofFFH, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding):
+def RRFunctionsLevee(count, inputs, currentScenario, firstFloorHeightCurrentScenario, listofPremiums, listofFFH, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding, RR2LegacyDict, RR2LegacyResults):
     # Base Rate
     baserate = baseRateMultipliers.objects.filter(levee="Yes",
                                                   region=currentScenario.state, singleFamilyHomeIndicator=currentScenario.typeOfUseID.singleFamilyHomeIndicatorID).all()
@@ -2590,8 +2590,19 @@ def RRFunctionsLevee(inputs, currentScenario, firstFloorHeightCurrentScenario, l
     listofPremiumsSavingsMonthly.append(
         int(premiumsNoRounding[0]-(premiumResults_dict["allPerils"]/12)))
 
-    return [
-        # {"baserate results": baserateResults_dict["allPerils"]}, {"distToRiver results": distToRiverResults_dict["allPerils"]},
+
+    RR2LegacyDict["firstFloorHeight"] = listofFFH[-1]
+    RR2LegacyDict["premiumList"] = listofPremiums[-1]
+    RR2LegacyDict["premiumListMonthly"] = listofPremiumsMonthly[-1]
+    RR2LegacyDict["premiumsSavingsMonthly"] = listofPremiumsSavingsMonthly[-1]
+    # print("RR2LegacyDict = ", RR2LegacyDict)
+    RR2LegacyResults.append(RR2LegacyDict.copy())
+
+    if count == 0:
+        return RR2LegacyResults
+    else:
+        return [
+            # {"baserate results": baserateResults_dict["allPerils"]}, {"distToRiver results": distToRiverResults_dict["allPerils"]},
             # {"elevRelToRiver Results":
             #     elevRelToRiverResults_dict["allPerils"]},
             # {"drainageArea Results": drainageAreaResults_dict["allPerils"]}, {
@@ -2682,7 +2693,8 @@ def RRFunctionsLevee(inputs, currentScenario, firstFloorHeightCurrentScenario, l
             # {"federal_policy_fee Results":
             #     federal_policy_feeResults_dict["allPerils"]},
             # {"premium Results": premiumResults_dict["allPerils"]},
-            {"First floor height": listofFFH},
-            {"premium list": listofPremiums},
-            {"premium list monthly": listofPremiumsMonthly},
-            {"Premiums Savings Monthly": listofPremiumsSavingsMonthly}]
+            {"firstFloorHeight": listofFFH},
+            {"premiumList": listofPremiums},
+            {"premiumListMonthly": listofPremiumsMonthly},
+            {"premiumsSavingsMonthly": listofPremiumsSavingsMonthly}
+        ]

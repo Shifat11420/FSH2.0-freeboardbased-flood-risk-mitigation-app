@@ -348,17 +348,18 @@ class CalculateRR2APIView(APIView):
         listofPremiumsMonthly = []
         listofPremiumsSavingsMonthly = []
         premiumsNoRounding = []
+        RR2LegacyDict = {}
 
         # AAL
         aal = {}
         aal['FFH'] = []
         aal['AAL'] = []
-        aal['Homeowner AAL'] = []
-        aal['Insurer AAL'] = []
-        aal['Rental Loss'] = []
-        aal['Displacement Cost'] = []
-        aal['Moving Cost'] = []
-        aal['Working hour loss'] = []
+        aal['homeownerAAL'] = []
+        aal['insurerAAL'] = []
+        aal['rentalLoss'] = []
+        aal['displacementCost'] = []
+        aal['movingCost'] = []
+        aal['workingHourLoss'] = []
 
         seed = 123
         # from flood depth data, frondend, Adil will provide logic
@@ -384,39 +385,40 @@ class CalculateRR2APIView(APIView):
         costResults = {}
         materialsResults = {}
         if foundationType == "Slab":
-            costResults = {'Building Area': [], 'Aspect ratio': [], 'Elevation (m)': [], '$_A_Grading': [], '$_V_Fill': [], '$_A_Insulation': [],
-                           '$_A_Gravel': [], '$_V_Excavation': [], '$_A_Vapor_Barrier': [], '$_V_Slab': [], '$_L_Edge_Beam': [], 'Total_Cost': []}
-            materialsResults = {'Building Area': [], 'Aspect ratio': [],
-                                'Elevation (m)': [], 'A_Grading': [], 'V_Fill': [], 'A_Gravel': [], 'V_Excavation': [], 'A_Vapor_Barrier': [], 'A_Insulation': [], 'V_Slab': [], 'L_Edge_Beam': []}
+            costResults = {'buildingArea': [], 'aspectRatio': [], 'elevation(m)': [], 'aGrading': [], 'vFill': [], 'aInsulation': [],
+                           '$aGravel': [], 'vExcavation': [], 'aVaporBarrier': [], 'vSlab': [], 'lEdge_Beam': [], 'totalCost': []}
+            materialsResults = {'buildingArea': [], 'aspectRatio': [],
+                                'elevation(m)': [], 'aGrading': [], 'vFill': [], 'aGravel': [], 'vExcavation': [], 'aVaporBarrier': [], 'aInsulation': [], 'vSlab': [], 'lEdgeBeam': []}
 
         elif foundationType == "Elevated with Enclosure, Not Post, Pile, or Pier" or foundationType == "Crawlspace":
-            costResults = {'Building Area': [], 'Aspect ratio': [], 'Elevation (m)': [], 'w': [], '$_A_Mason': [], '$_V_Fill': [], '$_A_Insulation': [],
-                           '$_A_Gravel': [], '$_V_Excavation': [], '$_A_Vapor_Barrier': [], '$_V_Slab': [], '$_L_Footing': [], '$_A_Grading': [], 'Total_Cost': []}
-            materialsResults = {'Building Area': [], 'Aspect ratio': [], 'Elevation (m)': [], 'w': [], 'A_Mason': [], 'V_Fill': [],
-                                'A_Insulation': [], 'A_Gravel': [], 'V_Excavation': [], 'A_Vapor_Barrier': [], 'V_Slab': [], 'L_Footing': [], 'A_Grading': []}
+            costResults = {'buildingArea': [], 'aspectRatio': [], 'elevation(m)': [], 'w': [], 'aMason': [], 'vFill': [], 'aInsulation': [],
+                           'aGravel': [], 'vExcavation': [], 'aVaporBarrier': [], 'vSlab': [], 'lFooting': [], 'aGrading': [], 'totalCost': []}
+            materialsResults = {'buildingArea': [], 'aspectRatio': [], 'elevation(m)': [], 'w': [], 'aMason': [], 'vFill': [],
+                                'aInsulation': [], 'aGravel': [], 'vExcavation': [], 'aVaporBarrier': [], 'vSlab': [], 'lFooting': [], 'aGrading': []}
 
         elif foundationType == "Elevated with Enclosure, Post, Pile, or Pier":
-            costResults = {'Building Area': [], 'Aspect ratio': [], 'Elevation (m)': [], 'w': [], '$_A_Mason': [], '$_L_Pier': [], '$_A_Insulation': [],
-                           '$_A_Vapor_Barrier': [], '$_A_Gravel': [], '$_V_Excavation': [], '$_N_Pad': [], '$_V_Slab': [], '$_L_Footing': [], '$_A_Grading': [], 'Total_Cost': []}
-            materialsResults = {'Building Area': [], 'Aspect ratio': [], 'Elevation (m)': [], 'w': [], 'A_Mason': [], 'L_Pier': [],
-                                'A_Insulation': [], 'A_Vapor_Barrier': [], 'A_Gravel': [], 'V_Excavation': [], 'N_Pad': [], 'V_Slab': [], 'L_footing': [], 'A_Grading': []}
+            costResults = {'buildingArea': [], 'aspectRatio': [], 'elevation(m)': [], 'w': [], 'aMason': [], 'lPier': [], 'aInsulation': [],
+                           'aVaporBarrier': [], 'aGravel': [], 'vExcavation': [], 'nPad': [], 'vSlab': [], 'lFooting': [], 'aGrading': [], 'totalCost': []}
+            materialsResults = {'buildingArea': [], 'aspectRatio': [], 'elevation(m)': [], 'w': [], 'aMason': [], 'lPier': [],
+                                'aInsulation': [], 'aVaporBarrier': [], 'aGravel': [], 'vExcavation': [], 'nPad': [], 'vSlab': [], 'lfooting': [], 'aGrading': []}
 
         elif foundationType == "Elevated without Enclosure, Post, Pile, or Pier":
-            costResults = {'Building Area': [], 'Aspect ratio': [], 'Elevation (m)': [], '$_L_Pier': [], '$_V_Excavation': [],
-                           '$_A_Grading': [], '$_A_Gravel': [], '$_A_Insulation': [], '$_N_Pad': [], '$_V_Wood': [], '$_A_Wood': [], 'Total_Cost': []}
-            materialsResults = {'Building Area': [], 'Aspect ratio': [],
-                                'Elevation (m)': [], 'L_Pier': [], 'V_Excavation': [], 'A_Grading': [], 'A_Gravel': [], 'A_Insulation': [], 'N_Pad': [], 'V_Wood': [], 'A_Wood': []}
-
+            costResults = {'buildingArea': [], 'aspectRatio': [], 'elevation(m)': [], 'lPier': [], 'vExcavation': [],
+                           'aGrading': [], 'aGravel': [], 'aInsulation': [], 'nPad': [], 'vWood': [], 'aWood': [], 'totalCost': []}
+            materialsResults = {'buildingArea': [], 'aspectRatio': [], 'elevation(m)': [], 'lPier': [], 'vExcavation': [],
+                                'aGrading': [], 'aGravel': [], 'aInsulation': [], 'nPad': [], 'vWood': [], 'aWood': []}
+        count = 1
+        RR2LegacyResults = []
         for i in range(5):
             # Risk rating 2.0
             if str(currentScenario.levee) == "No":
                 print("nonlevee", currentScenario.levee)
-                rr2res = RRFunctionsNonLevee(
-                    inputs, currentScenario, firstFloorHeightCurrentScenario+i, listofPremiums, listofFFH, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding)
+                rr2res = RRFunctionsNonLevee(count,
+                                             inputs, currentScenario, firstFloorHeightCurrentScenario+i, listofPremiums, listofFFH, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding, RR2LegacyDict, RR2LegacyResults)
             elif str(currentScenario.levee) == "Yes":
                 print("levee", currentScenario.levee)
-                rr2res = RRFunctionsLevee(
-                    inputs, currentScenario, firstFloorHeightCurrentScenario+i, listofPremiums, listofFFH, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding)
+                rr2res = RRFunctionsLevee(count,
+                                          inputs, currentScenario, firstFloorHeightCurrentScenario+i, listofPremiums, listofFFH, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding, RR2LegacyDict, RR2LegacyResults)
 
             # AAL
             if ownerType == 'Homeowner':
@@ -447,14 +449,14 @@ class CalculateRR2APIView(APIView):
 
                 aal['FFH'].append(ffh+i)
                 aal['AAL'].append(round(buildingAAL[0] + contentsAAL[0], 0))
-                aal['Homeowner AAL'].append(
+                aal['homeownerAAL'].append(
                     round(buildingAAL[1] + contentsAAL[1], 0))
-                aal['Insurer AAL'].append(
+                aal['insurerAAL'].append(
                     round(buildingAAL[2] + contentsAAL[2], 0))
-                aal['Rental Loss'].append(round(othersAAL[0], 0))
-                aal['Displacement Cost'].append(round(othersAAL[1], 0))
-                aal['Moving Cost'].append(round(othersAAL[2], 0))
-                aal['Working hour loss'].append(round(othersAAL[3], 0))
+                aal['rentalLoss'].append(round(othersAAL[0], 0))
+                aal['displacementCost'].append(round(othersAAL[1], 0))
+                aal['movingCost'].append(round(othersAAL[2], 0))
+                aal['workingHourLoss'].append(round(othersAAL[3], 0))
 
             elif ownerType == 'Landlord':
                 floorInterest = ''  # cd StopAsyncIteration
@@ -478,12 +480,12 @@ class CalculateRR2APIView(APIView):
 
                 aal['FFH'].append(ffh+i)
                 aal['AAL'].append(round(buildingAAL[0], 0))
-                aal['Homeowner AAL'].append(round(buildingAAL[1], 0))
-                aal['Insurer AAL'].append(round(buildingAAL[2], 0))
-                aal['Rental Loss'].append(round(othersAAL[0], 0))
-                aal['Displacement Cost'].append(round(othersAAL[1], 0))
-                aal['Moving Cost'].append(round(othersAAL[2], 0))
-                aal['Working hour loss'].append(round(othersAAL[3], 0))
+                aal['homeownerAAL'].append(round(buildingAAL[1], 0))
+                aal['insurerAAL'].append(round(buildingAAL[2], 0))
+                aal['rentalLoss'].append(round(othersAAL[0], 0))
+                aal['displacementCost'].append(round(othersAAL[1], 0))
+                aal['movingCost'].append(round(othersAAL[2], 0))
+                aal['workingHourLoss'].append(round(othersAAL[3], 0))
 
             elif ownerType == 'Tenant':
                 floorInterest = ''
@@ -508,12 +510,12 @@ class CalculateRR2APIView(APIView):
 
                 aal['FFH'].append(ffh+i)
                 aal['AAL'].append(round(contentsAAL[0], 0))
-                aal['Homeowner AAL'].append(round(contentsAAL[1], 0))
-                aal['Insurer AAL'].append(round(contentsAAL[2], 0))
-                aal['Rental Loss'].append(round(othersAAL[0], 0))
-                aal['Displacement Cost'].append(round(othersAAL[1], 0))
-                aal['Moving Cost'].append(round(othersAAL[2], 0))
-                aal['Working hour loss'].append(round(othersAAL[3], 0))
+                aal['homeownerAAL'].append(round(contentsAAL[1], 0))
+                aal['insurerAAL'].append(round(contentsAAL[2], 0))
+                aal['rentalLoss'].append(round(othersAAL[0], 0))
+                aal['displacementCost'].append(round(othersAAL[1], 0))
+                aal['movingCost'].append(round(othersAAL[2], 0))
+                aal['workingHourLoss'].append(round(othersAAL[3], 0))
 
             # Foundation Cost
 
@@ -529,33 +531,33 @@ class CalculateRR2APIView(APIView):
                     bld_area, h+i, aspect_ratio, aspect="True", s=3, a=3, i=0.1, g=0.15, W=0.41, σ=30, t=0.1, D=0.51, h_=0.2)
 
                 costs_df = pd.DataFrame(costs)
-                costs_df.columns = ['Building Area', 'Aspect ratio', 'Elevation (m)', '$_A_Grading', '$_V_Fill', '$_A_Insulation',
-                                    '$_A_Gravel', '$_V_Excavation', '$_A_Vapor_Barrier', '$_V_Slab', '$_L_Edge_Beam', 'Total_Cost']
+                costs_df.columns = ['buildingArea', 'aspectRatio', 'elevation(m)', 'aGrading', 'vFill', 'aInsulation',
+                                    'aGravel', 'vExcavation', 'aVaporBarrier', 'vSlab', 'lEdgeBeam', 'totalCost']
                 materials_df = pd.DataFrame(materials)
-                materials_df.columns = ['Building Area', 'Aspect ratio',
-                                        'Elevation (m)', 'A_Grading', 'V_Fill', 'A_Gravel', 'V_Excavation', 'A_Vapor_Barrier', 'A_Insulation', 'V_Slab', 'L_Edge_Beam']
+                materials_df.columns = ['buildingArea', 'aspectRatio',
+                                        'elevation(m)', 'aGrading', 'vFill', 'aGravel', 'vExcavation', 'aVaporBarrier', 'aInsulation', 'vSlab', 'lEdgeBeam']
 
             elif foundationType == "Elevated with Enclosure, Not Post, Pile, or Pier" or foundationType == "Crawlspace":
                 FoundationCost, costs, materials = CS1(
                     bld_area, h+i, aspect_ratio, aspect="True", i=0.1, g=0.15, W=0.41, σ=30, t=0.1, D=0.51, h_=0.2, w=0.2)
 
                 costs_df = pd.DataFrame(costs)
-                costs_df.columns = ['Building Area', 'Aspect ratio', 'Elevation (m)', 'w', '$_A_Mason', '$_V_Fill', '$_A_Insulation',
-                                    '$_A_Gravel', '$_V_Excavation', '$_A_Vapor_Barrier', '$_V_Slab', '$_L_Footing', '$_A_Grading', 'Total_Cost']
+                costs_df.columns = ['buildingArea', 'aspectRatio', 'elevation(m)', 'w', 'aMason', 'vFill', 'aInsulation',
+                                    'aGravel', 'vExcavation', 'aVaporBarrier', 'vSlab', 'lFooting', 'aGrading', 'totalCost']
                 materials_df = pd.DataFrame(materials)
-                materials_df.columns = ['Building Area', 'Aspect ratio', 'Elevation (m)', 'w', 'A_Mason', 'V_Fill',
-                                        'A_Insulation', 'A_Gravel', 'V_Excavation', 'A_Vapor_Barrier', 'V_Slab', 'L_Footing', 'A_Grading']
+                materials_df.columns = ['buildingArea', 'aspectRatio', 'elevation(m)', 'w', 'aMason', 'vFill',
+                                        'aInsulation', 'aGravel', 'vExcavation', 'aVaporBarrier', 'vSlab', 'lFooting', 'aGrading']
 
             elif foundationType == "Elevated with Enclosure, Post, Pile, or Pier":
                 FoundationCost, costs, materials = CS2(
                     bld_area, h+i, aspect_ratio, aspect="True", i=0.1, g=0.15, W=0.41, σ=30, t=0.1, D=0.51, h_=0.2, w=0.2)
 
                 costs_df = pd.DataFrame(costs)
-                costs_df.columns = ['Building Area', 'Aspect ratio', 'Elevation (m)', 'w', '$_A_Mason', '$_L_Pier', '$_A_Insulation',
-                                    '$_A_Vapor_Barrier', '$_A_Gravel', '$_V_Excavation', '$_N_Pad', '$_V_Slab', '$_L_Footing', '$_A_Grading', 'Total_Cost']
+                costs_df.columns = ['buildingArea', 'aspectRatio', 'elevation(m)', 'w', 'aMason', 'lPier', 'aInsulation',
+                                    'aVaporBarrier', 'aGravel', 'vExcavation', 'nPad', 'vSlab', 'lFooting', 'aGrading', 'totalCost']
                 materials_df = pd.DataFrame(materials)
-                materials_df.columns = ['Building Area', 'Aspect ratio', 'Elevation (m)', 'w', 'A_Mason', 'L_Pier',
-                                        'A_Insulation', 'A_Vapor_Barrier', 'A_Gravel', 'V_Excavation', 'N_Pad', 'V_Slab', 'L_footing', 'A_Grading']
+                materials_df.columns = ['buildingArea', 'aspectRatio', 'elevation(m)', 'w', 'aMason', 'lPier',
+                                        'aInsulation', 'aVaporBarrier', 'aGravel', 'vExcavation', 'nPad', 'vSlab', 'lFooting', 'aGrading']
 
             # elif foundationType=="CMU stemwalls with wood frame floor assembly on internal CMU piers":
             #     FoundationCost,costs,materials = CS3(bld_area,h+i,aspect_ratio=1.5,aspect="True",i=0.1,g=0.15,W=0.41,σ=30,t=0.1,D=0.51,h_=0.2,w=0.2)
@@ -570,11 +572,11 @@ class CalculateRR2APIView(APIView):
                     bld_area, h+i, aspect_ratio, aspect="True", i=0.1, g=0.15, W=0.41, σ=30, t=0.1, D=0.51, h_=0.2, w=0.2)
 
                 costs_df = pd.DataFrame(costs)
-                costs_df.columns = ['Building Area', 'Aspect ratio', 'Elevation (m)', '$_L_Pier', '$_V_Excavation',
-                                    '$_A_Grading', '$_A_Gravel', '$_A_Insulation', '$_N_Pad', '$_V_Wood', '$_A_Wood', 'Total_Cost']
+                costs_df.columns = ['buildingArea', 'aspectRatio', 'elevation(m)', 'lPier', 'vExcavation',
+                                    'aGrading', 'aGravel', 'aInsulation', 'nPad', 'vWood', 'aWood', 'totalCost']
                 materials_df = pd.DataFrame(materials)
-                materials_df.columns = ['Building Area', 'Aspect ratio',
-                                        'Elevation (m)', 'L_Pier', 'V_Excavation', 'A_Grading', 'A_Gravel', 'A_Insulation', 'N_Pad', 'V_Wood', 'A_Wood']
+                materials_df.columns = ['buildingArea', 'aspectRatio',
+                                        'elevation(m)', 'lPier', 'vExcavation', 'aGrading', 'aGravel', 'aInsulation', 'nPad', 'vWood', 'aWood']
 
             costs_dict = costs_df.to_dict('list')
             materials_dict = materials_df.to_dict('list')
@@ -591,10 +593,57 @@ class CalculateRR2APIView(APIView):
         print("Foundation cost results : ", '\n')
         print("costResults = ", costResults, '\n')
         print("materialsResults = ", materialsResults, '\n')
-        return Response({'Risk rating 2.0 Results': rr2res, 'AAL Results': aal, 'Foundation Cost Results': {'costResults': costResults, 'materialsResults': materialsResults}})
+        return Response({'riskRating2Results': rr2res, 'aalResults': aal, 'foundationCostResults': {'costResults': costResults, 'materialsResults': materialsResults}})
 
+
+class CalculateRR2LegacyAPIView(APIView):
+    def get(self, request, format=None):
+
+        # user inputs
+        inputs = request.data
+
+        scenariosearch = inputs["Scenario"]
+        currentScenario = scenario.objects.get(id=scenariosearch)
+        print("infofromScenarioId : ", currentScenario)
+        firstFloorHeightCurrentScenario = currentScenario.firstFloorHeight
+        livableArea = currentScenario.livableArea
+
+        # Risk Rating 2.0
+        inputs['Loss Constant'] = 130  # ok
+        inputs['Expense Constant'] = 62.99  # ok
+        inputs['ICC premium'] = 4  # ok for now---tables coming
+        inputs['Reserve fund'] = 1.15  # ok
+        inputs['Probation surcharge'] = 0   # ok for now---tables coming
+        inputs['Federal policy fee'] = 50  # ok
+
+        rr2res = []
+        listofPremiums = []
+        listofFFH = []
+        listofPremiumsMonthly = []
+        listofPremiumsSavingsMonthly = []
+        premiumsNoRounding = []
+        count = 0
+        RR2LegacyResults = []
+        RR2LegacyDict = {}
+
+        for i in range(5):
+            # Risk rating 2.0
+            if str(currentScenario.levee) == "No":
+                print("nonlevee", currentScenario.levee)
+                rr2res = RRFunctionsNonLevee(count,
+                                             inputs, currentScenario, firstFloorHeightCurrentScenario+i, listofPremiums, listofFFH, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding, RR2LegacyDict, RR2LegacyResults)
+            elif str(currentScenario.levee) == "Yes":
+                print("levee", currentScenario.levee)
+                rr2res = RRFunctionsLevee(count,
+                                          inputs, currentScenario, firstFloorHeightCurrentScenario+i, listofPremiums, listofFFH, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding, RR2LegacyDict, RR2LegacyResults)
+
+            # RR2LegacyResults.append(rr2res)
+        print("riskRating2.0Results= ", rr2res, '\n')
+        return Response({'riskRating2Results': rr2res})
 
 # Risk Rating 2.0 results
+
+
 class riskrating2resultsViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows groups to be viewed or edited.
