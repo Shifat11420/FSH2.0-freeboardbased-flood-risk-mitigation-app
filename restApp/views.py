@@ -278,7 +278,7 @@ class CalculateRR2APIView(APIView):
     def get(self, request, format=None):
 
         # user inputs
-        inputs = request.data
+        inputs = {}  # request.data
 
         # --------------------------
         # inputs = {}
@@ -328,8 +328,11 @@ class CalculateRR2APIView(APIView):
         # inputs['Expense Constant'] = 62.99  #
         # A=building, C=contents   value=total replacement value, limit = coverage, deductible=deductible
 
-        scenariosearch = inputs["Scenario"]
+        scenariosearch = request.query_params.get('Scenario')
+
         currentScenario = scenario.objects.get(id=scenariosearch)
+        # scenariosearch = inputs["Scenario"]
+        # currentScenario = scenario.objects.get(id=scenariosearch)
         print("infofromScenarioId : ", currentScenario)
         firstFloorHeightCurrentScenario = currentScenario.firstFloorHeight
         livableArea = currentScenario.livableArea
@@ -354,12 +357,12 @@ class CalculateRR2APIView(APIView):
         aal = {}
         aal['FFH'] = []
         aal['AAL'] = []
-        aal['homeownerAAL'] = []
+        aal['userTypeAAL'] = []
         aal['insurerAAL'] = []
-        aal['rentalLoss'] = []
-        aal['displacementCost'] = []
-        aal['movingCost'] = []
-        aal['workingHourLoss'] = []
+        # aal['rentalLoss'] = []
+        # aal['displacementCost'] = []
+        # aal['movingCost'] = []
+        # aal['workingHourLoss'] = []
 
         seed = 123
         # from flood depth data, frondend, Adil will provide logic
@@ -378,12 +381,16 @@ class CalculateRR2APIView(APIView):
         ddfConts = ddfContents.objects.all()
 
         # Foundation Cost
-        h = firstFloorHeightCurrentScenario
-        bld_area = livableArea
+        h = firstFloorHeightCurrentScenario * 0.3048   # changing unit form feet to meter
+        # changing unit for square feet to square meter
+        bld_area = livableArea * 0.0929
         homeshape = str(currentScenario.homeShapeID)
         foundationType = str(currentScenario.foundationTypeID)
         costResults = {}
         materialsResults = {}
+        foundationCostList = []
+        foundationCostIncrease = []
+
         if foundationType == "Slab":
             costResults = {'buildingArea': [], 'aspectRatio': [], 'elevation(m)': [], 'aGrading': [], 'vFill': [], 'aInsulation': [],
                            '$aGravel': [], 'vExcavation': [], 'aVaporBarrier': [], 'vSlab': [], 'lEdge_Beam': [], 'totalCost': []}
@@ -449,14 +456,14 @@ class CalculateRR2APIView(APIView):
 
                 aal['FFH'].append(ffh+i)
                 aal['AAL'].append(round(buildingAAL[0] + contentsAAL[0], 0))
-                aal['homeownerAAL'].append(
+                aal['userTypeAAL'].append(
                     round(buildingAAL[1] + contentsAAL[1], 0))
                 aal['insurerAAL'].append(
                     round(buildingAAL[2] + contentsAAL[2], 0))
-                aal['rentalLoss'].append(round(othersAAL[0], 0))
-                aal['displacementCost'].append(round(othersAAL[1], 0))
-                aal['movingCost'].append(round(othersAAL[2], 0))
-                aal['workingHourLoss'].append(round(othersAAL[3], 0))
+                # aal['rentalLoss'].append(round(othersAAL[0], 0))
+                # aal['displacementCost'].append(round(othersAAL[1], 0))
+                # aal['movingCost'].append(round(othersAAL[2], 0))
+                # aal['workingHourLoss'].append(round(othersAAL[3], 0))
 
             elif ownerType == 'Landlord':
                 floorInterest = ''  # cd StopAsyncIteration
@@ -480,12 +487,12 @@ class CalculateRR2APIView(APIView):
 
                 aal['FFH'].append(ffh+i)
                 aal['AAL'].append(round(buildingAAL[0], 0))
-                aal['homeownerAAL'].append(round(buildingAAL[1], 0))
+                aal['userTypeAAL'].append(round(buildingAAL[1], 0))
                 aal['insurerAAL'].append(round(buildingAAL[2], 0))
-                aal['rentalLoss'].append(round(othersAAL[0], 0))
-                aal['displacementCost'].append(round(othersAAL[1], 0))
-                aal['movingCost'].append(round(othersAAL[2], 0))
-                aal['workingHourLoss'].append(round(othersAAL[3], 0))
+                # aal['rentalLoss'].append(round(othersAAL[0], 0))
+                # aal['displacementCost'].append(round(othersAAL[1], 0))
+                # aal['movingCost'].append(round(othersAAL[2], 0))
+                # aal['workingHourLoss'].append(round(othersAAL[3], 0))
 
             elif ownerType == 'Tenant':
                 floorInterest = ''
@@ -510,12 +517,12 @@ class CalculateRR2APIView(APIView):
 
                 aal['FFH'].append(ffh+i)
                 aal['AAL'].append(round(contentsAAL[0], 0))
-                aal['homeownerAAL'].append(round(contentsAAL[1], 0))
+                aal['userTypeAAL'].append(round(contentsAAL[1], 0))
                 aal['insurerAAL'].append(round(contentsAAL[2], 0))
-                aal['rentalLoss'].append(round(othersAAL[0], 0))
-                aal['displacementCost'].append(round(othersAAL[1], 0))
-                aal['movingCost'].append(round(othersAAL[2], 0))
-                aal['workingHourLoss'].append(round(othersAAL[3], 0))
+                # aal['rentalLoss'].append(round(othersAAL[0], 0))
+                # aal['displacementCost'].append(round(othersAAL[1], 0))
+                # aal['movingCost'].append(round(othersAAL[2], 0))
+                # aal['workingHourLoss'].append(round(othersAAL[3], 0))
 
             # Foundation Cost
 
@@ -587,23 +594,32 @@ class CalculateRR2APIView(APIView):
             for key in materialsResults:
                 materialsResults[key] += materials_dict.get(key, 'nan')
 
+            foundationCostList.append(FoundationCost)
+            foundationCostIncrease.append(FoundationCost-foundationCostList[0])
+
+        FoundationCostResults = {'foundationCost': foundationCostList,
+                                 'foundationCostIncrease': foundationCostIncrease}
         print('\n')
         print("Risk Rating 2.0  results= ", rr2res, '\n')
         print("AAL results = ", aal, '\n')
-        print("Foundation cost results : ", '\n')
+        print("Foundation cost results : ", foundationCostList, '\n')
         print("costResults = ", costResults, '\n')
         print("materialsResults = ", materialsResults, '\n')
-        return Response({'riskRating2Results': rr2res, 'aalResults': aal, 'foundationCostResults': {'costResults': costResults, 'materialsResults': materialsResults}})
+        return Response({'riskRating2Results': rr2res, 'aalResults': aal, 'foundationCostResults': FoundationCostResults})
 
 
 class CalculateRR2LegacyAPIView(APIView):
     def get(self, request, format=None):
 
         # user inputs
-        inputs = request.data
+        inputs = {}  # request.data
 
-        scenariosearch = inputs["Scenario"]
+        scenariosearch = request.query_params.get('Scenario')
+
         currentScenario = scenario.objects.get(id=scenariosearch)
+
+        # scenariosearch = inputs["Scenario"]
+        # currentScenario = scenario.objects.get(id=scenariosearch)
         print("infofromScenarioId : ", currentScenario)
         firstFloorHeightCurrentScenario = currentScenario.firstFloorHeight
         livableArea = currentScenario.livableArea
