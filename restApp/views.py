@@ -274,7 +274,7 @@ class territoryViewSet(viewsets.ModelViewSet):
                         'huc12', 'peril', 'ratingFactors']
 
 
-class CalculateRR2APIView(APIView):
+class CalculateFSHAPIView(APIView):
     def get(self, request, format=None):
 
         # user inputs
@@ -351,7 +351,7 @@ class CalculateRR2APIView(APIView):
         listofPremiumsMonthly = []
         listofPremiumsSavingsMonthly = []
         premiumsNoRounding = []
-        RR2LegacyDict = {}
+        LegacyDict = {}
 
         # AAL
         aal = {}
@@ -415,17 +415,17 @@ class CalculateRR2APIView(APIView):
             materialsResults = {'buildingArea': [], 'aspectRatio': [], 'elevation(m)': [], 'lPier': [], 'vExcavation': [],
                                 'aGrading': [], 'aGravel': [], 'aInsulation': [], 'nPad': [], 'vWood': [], 'aWood': []}
         count = 1
-        RR2LegacyResults = []
+        LegacyResults = []
         for i in range(5):
             # Risk rating 2.0
             if str(currentScenario.levee) == "No":
                 print("nonlevee", currentScenario.levee)
                 rr2res = RRFunctionsNonLevee(count,
-                                             inputs, currentScenario, firstFloorHeightCurrentScenario+i, listofPremiums, listofFFH, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding, RR2LegacyDict, RR2LegacyResults)
+                                             inputs, currentScenario, firstFloorHeightCurrentScenario+i, listofPremiums, listofFFH, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding, LegacyDict, LegacyResults)
             elif str(currentScenario.levee) == "Yes":
                 print("levee", currentScenario.levee)
                 rr2res = RRFunctionsLevee(count,
-                                          inputs, currentScenario, firstFloorHeightCurrentScenario+i, listofPremiums, listofFFH, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding, RR2LegacyDict, RR2LegacyResults)
+                                          inputs, currentScenario, firstFloorHeightCurrentScenario+i, listofPremiums, listofFFH, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding, LegacyDict, LegacyResults)
 
             # AAL
             if ownerType == 'Homeowner':
@@ -608,7 +608,7 @@ class CalculateRR2APIView(APIView):
         return Response({'riskRating2Results': rr2res, 'aalResults': aal, 'foundationCostResults': FoundationCostResults})
 
 
-class CalculateRR2LegacyAPIView(APIView):
+class CalculateFSHLegacyAPIView(APIView):
     def get(self, request, format=None):
 
         # user inputs
@@ -632,30 +632,283 @@ class CalculateRR2LegacyAPIView(APIView):
         inputs['Probation surcharge'] = 0   # ok for now---tables coming
         inputs['Federal policy fee'] = 50  # ok
 
-        rr2res = []
+        resultsAll = []
         listofPremiums = []
         listofFFH = []
         listofPremiumsMonthly = []
         listofPremiumsSavingsMonthly = []
         premiumsNoRounding = []
         count = 0
-        RR2LegacyResults = []
-        RR2LegacyDict = {}
+        LegacyResults = []
+        LegacyDict = {}
+
+        # AAL
+        aal = {}
+        aal['FFH'] = []
+        aal['AAL'] = []
+        aal['userTypeAAL'] = []
+        aal['insurerAAL'] = []
+        # aal['rentalLoss'] = []
+        # aal['displacementCost'] = []
+        # aal['movingCost'] = []
+        # aal['workingHourLoss'] = []
+        aalLegacyDict = {}
+
+        seed = 123
+        # from flood depth data, frondend, Adil will provide logic
+        gumbelLocation = -0.23
+        # from flood depth data, frondend, Adil will provide logic
+        gumbelScale = 0.335
+        # unitConstructionCost = 92.47
+        unitDisplacementCost = 140
+        unitMovingCost = 1.20
+        ffh = firstFloorHeightCurrentScenario
+        ownerType = str(currentScenario.userTypeID)
+        buildingReplacementValue = currentScenario.buildingReplacementValue
+        insurance = 'Yes'
+
+        ddfBldg = ddfBuilding.objects.all()
+        ddfConts = ddfContents.objects.all()
+
+        # Foundation Cost
+        h = firstFloorHeightCurrentScenario * 0.3048   # changing unit form feet to meter
+        # changing unit for square feet to square meter
+        bld_area = livableArea * 0.0929
+        homeshape = str(currentScenario.homeShapeID)
+        foundationType = str(currentScenario.foundationTypeID)
+        costResults = {}
+        materialsResults = {}
+        foundationCostList = []
+        foundationCostIncrease = []
+
+        if foundationType == "Slab":
+            costResults = {'buildingArea': [], 'aspectRatio': [], 'elevation(m)': [], 'aGrading': [], 'vFill': [], 'aInsulation': [],
+                           '$aGravel': [], 'vExcavation': [], 'aVaporBarrier': [], 'vSlab': [], 'lEdge_Beam': [], 'totalCost': []}
+            materialsResults = {'buildingArea': [], 'aspectRatio': [],
+                                'elevation(m)': [], 'aGrading': [], 'vFill': [], 'aGravel': [], 'vExcavation': [], 'aVaporBarrier': [], 'aInsulation': [], 'vSlab': [], 'lEdgeBeam': []}
+
+        elif foundationType == "Elevated with Enclosure, Not Post, Pile, or Pier" or foundationType == "Crawlspace":
+            costResults = {'buildingArea': [], 'aspectRatio': [], 'elevation(m)': [], 'w': [], 'aMason': [], 'vFill': [], 'aInsulation': [],
+                           'aGravel': [], 'vExcavation': [], 'aVaporBarrier': [], 'vSlab': [], 'lFooting': [], 'aGrading': [], 'totalCost': []}
+            materialsResults = {'buildingArea': [], 'aspectRatio': [], 'elevation(m)': [], 'w': [], 'aMason': [], 'vFill': [],
+                                'aInsulation': [], 'aGravel': [], 'vExcavation': [], 'aVaporBarrier': [], 'vSlab': [], 'lFooting': [], 'aGrading': []}
+
+        elif foundationType == "Elevated with Enclosure, Post, Pile, or Pier":
+            costResults = {'buildingArea': [], 'aspectRatio': [], 'elevation(m)': [], 'w': [], 'aMason': [], 'lPier': [], 'aInsulation': [],
+                           'aVaporBarrier': [], 'aGravel': [], 'vExcavation': [], 'nPad': [], 'vSlab': [], 'lFooting': [], 'aGrading': [], 'totalCost': []}
+            materialsResults = {'buildingArea': [], 'aspectRatio': [], 'elevation(m)': [], 'w': [], 'aMason': [], 'lPier': [],
+                                'aInsulation': [], 'aVaporBarrier': [], 'aGravel': [], 'vExcavation': [], 'nPad': [], 'vSlab': [], 'lfooting': [], 'aGrading': []}
+
+        elif foundationType == "Elevated without Enclosure, Post, Pile, or Pier":
+            costResults = {'buildingArea': [], 'aspectRatio': [], 'elevation(m)': [], 'lPier': [], 'vExcavation': [],
+                           'aGrading': [], 'aGravel': [], 'aInsulation': [], 'nPad': [], 'vWood': [], 'aWood': [], 'totalCost': []}
+            materialsResults = {'buildingArea': [], 'aspectRatio': [], 'elevation(m)': [], 'lPier': [], 'vExcavation': [],
+                                'aGrading': [], 'aGravel': [], 'aInsulation': [], 'nPad': [], 'vWood': [], 'aWood': []}
 
         for i in range(5):
             # Risk rating 2.0
             if str(currentScenario.levee) == "No":
                 print("nonlevee", currentScenario.levee)
-                rr2res = RRFunctionsNonLevee(count,
-                                             inputs, currentScenario, firstFloorHeightCurrentScenario+i, listofPremiums, listofFFH, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding, RR2LegacyDict, RR2LegacyResults)
+                resultsAll = RRFunctionsNonLevee(count,
+                                                 inputs, currentScenario, firstFloorHeightCurrentScenario+i, listofPremiums, listofFFH, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding, LegacyDict, LegacyResults)
             elif str(currentScenario.levee) == "Yes":
                 print("levee", currentScenario.levee)
-                rr2res = RRFunctionsLevee(count,
-                                          inputs, currentScenario, firstFloorHeightCurrentScenario+i, listofPremiums, listofFFH, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding, RR2LegacyDict, RR2LegacyResults)
+                resultsAll = RRFunctionsLevee(count,
+                                              inputs, currentScenario, firstFloorHeightCurrentScenario+i, listofPremiums, listofFFH, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding, LegacyDict, LegacyResults)
 
-            # RR2LegacyResults.append(rr2res)
-        print("riskRating2.0Results= ", rr2res, '\n')
-        return Response({'riskRating2Results': rr2res})
+            # LegacyResults.append(resultsAll)
+
+            # AAL
+            if ownerType == 'Homeowner':
+                floorInterest = ''
+
+                if insurance == 'Yes':
+                    coverageValueA = currentScenario.buildingCoverage
+                    deductibleValueA = currentScenario.buildingDeductible
+                    coverageValueC = currentScenario.contentsCoverage
+                    deductibleValueC = currentScenario.contentsDeductible
+
+                    random.seed(seed)
+                    buildingAAL = aal_building(livableArea, buildingReplacementValue, ffh+i, gumbelLocation,
+                                               gumbelScale, ddfBldg, insurance, coverageValueA, deductibleValueA)
+                    contentsAAL = aal_contents(livableArea, buildingReplacementValue, ffh+i, gumbelLocation,
+                                               gumbelScale, ddfConts, insurance, coverageValueC, deductibleValueC)
+                    othersAAL = aal_others(livableArea, buildingReplacementValue, ffh+i,
+                                           gumbelLocation, gumbelScale, unitDisplacementCost, unitMovingCost)
+
+                else:
+                    random.seed(seed)
+                    buildingAAL = aal_building(livableArea, buildingReplacementValue, ffh+i,
+                                               gumbelLocation, gumbelScale, ddfBldg, insurance)
+                    contentsAAL = aal_contents(livableArea, buildingReplacementValue, ffh+i,
+                                               gumbelLocation, gumbelScale, ddfConts, insurance)
+                    othersAAL = aal_others(livableArea, buildingReplacementValue, ffh+i,
+                                           gumbelLocation, gumbelScale, unitDisplacementCost, unitMovingCost)
+
+                aal['FFH'].append(ffh+i)
+                aal['AAL'].append(round(buildingAAL[0] + contentsAAL[0], 0))
+                aal['userTypeAAL'].append(
+                    round(buildingAAL[1] + contentsAAL[1], 0))
+                aal['insurerAAL'].append(
+                    round(buildingAAL[2] + contentsAAL[2], 0))
+                # aal['rentalLoss'].append(round(othersAAL[0], 0))
+                # aal['displacementCost'].append(round(othersAAL[1], 0))
+                # aal['movingCost'].append(round(othersAAL[2], 0))
+                # aal['workingHourLoss'].append(round(othersAAL[3], 0))
+
+                LegacyDict['AAL'] = aal['AAL'][i]
+                LegacyDict['userTypeAAL'] = aal['userTypeAAL'][i]
+                LegacyDict['insurerAAL'] = aal['insurerAAL'][i]
+
+            elif ownerType == 'Landlord':
+                floorInterest = ''  # cd StopAsyncIteration
+                # buildingLossFunction = pd.read_csv("DDF_building.csv")
+
+                if insurance == 'Yes':
+                    coverageValueA = currentScenario.buildingCoverage
+                    deductibleValueA = currentScenario.buildingDeductible
+                    random.seed(seed)
+                    buildingAAL = aal_building(livableArea, buildingReplacementValue, ffh+i, gumbelLocation,
+                                               gumbelScale, ddfBldg, insurance, coverageValueA, deductibleValueA)
+                    othersAAL = aal_others(livableArea, buildingReplacementValue, ffh+i,
+                                           gumbelLocation, gumbelScale, unitDisplacementCost, unitMovingCost)
+
+                else:
+                    random.seed(seed)
+                    buildingAAL = aal_building(livableArea, buildingReplacementValue, ffh+i,
+                                               gumbelLocation, gumbelScale, ddfBldg, insurance)
+                    othersAAL = aal_others(livableArea, buildingReplacementValue, ffh+i,
+                                           gumbelLocation, gumbelScale, unitDisplacementCost, unitMovingCost)
+
+                aal['FFH'].append(ffh+i)
+                aal['AAL'].append(round(buildingAAL[0], 0))
+                aal['userTypeAAL'].append(round(buildingAAL[1], 0))
+                aal['insurerAAL'].append(round(buildingAAL[2], 0))
+                # aal['rentalLoss'].append(round(othersAAL[0], 0))
+                # aal['displacementCost'].append(round(othersAAL[1], 0))
+                # aal['movingCost'].append(round(othersAAL[2], 0))
+                # aal['workingHourLoss'].append(round(othersAAL[3], 0))
+                LegacyDict['AAL'] = aal['AAL'][i]
+                LegacyDict['userTypeAAL'] = aal['userTypeAAL'][i]
+                LegacyDict['insurerAAL'] = aal['insurerAAL'][i]
+
+            elif ownerType == 'Tenant':
+                floorInterest = ''
+                # contentsLossFunction = pd.read_csv("DDF_contents.csv")
+
+                if insurance == 'Yes':
+                    coverageValueC = currentScenario.contentsCoverage
+                    deductibleValueC = currentScenario.contentsDeductible
+
+                    random.seed(seed)
+                    contentsAAL = aal_contents(livableArea, buildingReplacementValue, ffh+i, gumbelLocation,
+                                               gumbelScale, ddfConts, insurance, coverageValueC, deductibleValueC)
+                    othersAAL = aal_others(livableArea, buildingReplacementValue, ffh+i,
+                                           gumbelLocation, gumbelScale, unitDisplacementCost, unitMovingCost)
+
+                else:
+                    random.seed(seed)
+                    contentsAAL = aal_contents(livableArea, buildingReplacementValue, ffh+i,
+                                               gumbelLocation, gumbelScale, ddfConts, insurance)
+                    othersAAL = aal_others(livableArea, buildingReplacementValue, ffh+i,
+                                           gumbelLocation, gumbelScale, unitDisplacementCost, unitMovingCost)
+
+                aal['FFH'].append(ffh+i)
+                aal['AAL'].append(round(contentsAAL[0], 0))
+                aal['userTypeAAL'].append(round(contentsAAL[1], 0))
+                aal['insurerAAL'].append(round(contentsAAL[2], 0))
+                # aal['rentalLoss'].append(round(othersAAL[0], 0))
+                # aal['displacementCost'].append(round(othersAAL[1], 0))
+                # aal['movingCost'].append(round(othersAAL[2], 0))
+                # aal['workingHourLoss'].append(round(othersAAL[3], 0))
+
+                LegacyDict['AAL'] = aal['AAL'][i]
+                LegacyDict['userTypeAAL'] = aal['userTypeAAL'][i]
+                LegacyDict['insurerAAL'] = aal['insurerAAL'][i]
+            # LegacyResults.append(LegacyDict.copy())
+
+            # Foundation Cost
+
+            if homeshape == "Square":
+                aspect_ratio = 1.0
+            elif homeshape == "Rectangle":
+                aspect_ratio = 1.5
+            elif homeshape == "Long":
+                aspect_ratio = 2.0
+
+            if foundationType == "Slab":
+                FoundationCost, costs, materials = slab_on_fill(
+                    bld_area, h+i, aspect_ratio, aspect="True", s=3, a=3, i=0.1, g=0.15, W=0.41, σ=30, t=0.1, D=0.51, h_=0.2)
+
+                costs_df = pd.DataFrame(costs)
+                costs_df.columns = ['buildingArea', 'aspectRatio', 'elevation(m)', 'aGrading', 'vFill', 'aInsulation',
+                                    'aGravel', 'vExcavation', 'aVaporBarrier', 'vSlab', 'lEdgeBeam', 'totalCost']
+                materials_df = pd.DataFrame(materials)
+                materials_df.columns = ['buildingArea', 'aspectRatio',
+                                        'elevation(m)', 'aGrading', 'vFill', 'aGravel', 'vExcavation', 'aVaporBarrier', 'aInsulation', 'vSlab', 'lEdgeBeam']
+
+            elif foundationType == "Elevated with Enclosure, Not Post, Pile, or Pier" or foundationType == "Crawlspace":
+                FoundationCost, costs, materials = CS1(
+                    bld_area, h+i, aspect_ratio, aspect="True", i=0.1, g=0.15, W=0.41, σ=30, t=0.1, D=0.51, h_=0.2, w=0.2)
+
+                costs_df = pd.DataFrame(costs)
+                costs_df.columns = ['buildingArea', 'aspectRatio', 'elevation(m)', 'w', 'aMason', 'vFill', 'aInsulation',
+                                    'aGravel', 'vExcavation', 'aVaporBarrier', 'vSlab', 'lFooting', 'aGrading', 'totalCost']
+                materials_df = pd.DataFrame(materials)
+                materials_df.columns = ['buildingArea', 'aspectRatio', 'elevation(m)', 'w', 'aMason', 'vFill',
+                                        'aInsulation', 'aGravel', 'vExcavation', 'aVaporBarrier', 'vSlab', 'lFooting', 'aGrading']
+
+            elif foundationType == "Elevated with Enclosure, Post, Pile, or Pier":
+                FoundationCost, costs, materials = CS2(
+                    bld_area, h+i, aspect_ratio, aspect="True", i=0.1, g=0.15, W=0.41, σ=30, t=0.1, D=0.51, h_=0.2, w=0.2)
+
+                costs_df = pd.DataFrame(costs)
+                costs_df.columns = ['buildingArea', 'aspectRatio', 'elevation(m)', 'w', 'aMason', 'lPier', 'aInsulation',
+                                    'aVaporBarrier', 'aGravel', 'vExcavation', 'nPad', 'vSlab', 'lFooting', 'aGrading', 'totalCost']
+                materials_df = pd.DataFrame(materials)
+                materials_df.columns = ['buildingArea', 'aspectRatio', 'elevation(m)', 'w', 'aMason', 'lPier',
+                                        'aInsulation', 'aVaporBarrier', 'aGravel', 'vExcavation', 'nPad', 'vSlab', 'lFooting', 'aGrading']
+
+            # elif foundationType=="CMU stemwalls with wood frame floor assembly on internal CMU piers":
+            #     FoundationCost,costs,materials = CS3(bld_area,h+i,aspect_ratio=1.5,aspect="True",i=0.1,g=0.15,W=0.41,σ=30,t=0.1,D=0.51,h_=0.2,w=0.2)
+
+            #     costs_df = pd.DataFrame(costs)
+            #     costs_df.columns = ['Building Area','Aspect ratio','Elevation (m)','w','$_A_Mason','$_L_Pier','$_A_Vapor_Barrier','$_A_Insulation','$_A_Gravel','$_V_Excavation','$_N_Pad','$_V_Wood','$_L_Footing','$_A_Grading','$_A_Wood','Total_Cost']
+            #     materials_df = pd.DataFrame(materials)
+            #     materials_df.columns = ['Building Area','Aspect ratio','Elevation (m)','w','A_Mason','L_Pier','A_Vapor_Barrier','A_Insulation','A_Gravel','V_Excavation','N_Pad','V_Wood','L_Footing','A_Grading','A_Wood']
+
+            elif foundationType == "Elevated without Enclosure, Post, Pile, or Pier":
+                FoundationCost, costs, materials = CS4(
+                    bld_area, h+i, aspect_ratio, aspect="True", i=0.1, g=0.15, W=0.41, σ=30, t=0.1, D=0.51, h_=0.2, w=0.2)
+
+                costs_df = pd.DataFrame(costs)
+                costs_df.columns = ['buildingArea', 'aspectRatio', 'elevation(m)', 'lPier', 'vExcavation',
+                                    'aGrading', 'aGravel', 'aInsulation', 'nPad', 'vWood', 'aWood', 'totalCost']
+                materials_df = pd.DataFrame(materials)
+                materials_df.columns = ['buildingArea', 'aspectRatio',
+                                        'elevation(m)', 'lPier', 'vExcavation', 'aGrading', 'aGravel', 'aInsulation', 'nPad', 'vWood', 'aWood']
+
+            costs_dict = costs_df.to_dict('list')
+            materials_dict = materials_df.to_dict('list')
+
+            for key in costResults:
+                costResults[key] += costs_dict.get(key, 'nan')
+
+            for key in materialsResults:
+                materialsResults[key] += materials_dict.get(key, 'nan')
+
+            foundationCostList.append(FoundationCost)
+            foundationCostIncrease.append(FoundationCost-foundationCostList[0])
+
+            LegacyDict['foundationCost'] = foundationCostList[i]
+            LegacyDict['foundationCostIncrease'] = foundationCostIncrease[i]
+
+            LegacyResults.append(LegacyDict.copy())
+
+        FoundationCostResults = {'foundationCost': foundationCostList,
+                                 'foundationCostIncrease': foundationCostIncrease}
+
+        return Response({'Results': resultsAll})
 
 # Risk Rating 2.0 results
 

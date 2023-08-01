@@ -71,7 +71,7 @@ urlpatterns = [
          views.CalculateNfipAPIView.as_view(), name='calcnfipapiv'),
     path('CalculateRiskAPIViewBody',
          views.CalculateRiskAPIViewBody.as_view(), name='calcriskapivbody'),
-    path('RR2', views.CalculateRR2APIView.as_view(), name='rr2singlefunc'),
-    path('RR2Legacy', views.CalculateRR2LegacyAPIView.as_view(), name='rr2legacyfunc'),
+    path('FSH', views.CalculateFSHAPIView.as_view(), name='fshsinglefunc'),
+    path('FSHLegacy', views.CalculateFSHLegacyAPIView.as_view(), name='fshlegacyfunc'),
 
 ]

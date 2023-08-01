@@ -5,7 +5,7 @@ import numpy as np
 from django.db.models import Q
 
 
-def RRFunctionsLevee(count, inputs, currentScenario, firstFloorHeightCurrentScenario, listofPremiums, listofFFH, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding, RR2LegacyDict, RR2LegacyResults):
+def RRFunctionsLevee(count, inputs, currentScenario, firstFloorHeightCurrentScenario, listofPremiums, listofFFH, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding, LegacyDict, LegacyResults):
     stateAbb = stateAbbreviation.objects.filter(
         state=currentScenario.stateLongName).all()
     state = str(stateAbb.values()[0]['abbreviation'])
@@ -2643,15 +2643,15 @@ def RRFunctionsLevee(count, inputs, currentScenario, firstFloorHeightCurrentScen
     listofPremiumsSavingsMonthly.append(
         int(premiumsNoRounding[0]-(premiumResults_dict["allPerils"]/12)))
 
-    RR2LegacyDict["firstFloorHeight"] = listofFFH[-1]
-    RR2LegacyDict["premiumList"] = listofPremiums[-1]
-    RR2LegacyDict["premiumListMonthly"] = listofPremiumsMonthly[-1]
-    RR2LegacyDict["premiumsSavingsMonthly"] = listofPremiumsSavingsMonthly[-1]
-    # print("RR2LegacyDict = ", RR2LegacyDict)
-    RR2LegacyResults.append(RR2LegacyDict.copy())
+    LegacyDict["firstFloorHeight"] = listofFFH[-1]
+    LegacyDict["premiumList"] = listofPremiums[-1]
+    LegacyDict["premiumListMonthly"] = listofPremiumsMonthly[-1]
+    LegacyDict["premiumsSavingsMonthly"] = listofPremiumsSavingsMonthly[-1]
+    # print("LegacyDict = ", LegacyDict)
+    # LegacyResults.append(LegacyDict.copy())
 
     if count == 0:
-        return RR2LegacyResults
+        return LegacyResults
     else:
         return [
             # {"baserate results": baserateResults_dict["allPerils"]}, {"distToRiver results": distToRiverResults_dict["allPerils"]},
