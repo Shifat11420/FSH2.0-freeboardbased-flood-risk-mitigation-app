@@ -35,6 +35,7 @@ admin.site.register(floor)
 admin.site.register(floor1to3)
 admin.site.register(floor1to100)
 admin.site.register(floor1to4)
+admin.site.register(stateAbbreviation)
 
 admin.site.register(scenario)
 

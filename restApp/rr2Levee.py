@@ -6,9 +6,13 @@ from django.db.models import Q
 
 
 def RRFunctionsLevee(count, inputs, currentScenario, firstFloorHeightCurrentScenario, listofPremiums, listofFFH, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding, RR2LegacyDict, RR2LegacyResults):
+    stateAbb = stateAbbreviation.objects.filter(
+        state=currentScenario.stateLongName).all()
+    state = str(stateAbb.values()[0]['abbreviation'])
+
     # Base Rate
     baserate = baseRateMultipliers.objects.filter(levee="Yes",
-                                                  region=currentScenario.state, singleFamilyHomeIndicator=currentScenario.typeOfUseID.singleFamilyHomeIndicatorID).all()
+                                                  region=state, singleFamilyHomeIndicator=currentScenario.typeOfUseID.singleFamilyHomeIndicatorID).all()
 
     item1 = "Base Rate (per $1000 of Coverage Value)"
     ifFluvialBuilding = baserate.filter(
@@ -281,17 +285,17 @@ def RRFunctionsLevee(count, inputs, currentScenario, firstFloorHeightCurrentScen
 
     if currentScenario.distToCoast != None:
         dtc_others = distToCoastMultipliers.objects.filter(levee="Yes").all()
-        if currentScenario.state != "LA":
+        if state != "LA":
             dtc_others = dtc_others.filter(region='Non-LA').all()
         else:
             dtc_others = dtc_others.filter(
-                region=currentScenario.state).all()
+                region=state).all()
 
         dtc_meters_ss = dtc_others.filter(
             ~Q(ss=-9999.0)).values_list("dtc_meters", flat=True)
         dtc_meters_ss = list(dtc_meters_ss)
 
-        dtc_meters_tsu = dtc_others.filter(region=currentScenario.state).filter(
+        dtc_meters_tsu = dtc_others.filter(region=state).filter(
             ~Q(tsu=-9999.0)).values_list("dtc_meters", flat=True)
         dtc_meters_tsu = list(dtc_meters_tsu)
 
@@ -349,7 +353,7 @@ def RRFunctionsLevee(count, inputs, currentScenario, firstFloorHeightCurrentScen
     # Distance To Ocean
     if currentScenario.distToOcean != None:
         dto = distToOceanMultipliers.objects.filter(levee="Yes",
-                                                    region=currentScenario.state).all()
+                                                    region=state).all()
         dto_ss = dto.filter(
             ~Q(ss=-9999.0)).values_list("dto_meters", flat=True)
         dto_ss = list(dto_ss)
@@ -408,13 +412,13 @@ def RRFunctionsLevee(count, inputs, currentScenario, firstFloorHeightCurrentScen
     # distToOceanResults.save()
 
     # Elevation
-    if currentScenario.state != "LA":
+    if state != "LA":
         # if inputs['State'] == "Non-LA":
         elev = elevation.objects.filter(levee="Yes",
                                         region="Non-LA").all()
     else:
         elev = elevation.objects.filter(levee="Yes",
-                                        region=currentScenario.state).all()
+                                        region=state).all()
 
     elev_ifF = elev.filter(
         ifType='Fluvial').filter(

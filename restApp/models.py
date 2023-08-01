@@ -126,12 +126,14 @@ class barrierIslandIndicators(models.Model):
 
     def __str__(self):
         return self.Name
-    
+
+
 class leveeIndicators(models.Model):
     Name = models.CharField(max_length=30)
 
     def __str__(self):
         return self.Name
+
 
 class singleFamilyHomeIndicator(models.Model):
     Name = models.CharField(max_length=30)
@@ -551,6 +553,14 @@ class ddfBuilding(models.Model):
 class ddfContents(models.Model):
     depth = models.FloatField()
     associatedDamage = models.FloatField()
+
+    def __str__(self):
+        return "Id "+str(self.id)
+
+
+class stateAbbreviation(models.Model):
+    state = models.CharField(max_length=50)
+    abbreviation = models.CharField(max_length=10)
 
     def __str__(self):
         return "Id "+str(self.id)

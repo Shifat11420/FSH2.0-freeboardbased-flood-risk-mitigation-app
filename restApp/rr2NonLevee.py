@@ -6,9 +6,13 @@ from django.db.models import Q
 
 
 def RRFunctionsNonLevee(count, inputs, currentScenario, firstFloorHeightCurrentScenario, listofPremiums, listofFFH, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding, RR2LegacyDict, RR2LegacyResults):
+    stateAbb = stateAbbreviation.objects.filter(
+        state=currentScenario.stateLongName).all()
+    state = str(stateAbb.values()[0]['abbreviation'])
+
     # Base Rate
     baserate = baseRateMultipliers.objects.filter(levee="No",
-                                                  region=currentScenario.state, singleFamilyHomeIndicator=currentScenario.typeOfUseID.singleFamilyHomeIndicatorID, bi=currentScenario.barrierIslandIndicator).all()
+                                                  region=state, singleFamilyHomeIndicator=currentScenario.typeOfUseID.singleFamilyHomeIndicatorID, bi=currentScenario.barrierIslandIndicator).all()
 
     item1 = "Base Rate (per $1000 of Coverage Value)"
     segment = baserate.values()[0]['segment']
