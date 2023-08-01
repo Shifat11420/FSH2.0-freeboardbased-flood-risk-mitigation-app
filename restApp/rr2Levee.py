@@ -104,8 +104,27 @@ def RRFunctionsLevee(count, inputs, currentScenario, firstFloorHeightCurrentScen
     # distToRiverResult.save()
 
     # Elevation Relative To River
+    riverFDepth = currentScenario.riverFloodDepth
+    if riverFDepth >= 0 and riverFDepth < 1:
+        riverClassfromDepth = "A"
+    elif riverFDepth >= 1 and riverFDepth < 2:
+        riverClassfromDepth = "B"
+    elif riverFDepth >= 2 and riverFDepth < 3:
+        riverClassfromDepth = "C"
+    elif riverFDepth >= 3 and riverFDepth < 4:
+        riverClassfromDepth = "D"
+    elif riverFDepth >= 4 and riverFDepth < 5:
+        riverClassfromDepth = "E"
+    elif riverFDepth >= 5 and riverFDepth < 6:
+        riverClassfromDepth = "F"
+    elif riverFDepth >= 6 and riverFDepth < 7:
+        riverClassfromDepth = "G"
+    elif riverFDepth >= 7 and riverFDepth < 8:
+        riverClassfromDepth = "H"
+    elif riverFDepth >= 8:
+        riverClassfromDepth = "I"
     elevRiver = elevRelToRiver.objects.filter(levee="Yes",
-                                              riverClass='Class '+str(currentScenario.riverClass)).all()
+                                              riverClass='Class '+str(riverClassfromDepth)).all()
 
     err_feetFluvial = elevRiver.filter(
         ifType='Fluvial').values_list("err_feet", flat=True)
@@ -1005,13 +1024,41 @@ def RRFunctionsLevee(count, inputs, currentScenario, firstFloorHeightCurrentScen
     # coverageValueFactorResults.save()
 
     # Deductible & Limit to Coverage Value Ratio
+    if currentScenario.buildingDeductible <= 1000:
+        bldgDeductible = 1000
+    elif currentScenario.buildingDeductible >= 10000:
+        bldgDeductible = 10000
+    else:
+        bldgDeductible = currentScenario.buildingDeductible
+
+    if currentScenario.contentsDeductible <= 1000:
+        contsDeductible = 1000
+    elif currentScenario.contentsDeductible >= 10000:
+        contsDeductible = 10000
+    else:
+        contsDeductible = currentScenario.contentsDeductible
+
+    if currentScenario.buildingCoverage <= 60000:
+        bldgCoverage = 60000
+    elif currentScenario.buildingCoverage >= 250000:
+        bldgCoverage = 250000
+    else:
+        bldgCoverage = currentScenario.buildingCoverage
+
+    if currentScenario.contentsCoverage <= 25000:
+        contsCoverage = 25000
+    elif currentScenario.contentsCoverage >= 100000:
+        contsCoverage = 100000
+    else:
+        contsCoverage = currentScenario.contentsCoverage
+
     deductible_limit_coverage_A = deductibleLimitITVCovA.objects.all()
     deductible_limit_coverage_C = deductibleLimitITVCovC.objects.all()
 
-    ratio_A = max(min((currentScenario.buildingDeductible +
-                  currentScenario.buildingCoverage) / currentScenario.buildingReplacementValue, 1), 0)
-    ratio_C = max(min((currentScenario.contentsDeductible +
-                  currentScenario.contentsCoverage) / currentScenario.contentsReplacementValue, 1), 0)
+    ratio_A = max(min((bldgDeductible + bldgCoverage) /
+                  currentScenario.buildingReplacementValue, 1), 0)
+    ratio_C = max(min((contsDeductible + contsCoverage) /
+                  currentScenario.contentsReplacementValue, 1), 0)
 
     coverageValueRatioLimitA = deductible_limit_coverage_A.values_list(
         'coverageValueRatio', flat=True)
@@ -1083,9 +1130,9 @@ def RRFunctionsLevee(count, inputs, currentScenario, firstFloorHeightCurrentScen
     deductible_coverage_C = deductibleITVCovC.objects.all()
 
     ratio_A = max(
-        min((currentScenario.buildingDeductible) / currentScenario.buildingReplacementValue, 1), 0)
+        min((bldgDeductible) / currentScenario.buildingReplacementValue, 1), 0)
     ratio_C = max(
-        min((currentScenario.contentsDeductible) / currentScenario.contentsReplacementValue, 1), 0)
+        min((contsDeductible) / currentScenario.contentsReplacementValue, 1), 0)
 
     coverageValueRatioA = deductible_coverage_A.values_list(
         'coverageValueRatio', flat=True)
@@ -1192,7 +1239,7 @@ def RRFunctionsLevee(count, inputs, currentScenario, firstFloorHeightCurrentScen
 
     # Final Deductible & ITV
     item22 = "Final Deductible & ITV"
-    if currentScenario.buildingCoverage == 0:
+    if bldgCoverage == 0:
         ifFluvialBuilding = 0
         ifPluvialBuilding = 0
         ssBuilding = 0
@@ -1207,7 +1254,7 @@ def RRFunctionsLevee(count, inputs, currentScenario, firstFloorHeightCurrentScen
         glBuilding = max(0.001, S_build2int)
         ceBuilding = max(0.001, S_build2int)
 
-    if currentScenario.buildingCoverage == 0:
+    if bldgCoverage == 0:
         ifFluvialContents = 0
         ifPluvialContents = 0
         ssContents = 0
@@ -2589,7 +2636,6 @@ def RRFunctionsLevee(count, inputs, currentScenario, firstFloorHeightCurrentScen
     premiumsNoRounding.append(premiumResults_dict["allPerils"]/12)
     listofPremiumsSavingsMonthly.append(
         int(premiumsNoRounding[0]-(premiumResults_dict["allPerils"]/12)))
-
 
     RR2LegacyDict["firstFloorHeight"] = listofFFH[-1]
     RR2LegacyDict["premiumList"] = listofPremiums[-1]
