@@ -92,24 +92,26 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, firstFloorHeightCurrentS
 
     # Elevation Relative To River
     segmentfromBaserate = segment
-    riverFDepth = currentScenario.riverFloodDepth
-    if riverFDepth >= 0 and riverFDepth < 1:
-        riverClassfromDepth = "A"
-    elif riverFDepth >= 1 and riverFDepth < 2:
+    floodDepthDiff = currentScenario.floodDepthDifference
+    if not floodDepthDiff:
         riverClassfromDepth = "B"
-    elif riverFDepth >= 2 and riverFDepth < 3:
+    elif floodDepthDiff >= 0 and floodDepthDiff < 1:
+        riverClassfromDepth = "A"
+    elif floodDepthDiff >= 1 and floodDepthDiff < 2:
+        riverClassfromDepth = "B"
+    elif floodDepthDiff >= 2 and floodDepthDiff < 3:
         riverClassfromDepth = "C"
-    elif riverFDepth >= 3 and riverFDepth < 4:
+    elif floodDepthDiff >= 3 and floodDepthDiff < 4:
         riverClassfromDepth = "D"
-    elif riverFDepth >= 4 and riverFDepth < 5:
+    elif floodDepthDiff >= 4 and floodDepthDiff < 5:
         riverClassfromDepth = "E"
-    elif riverFDepth >= 5 and riverFDepth < 6:
+    elif floodDepthDiff >= 5 and floodDepthDiff < 6:
         riverClassfromDepth = "F"
-    elif riverFDepth >= 6 and riverFDepth < 7:
+    elif floodDepthDiff >= 6 and floodDepthDiff < 7:
         riverClassfromDepth = "G"
-    elif riverFDepth >= 7 and riverFDepth < 8:
+    elif floodDepthDiff >= 7 and floodDepthDiff < 8:
         riverClassfromDepth = "H"
-    elif riverFDepth >= 8:
+    elif floodDepthDiff >= 8:
         riverClassfromDepth = "I"
 
     elevRiver = elevRelToRiver.objects.filter(levee="No",

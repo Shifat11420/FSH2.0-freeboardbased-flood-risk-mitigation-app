@@ -671,7 +671,7 @@ class scenario(models.Model):
     baseRatePer1000ofCoverageValue = models.FloatField(null=True)
     MSA = models.CharField(null=True, max_length=50)
     distToRiver = models.FloatField(null=True)
-    riverFloodDepth = models.FloatField(null=True)
+    floodDepthDifference = models.FloatField(null=True)
     riverClass = models.CharField(null=True, max_length=50)
     elevRelToRiver = models.FloatField(null=True)
     drainageArea = models.FloatField(null=True)
