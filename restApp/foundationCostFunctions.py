@@ -5,7 +5,7 @@ def len_wid_bldg(bld_area,aspect_ratio=1.5,aspect="True"):
         L = bld_area/B 
         return (B,L)
 
-def slab_on_fill (bld_area,h,aspect_ratio=1.5,aspect="True",s=3,a=3,i=0.1,g=0.15,W=0.41,σ=30,t=0.1,D=0.51,h_=0.2):
+def slab_on_fill (bld_area,h,aspect_ratio,aspect="True",s=3,a=3,i=0.1,g=0.15,W=0.41,σ=30,t=0.1,D=0.51,h_=0.2):
     B,L =  len_wid_bldg(bld_area,aspect_ratio,aspect)  
     swell_fact = σ/100 
     
@@ -47,7 +47,7 @@ def slab_on_fill (bld_area,h,aspect_ratio=1.5,aspect="True",s=3,a=3,i=0.1,g=0.15
     list2.append([bld_area,aspect_ratio,h,Ar,Vf,Ag,Ve,Av,Ai,Vcs,Lcb]) 
     return (round(total,0),list1, list2)
     
-def CS1 (bld_area,h,aspect_ratio=1.5,aspect="True",i=0.1,g=0.15,W=0.41,σ=30,t=0.1,D=0.51,h_=0.2,w=0.2):
+def CS1 (bld_area,h,aspect_ratio,aspect="True",i=0.1,g=0.15,W=0.41,σ=30,t=0.1,D=0.51,h_=0.2,w=0.2):
     B,L =  len_wid_bldg(bld_area,aspect_ratio,aspect)  
     swell_fact = σ/100   
     
@@ -93,7 +93,7 @@ def CS1 (bld_area,h,aspect_ratio=1.5,aspect="True",i=0.1,g=0.15,W=0.41,σ=30,t=0
     list2.append([bld_area,aspect,h,w,Am,Vf,Ai,Ag,Ve,Av,Vcs,Lcf,Ar])
     return (round(total,0),list1, list2)
 
-def CS2(bld_area,h,aspect_ratio=1.5,aspect="True",C=0.41,P=0.25,W=0.41,t=0.1,D=0.3,h_=0.2,y=3,w=0.2):
+def CS2(bld_area,h,aspect_ratio,aspect="True",C=0.41,P=0.25,W=0.41,t=0.1,D=0.3,h_=0.2,y=3,w=0.2):
     B,L =  len_wid_bldg(bld_area,aspect_ratio,aspect)  
 
     Nl = round((L/y)-1)
@@ -141,7 +141,7 @@ def CS2(bld_area,h,aspect_ratio=1.5,aspect="True",C=0.41,P=0.25,W=0.41,t=0.1,D=0
     list2.append([bld_area,aspect,h,w,Am,Lm,Ai,Av,Ag,Ve,N,Vcs,Lcf,Ar])
     return (round(total,0),list1, list2)
   
-def CS3(bld_area,h,aspect_ratio=1.5,aspect="True",C=0.41,P=0.25,W=0.41,D=0.3,h_=0.6,y=3,w=0.2,beam_spacing=2.44,joist_spacing=0.41,α_g=0.003319,α_j=0.002729):
+def CS3(bld_area,h,aspect_ratio,aspect="True",C=0.41,P=0.25,W=0.41,D=0.3,h_=0.6,y=3,w=0.2,beam_spacing=2.44,joist_spacing=0.41,α_g=0.003319,α_j=0.002729):
     B,L =  len_wid_bldg(bld_area,aspect_ratio,aspect)  
    
     Nl = round((L/y)-1)
@@ -192,8 +192,9 @@ def CS3(bld_area,h,aspect_ratio=1.5,aspect="True",C=0.41,P=0.25,W=0.41,D=0.3,h_=
     list1.append([bld_area,aspect,h,w,cmu,pier,vapour_barrier,insulation,gravel,excavation,pads,wood,footing,rough_grading,subfloor,total])
     list2.append([bld_area,aspect,h,w,Am,Lm,Av,Ai,Ag,Ve,N,Vw,Lcf,Ar,Aw])
     return (round(total,0),list1, list2)
-    
-def CS4(bld_area,h,aspect_ratio=1.5,aspect="True",C=0.41,P=0.25,W=0.41,D=0.3,h_=0.6,y=3,beam_spacing=2.44,joist_spacing=0.41,α_g=0.003319,α_j=0.002729):
+
+
+def CS4(bld_area,h,aspect_ratio,aspect="True",C=0.41,P=0.25,W=0.41,D=0.3,h_=0.6,y=3,beam_spacing=2.44,joist_spacing=0.41,α_g=0.003319,α_j=0.002729):
     B,L =  len_wid_bldg(bld_area,aspect_ratio,aspect)  
              
     Nl = round((L/y)+1)

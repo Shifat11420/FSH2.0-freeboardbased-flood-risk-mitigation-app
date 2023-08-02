@@ -73,5 +73,6 @@ urlpatterns = [
          views.CalculateRiskAPIViewBody.as_view(), name='calcriskapivbody'),
     path('FSH', views.CalculateFSHAPIView.as_view(), name='fshsinglefunc'),
     path('FSHLegacy', views.CalculateFSHLegacyAPIView.as_view(), name='fshlegacyfunc'),
+    path('HomeEquity', views.CalculateHELAPIView.as_view(), name='homeequityfunc'),
 
 ]

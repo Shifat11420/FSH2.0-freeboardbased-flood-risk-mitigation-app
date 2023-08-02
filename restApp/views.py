@@ -10,12 +10,12 @@ from restApp.riskrating2functions import *
 from restApp.rr2NonLevee import *
 from restApp.rr2Levee import *
 from restApp.homeEquityLoan.HEL import *
+from restApp.homeEquityLoanfunctions import *
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from operator import add
 from urllib import response
 from django.shortcuts import render
-
 from django.contrib.auth.models import User, Group
 from restApp import serializers
 from rest_framework import viewsets
@@ -594,9 +594,8 @@ class CalculateFSHAPIView(APIView):
             #     materials_df.columns = ['Building Area','Aspect ratio','Elevation (m)','w','A_Mason','L_Pier','A_Vapor_Barrier','A_Insulation','A_Gravel','V_Excavation','N_Pad','V_Wood','L_Footing','A_Grading','A_Wood']
 
             elif foundationType == "Elevated without Enclosure, Post, Pile, or Pier":
-                FoundationCost, costs, materials = CS4(
-                    bld_area, h+i, aspect_ratio, aspect="True", i=0.1, g=0.15, W=0.41, σ=30, t=0.1, D=0.51, h_=0.2, w=0.2)
-
+                FoundationCost, costs, materials = CS4(bld_area, h+i, aspect_ratio, aspect="True", C=0.41, P=0.25,
+                                                       W=0.41, D=0.3, h_=0.6, y=3, beam_spacing=2.44, joist_spacing=0.41, α_g=0.003319, α_j=0.002729)
                 costs_df = pd.DataFrame(costs)
                 costs_df.columns = ['buildingArea', 'aspectRatio', 'elevation(m)', 'lPier', 'vExcavation',
                                     'aGrading', 'aGravel', 'aInsulation', 'nPad', 'vWood', 'aWood', 'totalCost']
@@ -618,13 +617,28 @@ class CalculateFSHAPIView(APIView):
 
         FoundationCostResults = {'foundationCost': foundationCostList,
                                  'foundationCostIncrease': foundationCostIncrease}
+        home_condition = currentScenario.homeConditionID
+        federal_assistance = currentScenario.federalAssistanceID
+        investment_type = currentScenario.investmentTypeID
+        Ce = 150
+        Cc = 110
+        fc = 2.3
+        down_payment = 20
+        A = livableArea
+        r = 3
+        t = 10
+        home_equity_results = home_equity_loan_function(
+            home_condition, federal_assistance, investment_type, Ce, Cc, fc, down_payment, A, r, t)
+        print('Home Equity Calculator Results = ', home_equity_results)
+
+        # return Response({'Home Equity Calculator Results': home_equity_results})
         print('\n')
         print("Risk Rating 2.0  results= ", rr2res, '\n')
         print("AAL results = ", aal, '\n')
         print("Foundation cost results : ", foundationCostList, '\n')
         print("costResults = ", costResults, '\n')
         print("materialsResults = ", materialsResults, '\n')
-        return Response({'riskRating2Results': rr2res, 'aalResults': aal, 'foundationCostResults': FoundationCostResults})
+        return Response({'riskRating2Results': rr2res, 'aalResults': aal, 'foundationCostResults': FoundationCostResults, 'homeEquityLoanResults': home_equity_results})
 
 
 class CalculateFSHLegacyAPIView(APIView):
@@ -916,8 +930,8 @@ class CalculateFSHLegacyAPIView(APIView):
             #     materials_df.columns = ['Building Area','Aspect ratio','Elevation (m)','w','A_Mason','L_Pier','A_Vapor_Barrier','A_Insulation','A_Gravel','V_Excavation','N_Pad','V_Wood','L_Footing','A_Grading','A_Wood']
 
             elif foundationType == "Elevated without Enclosure, Post, Pile, or Pier":
-                FoundationCost, costs, materials = CS4(
-                    bld_area, h+i, aspect_ratio, aspect="True", i=0.1, g=0.15, W=0.41, σ=30, t=0.1, D=0.51, h_=0.2, w=0.2)
+                FoundationCost, costs, materials = CS4(bld_area, h+i, aspect_ratio, aspect="True", C=0.41, P=0.25,
+                                                       W=0.41, D=0.3, h_=0.6, y=3, beam_spacing=2.44, joist_spacing=0.41, α_g=0.003319, α_j=0.002729)
 
                 costs_df = pd.DataFrame(costs)
                 costs_df.columns = ['buildingArea', 'aspectRatio', 'elevation(m)', 'lPier', 'vExcavation',
