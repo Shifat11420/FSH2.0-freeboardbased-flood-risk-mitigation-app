@@ -57,8 +57,14 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
     ifvalue = disttoriver.values_list("ifvalue", flat=True)
     ifvalue = list(ifvalue)
 
+    dtrMetersMax = max(dtrMeters)
+    print("dtrMetersMax = ", dtrMetersMax)
+
     if currentScenario.distToRiver == None:  # 'N/A':
         B = -9999.0  # np.nan
+    elif currentScenario.distToRiver != None and currentScenario.distToRiver > dtrMetersMax:
+        B = np.interp([dtrMetersMax], dtrMeters,
+                      ifvalue)
     else:
         B = np.interp([currentScenario.distToRiver], dtrMeters,
                       ifvalue)
@@ -829,10 +835,21 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
     contValue_allexclCE = contValue.values_list('allExclCE', flat=True)
     contValue_allexclCE = list(contValue_allexclCE)
 
-    build = np.interp([currentScenario.buildingReplacementValue], bldgValue_value,
-                      bldgValue_allexclCE)
-    content = np.interp([currentScenario.contentsReplacementValue], contValue_value,
-                        contValue_allexclCE)
+    bldgValue_valueMax = max(bldgValue_value)
+    contValue_valueMax = max(contValue_value)
+
+    if currentScenario.buildingReplacementValue <= bldgValue_valueMax:
+        build = np.interp([currentScenario.buildingReplacementValue], bldgValue_value,
+                          bldgValue_allexclCE)
+    else:
+        build = np.interp([bldgValue_valueMax], bldgValue_value,
+                          bldgValue_allexclCE)
+    if currentScenario.contentsReplacementValue <= contValue_valueMax:
+        content = np.interp([currentScenario.contentsReplacementValue], contValue_value,
+                            contValue_allexclCE)
+    else:
+        content = np.interp([contValue_valueMax], contValue_value,
+                            contValue_allexclCE)
 
     item16 = "Coverage Value Factor"
     ifBuilding = round(float(build), 4)

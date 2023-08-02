@@ -563,7 +563,7 @@ class CalculateFSHAPIView(APIView):
                 materials_df.columns = ['buildingArea', 'aspectRatio',
                                         'elevation(m)', 'aGrading', 'vFill', 'aGravel', 'vExcavation', 'aVaporBarrier', 'aInsulation', 'vSlab', 'lEdgeBeam']
 
-            elif foundationType == "Elevated with Enclosure, Not Post, Pile, or Pier" or foundationType == "Crawlspace":
+            elif foundationType == "Elevated with Enclosure, Not Post, Pile, or Pier" or foundationType == "Crawlspace" or foundationType == "Basement":
                 FoundationCost, costs, materials = CS1(
                     bld_area, h+i, aspect_ratio, aspect="True", i=0.1, g=0.15, W=0.41, σ=30, t=0.1, D=0.51, h_=0.2, w=0.2)
 
@@ -625,8 +625,8 @@ class CalculateFSHAPIView(APIView):
         fc = 2.3
         down_payment = 20
         A = livableArea
-        r = 3
-        t = 10
+        r = 3  #home equity interest rate or morgage rate
+        t = 10 #home equity loan period or morgage period
         home_equity_results = home_equity_loan_function(
             home_condition, federal_assistance, investment_type, Ce, Cc, fc, down_payment, A, r, t)
         print('Home Equity Calculator Results = ', home_equity_results)

@@ -56,6 +56,11 @@ def RRFunctionsLevee(count, inputs, currentScenario, leveeIdForMaxFactor, firstF
     # Distance To River
     disttoriver = distToRiverMultipliers.objects.filter(levee="Yes").all()
 
+    dtrMeters = disttoriver.values_list("dtr_meters", flat=True)
+    dtrMeters = list(dtrMeters)
+    dtrMetersMax = max(dtrMeters)
+    print("dtrMetersMax = ", dtrMetersMax)
+
     dtrMetersFluvial = disttoriver.filter(
         ifType='Fluvial').values_list("dtr_meters", flat=True)
     dtrMetersFluvial = list(dtrMetersFluvial)
@@ -70,11 +75,16 @@ def RRFunctionsLevee(count, inputs, currentScenario, leveeIdForMaxFactor, firstF
         ifType='Pluvial').values_list("ifvalue", flat=True)
     ifvalueBPluvial = list(ifvalueBPluvial)
 
-    if currentScenario.distToRiver != None and currentScenario.distToRiver <= 1700:
+    if currentScenario.distToRiver != None and currentScenario.distToRiver <= dtrMetersMax:
         B1 = np.interp([currentScenario.distToRiver], dtrMetersFluvial,
                        ifvalueBFluvial)
         B2 = np.interp([currentScenario.distToRiver], dtrMetersPluvial,
                        ifvalueBPluvial)
+    elif currentScenario.distToRiver != None and currentScenario.distToRiver > dtrMetersMax:  
+        B1 = np.interp([dtrMetersMax], dtrMetersFluvial,
+                       ifvalueBFluvial)
+        B2 = np.interp([dtrMetersMax], dtrMetersPluvial,
+                       ifvalueBPluvial)  
 
     item2 = "Distance to River"
     ifFluvialBuilding = round(float(B1), 4)
@@ -989,10 +999,22 @@ def RRFunctionsLevee(count, inputs, currentScenario, leveeIdForMaxFactor, firstF
     contValue_allexclCE = contValue.values_list('allExclCE', flat=True)
     contValue_allexclCE = list(contValue_allexclCE)
 
-    build = np.interp([currentScenario.buildingReplacementValue], bldgValue_value,
-                      bldgValue_allexclCE)
-    content = np.interp([currentScenario.contentsReplacementValue], contValue_value,
+    bldgValue_valueMax = max(bldgValue_value)
+    contValue_valueMax = max(contValue_value)
+
+    if currentScenario.buildingReplacementValue <= bldgValue_valueMax:
+        build = np.interp([currentScenario.buildingReplacementValue], bldgValue_value,
+                        bldgValue_allexclCE)
+    else:
+        build = np.interp([bldgValue_valueMax], bldgValue_value,
+                      bldgValue_allexclCE)   
+    if currentScenario.contentsReplacementValue <= contValue_valueMax:     
+        content = np.interp([currentScenario.contentsReplacementValue], contValue_value,
+                            contValue_allexclCE)
+    else:
+        content = np.interp([contValue_valueMax], contValue_value,
                         contValue_allexclCE)
+    
 
     item18 = "Coverage Value Factor"
     ifFluvialBuilding = round(float(build), 4)
