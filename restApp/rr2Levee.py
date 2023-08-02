@@ -5,7 +5,7 @@ import numpy as np
 from django.db.models import Q
 
 
-def RRFunctionsLevee(count, inputs, currentScenario, firstFloorHeightCurrentScenario, listofPremiums, listofFFH, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding, LegacyDict, LegacyResults):
+def RRFunctionsLevee(count, inputs, currentScenario, leveeIdForMaxFactor, firstFloorHeightCurrentScenario, listofPremiums, listofFFH, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding, LegacyDict, LegacyResults):
     stateAbb = stateAbbreviation.objects.filter(
         state=currentScenario.stateLongName).all()
     state = str(stateAbb.values()[0]['abbreviation'])
@@ -603,7 +603,7 @@ def RRFunctionsLevee(count, inputs, currentScenario, firstFloorHeightCurrentScen
     # elevationRelToLakeResults.save()
 
     levee_qual = leveeQuality.objects.filter(leveeSystemID=int(
-        currentScenario.leveeID)).all()
+        leveeIdForMaxFactor)).all()
     iff = levee_qual.values_list("leveeQualityFactor", flat=True)
     iff = list(iff)
 
@@ -667,7 +667,7 @@ def RRFunctionsLevee(count, inputs, currentScenario, firstFloorHeightCurrentScen
 
     # # IF
     territory_huc12_if = territory.objects.filter(levee="Yes", leveeSystemID=int(
-        currentScenario.leveeID), huc12=int(currentScenario.HUC12), peril='IF').all()
+        leveeIdForMaxFactor), huc12=int(currentScenario.HUC12), peril='IF').all()
 
     territory_if = territory_huc12_if.filter(
         ~Q(ratingFactors=-9999.0)).values_list("ratingFactors", flat=True)
@@ -677,7 +677,7 @@ def RRFunctionsLevee(count, inputs, currentScenario, firstFloorHeightCurrentScen
 
     # SS
     territory_huc12_ss = territory.objects.filter(levee="Yes",
-                                                  huc12=int(currentScenario.HUC12), leveeSystemID=int(currentScenario.leveeID), peril='SS').all()
+                                                  huc12=int(currentScenario.HUC12), leveeSystemID=int(leveeIdForMaxFactor), peril='SS').all()
 
     territory_ss = territory_huc12_ss.filter(
         ~Q(ratingFactors=-9999.0)).values_list("ratingFactors", flat=True)

@@ -5,7 +5,7 @@ import numpy as np
 from django.db.models import Q
 
 
-def RRFunctionsNonLevee(count, inputs, currentScenario, firstFloorHeightCurrentScenario, listofPremiums, listofFFH, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding, LegacyDict, LegacyResults):
+def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, firstFloorHeightCurrentScenario, listofPremiums, listofFFH, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding, LegacyDict, LegacyResults):
     stateAbb = stateAbbreviation.objects.filter(
         state=currentScenario.stateLongName).all()
     state = str(stateAbb.values()[0]['abbreviation'])

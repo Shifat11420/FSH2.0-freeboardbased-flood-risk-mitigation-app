@@ -336,6 +336,25 @@ class CalculateFSHAPIView(APIView):
         print("infofromScenarioId : ", currentScenario)
         firstFloorHeightCurrentScenario = currentScenario.firstFloorHeight
         livableArea = currentScenario.livableArea
+        leveeIDall = currentScenario.leveeID
+        print("leveeIDall = ", leveeIDall)
+        leveeIDList = leveeIDall.split(",")
+        print("leveeIDList = ", leveeIDList)
+        multipleLeveeDict = {}
+        for levee in leveeIDList:
+            print("levee = ", levee)
+            lQ = leveeQuality.objects.filter(leveeSystemID=str(levee)).all()
+            if not lQ:
+                continue
+            print("lQ = ", lQ)
+            lqfactor = str(lQ.values()[0]['leveeQualityFactor'])
+            multipleLeveeDict[str(levee)] = lqfactor
+        print("multipleLeveeDict = ", multipleLeveeDict)
+        lqFactorMax = max(multipleLeveeDict.values())
+        leveeIdForMaxFactor = list(multipleLeveeDict.keys(
+        ))[list(multipleLeveeDict.values()).index(lqFactorMax)]
+        leveeIdForMaxFactor = leveeIdForMaxFactor.strip()
+        print("leveeIdForMaxFactor = ", leveeIdForMaxFactor)
 
         # Risk Rating 2.0
         inputs['Loss Constant'] = 130  # ok
@@ -421,11 +440,11 @@ class CalculateFSHAPIView(APIView):
             if str(currentScenario.levee) == "No":
                 print("nonlevee", currentScenario.levee)
                 rr2res = RRFunctionsNonLevee(count,
-                                             inputs, currentScenario, firstFloorHeightCurrentScenario+i, listofPremiums, listofFFH, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding, LegacyDict, LegacyResults)
+                                             inputs, currentScenario, leveeIdForMaxFactor, firstFloorHeightCurrentScenario+i, listofPremiums, listofFFH, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding, LegacyDict, LegacyResults)
             elif str(currentScenario.levee) == "Yes":
                 print("levee", currentScenario.levee)
                 rr2res = RRFunctionsLevee(count,
-                                          inputs, currentScenario, firstFloorHeightCurrentScenario+i, listofPremiums, listofFFH, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding, LegacyDict, LegacyResults)
+                                          inputs, currentScenario, leveeIdForMaxFactor, firstFloorHeightCurrentScenario+i, listofPremiums, listofFFH, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding, LegacyDict, LegacyResults)
 
             # AAL
             if ownerType == 'Homeowner':
@@ -623,6 +642,25 @@ class CalculateFSHLegacyAPIView(APIView):
         print("infofromScenarioId : ", currentScenario)
         firstFloorHeightCurrentScenario = currentScenario.firstFloorHeight
         livableArea = currentScenario.livableArea
+        leveeIDall = currentScenario.leveeID
+        print("leveeIDall = ", leveeIDall)
+        leveeIDList = leveeIDall.split(",")
+        print("leveeIDList = ", leveeIDList)
+        multipleLeveeDict = {}
+        for levee in leveeIDList:
+            print("levee = ", levee)
+            lQ = leveeQuality.objects.filter(leveeSystemID=str(levee)).all()
+            if not lQ:
+                continue
+            print("lQ = ", lQ)
+            lqfactor = str(lQ.values()[0]['leveeQualityFactor'])
+            multipleLeveeDict[str(levee)] = lqfactor
+        print("multipleLeveeDict = ", multipleLeveeDict)
+        lqFactorMax = max(multipleLeveeDict.values())
+        leveeIdForMaxFactor = list(multipleLeveeDict.keys(
+        ))[list(multipleLeveeDict.values()).index(lqFactorMax)]
+        leveeIdForMaxFactor = leveeIdForMaxFactor.strip()
+        print("leveeIdForMaxFactor = ", leveeIdForMaxFactor)
 
         # Risk Rating 2.0
         inputs['Loss Constant'] = 130  # ok
@@ -710,11 +748,11 @@ class CalculateFSHLegacyAPIView(APIView):
             if str(currentScenario.levee) == "No":
                 print("nonlevee", currentScenario.levee)
                 resultsAll = RRFunctionsNonLevee(count,
-                                                 inputs, currentScenario, firstFloorHeightCurrentScenario+i, listofPremiums, listofFFH, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding, LegacyDict, LegacyResults)
+                                                 inputs, currentScenario, leveeIdForMaxFactor, firstFloorHeightCurrentScenario+i, listofPremiums, listofFFH, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding, LegacyDict, LegacyResults)
             elif str(currentScenario.levee) == "Yes":
                 print("levee", currentScenario.levee)
                 resultsAll = RRFunctionsLevee(count,
-                                              inputs, currentScenario, firstFloorHeightCurrentScenario+i, listofPremiums, listofFFH, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding, LegacyDict, LegacyResults)
+                                              inputs, currentScenario, leveeIdForMaxFactor, firstFloorHeightCurrentScenario+i, listofPremiums, listofFFH, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding, LegacyDict, LegacyResults)
 
             # LegacyResults.append(resultsAll)
 
