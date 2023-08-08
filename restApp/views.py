@@ -380,6 +380,7 @@ class CalculateFSHAPIView(APIView):
         aal['insurerAAL'] = []
         aal['reduction'] = []
         aal['expectedFloodRiskReductionPerMonth'] = []
+        aal['expectedIndirectFloodRiskReductionPerMonth'] = []
 
         # aal['rentalLoss'] = []
         # aal['displacementCost'] = []
@@ -492,6 +493,8 @@ class CalculateFSHAPIView(APIView):
                     aal['reduction'].append(aal['AAL'][0]-aal['AAL'][-1])
                     aal['expectedFloodRiskReductionPerMonth'].append(
                         round(aal['reduction'][-1]/12, 4))
+                aal['expectedIndirectFloodRiskReductionPerMonth'].append(
+                    aal['expectedFloodRiskReductionPerMonth'][-1]*0.5)
                 # aal['rentalLoss'].append(round(othersAAL[0], 0))
                 # aal['displacementCost'].append(round(othersAAL[1], 0))
                 # aal['movingCost'].append(round(othersAAL[2], 0))
@@ -530,6 +533,8 @@ class CalculateFSHAPIView(APIView):
                     aal['reduction'].append(aal['AAL'][0]-aal['AAL'][-1])
                     aal['expectedFloodRiskReductionPerMonth'].append(
                         round(aal['reduction'][-1]/12, 4))
+                aal['expectedIndirectFloodRiskReductionPerMonth'].append(
+                    aal['expectedFloodRiskReductionPerMonth'][-1]*0.5)
                 # aal['rentalLoss'].append(round(othersAAL[0], 0))
                 # aal['displacementCost'].append(round(othersAAL[1], 0))
                 # aal['movingCost'].append(round(othersAAL[2], 0))
@@ -569,6 +574,8 @@ class CalculateFSHAPIView(APIView):
                     aal['reduction'].append(aal['AAL'][0]-aal['AAL'][-1])
                     aal['expectedFloodRiskReductionPerMonth'].append(
                         round(aal['reduction'][-1]/12, 4))
+                aal['expectedIndirectFloodRiskReductionPerMonth'].append(
+                    aal['expectedFloodRiskReductionPerMonth'][-1]*0.5)
                 # aal['rentalLoss'].append(round(othersAAL[0], 0))
                 # aal['displacementCost'].append(round(othersAAL[1], 0))
                 # aal['movingCost'].append(round(othersAAL[2], 0))
@@ -733,6 +740,7 @@ class CalculateFSHLegacyAPIView(APIView):
         aal['insurerAAL'] = []
         aal['reduction'] = []
         aal['expectedFloodRiskReductionPerMonth'] = []
+        aal['expectedIndirectFloodRiskReductionPerMonth'] = []
         # aal['rentalLoss'] = []
         # aal['displacementCost'] = []
         # aal['movingCost'] = []
@@ -845,6 +853,8 @@ class CalculateFSHLegacyAPIView(APIView):
                     aal['reduction'].append(aal['AAL'][0]-aal['AAL'][-1])
                     aal['expectedFloodRiskReductionPerMonth'].append(
                         round(aal['reduction'][-1]/12, 4))
+                aal['expectedIndirectFloodRiskReductionPerMonth'].append(
+                    aal['expectedFloodRiskReductionPerMonth'][-1]*0.5)
                 # aal['rentalLoss'].append(round(othersAAL[0], 0))
                 # aal['displacementCost'].append(round(othersAAL[1], 0))
                 # aal['movingCost'].append(round(othersAAL[2], 0))
@@ -855,6 +865,7 @@ class CalculateFSHLegacyAPIView(APIView):
                 LegacyDict['insurerAAL'] = aal['insurerAAL'][i]
                 LegacyDict['reduction'] = aal['reduction'][i]
                 LegacyDict['expectedFloodRiskReductionPerMonth'] = aal['expectedFloodRiskReductionPerMonth'][i]
+                LegacyDict['expectedIndirectFloodRiskReductionPerMonth'] = aal['expectedIndirectFloodRiskReductionPerMonth'][i]
 
             elif ownerType == 'Landlord':
                 floorInterest = ''  # cd StopAsyncIteration
@@ -889,6 +900,8 @@ class CalculateFSHLegacyAPIView(APIView):
                     aal['reduction'].append(aal['AAL'][0]-aal['AAL'][-1])
                     aal['expectedFloodRiskReductionPerMonth'].append(
                         round(aal['reduction'][-1]/12, 4))
+                aal['expectedIndirectFloodRiskReductionPerMonth'].append(
+                    aal['expectedFloodRiskReductionPerMonth'][-1]*0.5)
                 # aal['rentalLoss'].append(round(othersAAL[0], 0))
                 # aal['displacementCost'].append(round(othersAAL[1], 0))
                 # aal['movingCost'].append(round(othersAAL[2], 0))
@@ -898,6 +911,7 @@ class CalculateFSHLegacyAPIView(APIView):
                 LegacyDict['insurerAAL'] = aal['insurerAAL'][i]
                 LegacyDict['reduction'] = aal['reduction'][i]
                 LegacyDict['expectedFloodRiskReductionPerMonth'] = aal['expectedFloodRiskReductionPerMonth'][i]
+                LegacyDict['expectedIndirectFloodRiskReductionPerMonth'] = aal['expectedIndirectFloodRiskReductionPerMonth'][i]
 
             elif ownerType == 'Tenant':
                 floorInterest = ''
@@ -933,6 +947,8 @@ class CalculateFSHLegacyAPIView(APIView):
                     aal['reduction'].append(aal['AAL'][0]-aal['AAL'][-1])
                     aal['expectedFloodRiskReductionPerMonth'].append(
                         round(aal['reduction'][-1]/12, 4))
+                aal['expectedIndirectFloodRiskReductionPerMonth'].append(
+                    aal['expectedFloodRiskReductionPerMonth'][-1]*0.5)
                 # aal['rentalLoss'].append(round(othersAAL[0], 0))
                 # aal['displacementCost'].append(round(othersAAL[1], 0))
                 # aal['movingCost'].append(round(othersAAL[2], 0))
@@ -943,6 +959,7 @@ class CalculateFSHLegacyAPIView(APIView):
                 LegacyDict['insurerAAL'] = aal['insurerAAL'][i]
                 LegacyDict['reduction'] = aal['reduction'][i]
                 LegacyDict['expectedFloodRiskReductionPerMonth'] = aal['expectedFloodRiskReductionPerMonth'][i]
+                LegacyDict['expectedIndirectFloodRiskReductionPerMonth'] = aal['expectedIndirectFloodRiskReductionPerMonth'][i]
             # LegacyResults.append(LegacyDict.copy())
 
             # Foundation Cost
