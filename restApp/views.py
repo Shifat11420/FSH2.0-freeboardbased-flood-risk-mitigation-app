@@ -275,6 +275,10 @@ class territoryViewSet(viewsets.ModelViewSet):
 
 
 class CalculateFSHAPIView(APIView):
+    def calculate_AmortizedCost(self, P, r, n, t):
+        A = (P * (r/n)) / (1 - (1 + (r/n)) ** (-n*t))
+        return A
+
     def get(self, request, format=None):
 
         # user inputs
@@ -356,7 +360,7 @@ class CalculateFSHAPIView(APIView):
         leveeIdForMaxFactor = leveeIdForMaxFactor.strip()
         print("leveeIdForMaxFactor = ", leveeIdForMaxFactor)
 
-        # Risk Rating 2.0
+        # Risk Rating 2.0 initialization
         inputs['Loss Constant'] = 130  # ok
         inputs['Expense Constant'] = 62.99  # ok
         inputs['ICC premium'] = 4  # ok for now---tables coming
@@ -372,7 +376,7 @@ class CalculateFSHAPIView(APIView):
         premiumsNoRounding = []
         LegacyDict = {}
 
-        # AAL
+        # AAL initialization
         aal = {}
         aal['FFH'] = []
         aal['AAL'] = []
@@ -403,7 +407,7 @@ class CalculateFSHAPIView(APIView):
         ddfBldg = ddfBuilding.objects.all()
         ddfConts = ddfContents.objects.all()
 
-        # Foundation Cost
+        # Foundation Cost initialization
         h = firstFloorHeightCurrentScenario * 0.3048   # changing unit form feet to meter
         # changing unit for square feet to square meter
         bld_area = livableArea * 0.0929
@@ -413,6 +417,7 @@ class CalculateFSHAPIView(APIView):
         materialsResults = {}
         foundationCostList = []
         foundationCostIncrease = []
+        amortizedCostPerMonth = []
 
         if foundationType == "Slab":
             costResults = {'buildingArea': [], 'aspectRatio': [], 'elevation(m)': [], 'aGrading': [], 'vFill': [], 'aInsulation': [],
@@ -437,6 +442,21 @@ class CalculateFSHAPIView(APIView):
                            'aGrading': [], 'aGravel': [], 'aInsulation': [], 'nPad': [], 'vWood': [], 'aWood': [], 'totalCost': []}
             materialsResults = {'buildingArea': [], 'aspectRatio': [], 'elevation(m)': [], 'lPier': [], 'vExcavation': [],
                                 'aGrading': [], 'aGravel': [], 'aInsulation': [], 'nPad': [], 'vWood': [], 'aWood': []}
+
+        # Home Equity Loan initialization
+        home_condition = currentScenario.homeConditionID
+        federal_assistance = currentScenario.federalAssistanceID
+        investment_type = currentScenario.investmentTypeID
+        Ce = 150
+        Cc = 110
+        fc = 2.3
+        down_payment = 20
+        A = livableArea
+        r = 3  # home equity interest rate or morgage rate
+        t = 10  # home equity loan period or morgage period
+        n = 12
+
+        # Calculation
         count = 1
         LegacyResults = []
         for i in range(5):
@@ -652,19 +672,14 @@ class CalculateFSHAPIView(APIView):
 
             foundationCostList.append(FoundationCost)
             foundationCostIncrease.append(FoundationCost-foundationCostList[0])
+            amortizedCostPerMonth.append(round(self.calculate_AmortizedCost(
+                foundationCostIncrease[-1], r, n, t), 0))
 
         FoundationCostResults = {'foundationCost': foundationCostList,
-                                 'foundationCostIncrease': foundationCostIncrease}
-        home_condition = currentScenario.homeConditionID
-        federal_assistance = currentScenario.federalAssistanceID
-        investment_type = currentScenario.investmentTypeID
-        Ce = 150
-        Cc = 110
-        fc = 2.3
-        down_payment = 20
-        A = livableArea
-        r = 3  # home equity interest rate or morgage rate
-        t = 10  # home equity loan period or morgage period
+                                 'foundationCostIncrease': foundationCostIncrease,
+                                 'amortizedCostPerMonth': amortizedCostPerMonth}
+
+        # Home Equity Loan
         home_equity_results = home_equity_loan_function(
             home_condition, federal_assistance, investment_type, Ce, Cc, fc, down_payment, A, r, t)
         print('Home Equity Calculator Results = ', home_equity_results)
@@ -680,6 +695,10 @@ class CalculateFSHAPIView(APIView):
 
 
 class CalculateFSHLegacyAPIView(APIView):
+    def calculate_AmortizedCost(self, P, r, n, t):
+        A = (P * (r/n)) / (1 - (1 + (r/n)) ** (-n*t))
+        return A
+    
     def get(self, request, format=None):
 
         # user inputs
@@ -773,6 +792,7 @@ class CalculateFSHLegacyAPIView(APIView):
         materialsResults = {}
         foundationCostList = []
         foundationCostIncrease = []
+        amortizedCostPerMonth = []
 
         if foundationType == "Slab":
             costResults = {'buildingArea': [], 'aspectRatio': [], 'elevation(m)': [], 'aGrading': [], 'vFill': [], 'aInsulation': [],
@@ -798,6 +818,20 @@ class CalculateFSHLegacyAPIView(APIView):
             materialsResults = {'buildingArea': [], 'aspectRatio': [], 'elevation(m)': [], 'lPier': [], 'vExcavation': [],
                                 'aGrading': [], 'aGravel': [], 'aInsulation': [], 'nPad': [], 'vWood': [], 'aWood': []}
 
+        # Home Equity Loan initialization
+        home_condition = currentScenario.homeConditionID
+        federal_assistance = currentScenario.federalAssistanceID
+        investment_type = currentScenario.investmentTypeID
+        Ce = 150
+        Cc = 110
+        fc = 2.3
+        down_payment = 20
+        A = livableArea
+        r = 3  # home equity interest rate or morgage rate
+        t = 10  # home equity loan period or morgage period
+        n = 12
+
+        # Calculation
         for i in range(5):
             # Risk rating 2.0
             if str(currentScenario.levee) == "No":
@@ -1034,14 +1068,18 @@ class CalculateFSHLegacyAPIView(APIView):
 
             foundationCostList.append(FoundationCost)
             foundationCostIncrease.append(FoundationCost-foundationCostList[0])
+            amortizedCostPerMonth.append(round(self.calculate_AmortizedCost(
+                foundationCostIncrease[-1], r, n, t), 0))
 
             LegacyDict['foundationCost'] = foundationCostList[i]
             LegacyDict['foundationCostIncrease'] = foundationCostIncrease[i]
+            LegacyDict['amortizedCostPerMonth'] = amortizedCostPerMonth[i]
 
             LegacyResults.append(LegacyDict.copy())
 
         FoundationCostResults = {'foundationCost': foundationCostList,
-                                 'foundationCostIncrease': foundationCostIncrease}
+                                 'foundationCostIncrease': foundationCostIncrease,
+                                 'amortizedCostPerMonth': amortizedCostPerMonth}
 
         return Response({'Results': resultsAll})
 
