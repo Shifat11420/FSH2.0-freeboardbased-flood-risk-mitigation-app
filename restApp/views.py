@@ -368,6 +368,7 @@ class CalculateFSHAPIView(APIView):
         inputs['Probation surcharge'] = 0   # ok for now---tables coming
         inputs['Federal policy fee'] = 50  # ok
 
+        totalSavingsPerMonth = []
         rr2res = []
         listofPremiums = []
         listofFFH = []
@@ -675,6 +676,11 @@ class CalculateFSHAPIView(APIView):
             amortizedCostPerMonth.append(round(self.calculate_AmortizedCost(
                 foundationCostIncrease[-1], r, n, t), 0))
 
+            print("rr2res[premiumsSavingsMonthly][i] = ",
+                  rr2res[3]["premiumsSavingsMonthly"][i])
+            totalSavingsPerMonth.append(round(amortizedCostPerMonth[-1]-aal['expectedFloodRiskReductionPerMonth']
+                                        [-1]+aal['expectedIndirectFloodRiskReductionPerMonth'][-1]+rr2res[3]["premiumsSavingsMonthly"][i], 0))
+
         FoundationCostResults = {'foundationCost': foundationCostList,
                                  'foundationCostIncrease': foundationCostIncrease,
                                  'amortizedCostPerMonth': amortizedCostPerMonth}
@@ -691,14 +697,14 @@ class CalculateFSHAPIView(APIView):
         print("Foundation cost results : ", foundationCostList, '\n')
         print("costResults = ", costResults, '\n')
         print("materialsResults = ", materialsResults, '\n')
-        return Response({'riskRating2Results': rr2res, 'aalResults': aal, 'foundationCostResults': FoundationCostResults, 'homeEquityLoanResults': home_equity_results})
+        return Response({'riskRating2Results': rr2res, 'aalResults': aal, 'foundationCostResults': FoundationCostResults, 'homeEquityLoanResults': home_equity_results, 'totalSavingsPerMonth': totalSavingsPerMonth})
 
 
 class CalculateFSHLegacyAPIView(APIView):
     def calculate_AmortizedCost(self, P, r, n, t):
         A = (P * (r/n)) / (1 - (1 + (r/n)) ** (-n*t))
         return A
-    
+
     def get(self, request, format=None):
 
         # user inputs
@@ -741,6 +747,7 @@ class CalculateFSHLegacyAPIView(APIView):
         inputs['Probation surcharge'] = 0   # ok for now---tables coming
         inputs['Federal policy fee'] = 50  # ok
 
+        totalSavingsPerMonth = []
         resultsAll = []
         listofPremiums = []
         listofFFH = []
@@ -1071,9 +1078,15 @@ class CalculateFSHLegacyAPIView(APIView):
             amortizedCostPerMonth.append(round(self.calculate_AmortizedCost(
                 foundationCostIncrease[-1], r, n, t), 0))
 
+            print("LegacyDict[premiumsSavingsMonthly] = ",
+                  LegacyDict["premiumsSavingsMonthly"])
+            totalSavingsPerMonth.append(round(amortizedCostPerMonth[-1]-aal['expectedFloodRiskReductionPerMonth']
+                                        [-1]+aal['expectedIndirectFloodRiskReductionPerMonth'][-1]+LegacyDict["premiumsSavingsMonthly"], 0))
+
             LegacyDict['foundationCost'] = foundationCostList[i]
             LegacyDict['foundationCostIncrease'] = foundationCostIncrease[i]
             LegacyDict['amortizedCostPerMonth'] = amortizedCostPerMonth[i]
+            LegacyDict['totalSavingsPerMonth'] = totalSavingsPerMonth[i]
 
             LegacyResults.append(LegacyDict.copy())
 
