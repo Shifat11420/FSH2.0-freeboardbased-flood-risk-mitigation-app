@@ -697,7 +697,12 @@ class CalculateFSHAPIView(APIView):
         print("Foundation cost results : ", foundationCostList, '\n')
         print("costResults = ", costResults, '\n')
         print("materialsResults = ", materialsResults, '\n')
-        return Response({'riskRating2Results': rr2res, 'aalResults': aal, 'foundationCostResults': FoundationCostResults, 'homeEquityLoanResults': home_equity_results, 'totalSavingsPerMonth': totalSavingsPerMonth})
+        maxTotalSavingsPerMonth = max(totalSavingsPerMonth)
+        index = totalSavingsPerMonth.index(maxTotalSavingsPerMonth)
+        optimumFFH = rr2res[0]["firstFloorHeight"][index]
+        print(maxTotalSavingsPerMonth, index, optimumFFH)
+
+        return Response({'riskRating2Results': rr2res, 'aalResults': aal, 'foundationCostResults': FoundationCostResults, 'homeEquityLoanResults': home_equity_results, 'totalSavingsPerMonth': totalSavingsPerMonth, 'optimumFFH': optimumFFH})
 
 
 class CalculateFSHLegacyAPIView(APIView):
@@ -1093,8 +1098,12 @@ class CalculateFSHLegacyAPIView(APIView):
         FoundationCostResults = {'foundationCost': foundationCostList,
                                  'foundationCostIncrease': foundationCostIncrease,
                                  'amortizedCostPerMonth': amortizedCostPerMonth}
+        maxTotalSavingsPerMonth = max(totalSavingsPerMonth)
+        index = totalSavingsPerMonth.index(maxTotalSavingsPerMonth)
+        optimumFFH = resultsAll[index]["firstFloorHeight"]
+        print(maxTotalSavingsPerMonth, index, optimumFFH)
 
-        return Response({'Results': resultsAll})
+        return Response({'Results': resultsAll, 'maxTotalSavingsPerMonth': maxTotalSavingsPerMonth, 'optimumFFH': optimumFFH})
 
 # Risk Rating 2.0 results
 
