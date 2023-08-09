@@ -170,10 +170,14 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
 
     da_km2 = drainArea.values_list("da_km2", flat=True)
     da_km2 = list(da_km2)
+    da_km2Max = max(da_km2)
     ifvalue = drainArea.values_list("ifvalue", flat=True)
     ifvalue = list(ifvalue)
 
-    D = np.interp([currentScenario.drainageArea], da_km2, ifvalue)
+    if currentScenario.drainageArea != None and currentScenario.drainageArea <= da_km2Max:
+        D = np.interp([currentScenario.drainageArea], da_km2, ifvalue)
+    else:
+        D = np.interp([da_km2Max], da_km2, ifvalue)
 
     item4 = "Drainage Area"
     ifBuilding = round(float(D), 4)
@@ -245,14 +249,18 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
     dtc_meters = distToCoast.filter(
         ~Q(ce=-9999.0)).values_list("dtc_meters", flat=True)
     dtc_meters = list(dtc_meters)
+    dtcMetersMax = max(dtc_meters)
     ce = distToCoast.filter(
         ~Q(ce=-9999.0)).values_list("ce", flat=True)
     ce = list(ce)
 
-    if currentScenario.distToCoast == None:  # 'N/A':
+    if currentScenario.distToCoast == None or currentScenario.distToCoast > 80467:  # 'N/A':
         coast = -9999.0  # np.nan
     else:
-        coast = np.interp([currentScenario.distToCoast], dtc_meters, ce)
+        if currentScenario.distToCoast <= dtcMetersMax:
+            coast = np.interp([currentScenario.distToCoast], dtc_meters, ce)
+        else:
+            coast = np.interp([dtcMetersMax], dtc_meters, ce)
 
     if segmentfromBaserate != 3 and segmentfromBaserate != 4 and currentScenario.distToCoast != None:  # 'N/A':
         dtc_others = distToCoastMultipliers.objects.filter(levee="No",
@@ -260,9 +268,13 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
         dtc_meters_ss = dtc_others.filter(
             ~Q(ss=-9999.0)).values_list("dtc_meters", flat=True)
         dtc_meters_ss = list(dtc_meters_ss)
+        dtc_meters_ssMax = max(dtc_meters_ss)
+
         dtc_meters_tsu = dtc_others.filter(
             ~Q(tsu=-9999.0)).values_list("dtc_meters", flat=True)
         dtc_meters_tsu = list(dtc_meters_tsu)
+        dtc_meters_tsuMax = max(dtc_meters_tsu)
+
         ss = dtc_others.filter(
             ~Q(ss=-9999.0)).values_list("ss", flat=True)
         ss = list(ss)
@@ -270,8 +282,17 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
             ~Q(tsu=-9999.0)).values_list("tsu", flat=True)
         tsu = list(tsu)
 
-        storm = np.interp([currentScenario.distToCoast], dtc_meters_ss, ss)
-        tsunami = np.interp([currentScenario.distToCoast], dtc_meters_tsu, tsu)
+        if currentScenario.distToCoast <= dtc_meters_ssMax:
+            storm = np.interp(
+                [currentScenario.distToCoast], dtc_meters_ss, ss)
+        else:
+            storm = np.interp([dtc_meters_ssMax], dtc_meters_ss, ss)
+        if currentScenario.distToCoast <= dtc_meters_tsuMax:
+            tsunami = np.interp(
+                [currentScenario.distToCoast], dtc_meters_tsu, tsu)
+        else:
+            tsunami = np.interp(
+                [dtc_meters_tsuMax], dtc_meters_tsu, tsu)
     else:
         storm = -9999.0  # np.nan
         tsunami = -9999.0  # np.nan
@@ -372,8 +393,24 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
             ~Q(tsu=-9999.0)).values_list("tsu", flat=True)
         tsu = list(tsu)
 
-        storm = np.interp([currentScenario.elevation], elev_ss, ss)
-        tsunami = np.interp([currentScenario.elevation], elev_tsu, tsu)
+        elev_ssMax = max(elev_ss)
+        elev_ssMin = min(elev_ss)
+        elev_tsuMax = max(elev_tsu)
+        elev_tsuMin = min(elev_tsu)
+
+        if currentScenario.elevation > elev_ssMax:
+            storm = np.interp([elev_ssMax], elev_ss, ss)
+        elif currentScenario.elevation < elev_ssMin:
+            storm = np.interp([elev_ssMin], elev_ss, ss)
+        else:
+            storm = np.interp([currentScenario.elevation], elev_ss, ss)
+
+        if currentScenario.elevation > elev_ssMax:
+            tsunami = np.interp([elev_ssMax], elev_tsu, tsu)
+        elif currentScenario.elevation < elev_ssMin:
+            tsunami = np.interp([elev_ssMin], elev_tsu, tsu)
+        else:
+            tsunami = np.interp([currentScenario.elevation], elev_tsu, tsu)
     else:
         storm = -9999.0  # np.nan
         tsunami = -9999.0  # np.nan

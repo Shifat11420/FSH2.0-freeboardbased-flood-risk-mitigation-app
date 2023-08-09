@@ -80,11 +80,11 @@ def RRFunctionsLevee(count, inputs, currentScenario, leveeIdForMaxFactor, firstF
                        ifvalueBFluvial)
         B2 = np.interp([currentScenario.distToRiver], dtrMetersPluvial,
                        ifvalueBPluvial)
-    elif currentScenario.distToRiver != None and currentScenario.distToRiver > dtrMetersMax:  
+    elif currentScenario.distToRiver != None and currentScenario.distToRiver > dtrMetersMax:
         B1 = np.interp([dtrMetersMax], dtrMetersFluvial,
                        ifvalueBFluvial)
         B2 = np.interp([dtrMetersMax], dtrMetersPluvial,
-                       ifvalueBPluvial)  
+                       ifvalueBPluvial)
 
     item2 = "Distance to River"
     ifFluvialBuilding = round(float(B1), 4)
@@ -286,14 +286,18 @@ def RRFunctionsLevee(count, inputs, currentScenario, leveeIdForMaxFactor, firstF
     dtc_meters = distToCoast.filter(
         ~Q(ce=-9999.0)).values_list("dtc_meters", flat=True)
     dtc_meters = list(dtc_meters)
+    dtcMetersMax = max(dtc_meters)
     ce = distToCoast.filter(
         ~Q(ce=-9999.0)).values_list("ce", flat=True)
     ce = list(ce)
 
-    if currentScenario.distToCoast == None:
+    if currentScenario.distToCoast == None or currentScenario.distToCoast > 80467:
         coast = -9999.0  # np.nan
     else:
-        coast = np.interp([currentScenario.distToCoast], dtc_meters, ce)
+        if currentScenario.distToCoast <= dtcMetersMax:
+            coast = np.interp([currentScenario.distToCoast], dtc_meters, ce)
+        else:
+            coast = np.interp([dtcMetersMax], dtc_meters, ce)
 
     if currentScenario.distToCoast != None:
         dtc_others = distToCoastMultipliers.objects.filter(levee="Yes").all()
@@ -306,16 +310,22 @@ def RRFunctionsLevee(count, inputs, currentScenario, leveeIdForMaxFactor, firstF
         dtc_meters_ss = dtc_others.filter(
             ~Q(ss=-9999.0)).values_list("dtc_meters", flat=True)
         dtc_meters_ss = list(dtc_meters_ss)
+        dtc_meters_ssMax = max(dtc_meters_ss)
 
         dtc_meters_tsu = dtc_others.filter(region=state).filter(
             ~Q(tsu=-9999.0)).values_list("dtc_meters", flat=True)
         dtc_meters_tsu = list(dtc_meters_tsu)
+        dtc_meters_tsuMax = max(dtc_meters_tsu)
 
         if len(dtc_meters_ss) != 0:
             ss = dtc_others.filter(
                 ~Q(ss=-9999.0)).values_list("ss", flat=True)
             ss = list(ss)
-            storm = np.interp([currentScenario.distToCoast], dtc_meters_ss, ss)
+            if currentScenario.distToCoast <= dtc_meters_ssMax:
+                storm = np.interp(
+                    [currentScenario.distToCoast], dtc_meters_ss, ss)
+            else:
+                storm = np.interp([dtc_meters_ssMax], dtc_meters_ss, ss)
         else:
             storm = -9999.0  # np.nan
 
@@ -323,8 +333,12 @@ def RRFunctionsLevee(count, inputs, currentScenario, leveeIdForMaxFactor, firstF
             tsu = dtc_others.filter(
                 ~Q(tsu=-9999.0)).values_list("tsu", flat=True)
             tsu = list(tsu)
-            tsunami = np.interp(
-                [currentScenario.distToCoast], dtc_meters_tsu, tsu)
+            if currentScenario.distToCoast <= dtc_meters_tsuMax:
+                tsunami = np.interp(
+                    [currentScenario.distToCoast], dtc_meters_tsu, tsu)
+            else:
+                tsunami = np.interp(
+                    [dtc_meters_tsuMax], dtc_meters_tsu, tsu)
         else:
             tsunami = -9999.0  # np.nan
     else:
@@ -463,23 +477,52 @@ def RRFunctionsLevee(count, inputs, currentScenario, leveeIdForMaxFactor, firstF
         ~Q(tsu=-9999.0)).values_list("tsu", flat=True)
     tsu = list(tsu)
 
+    elev_ifFMax = max(elev_ifF)
+    elev_ifFMin = min(elev_ifF)
+    elev_ifPMax = max(elev_ifP)
+    elev_ifPMin = min(elev_ifP)
+    elev_ssMax = max(elev_ss)
+    elev_ssMin = min(elev_ss)
+    elev_tsuMax = max(elev_tsu)
+    elev_tsuMin = min(elev_tsu)
+
     if len(elev_ifF) != 0:
-        ifFluvial = np.interp([currentScenario.elevation], elev_ifF, iff)
+        if currentScenario.elevation > elev_ifFMax:
+            ifFluvial = np.interp([elev_ifFMax], elev_ifF, iff)
+        elif currentScenario.elevation < elev_ifFMin:
+            ifFluvial = np.interp([elev_ifFMin], elev_ifF, iff)
+        else:
+            ifFluvial = np.interp([currentScenario.elevation], elev_ifF, iff)
     else:
         ifFluvial = -9999.0  # np.nan
 
     if len(elev_ifP) != 0:
-        ifPluvial = np.interp([currentScenario.elevation], elev_ifP, ifp)
+        if currentScenario.elevation > elev_ifPMax:
+            ifPluvial = np.interp([elev_ifPMax], elev_ifP, ifp)
+        elif currentScenario.elevation < elev_ifPMin:
+            ifPluvial = np.interp([elev_ifPMin], elev_ifP, ifp)
+        else:
+            ifPluvial = np.interp([currentScenario.elevation], elev_ifP, ifp)
     else:
         ifPluvial = -9999.0  # np.nan
 
     if len(elev_ss) != 0:
-        storm = np.interp([currentScenario.elevation], elev_ss, ss)
+        if currentScenario.elevation > elev_ssMax:
+            storm = np.interp([elev_ssMax], elev_ss, ss)
+        elif currentScenario.elevation < elev_ssMin:
+            storm = np.interp([elev_ssMin], elev_ss, ss) 
+        else:
+            storm = np.interp([currentScenario.elevation], elev_ss, ss)      
     else:
         storm = -9999.0  # np.nan
 
     if len(elev_tsu) != 0:
-        tsunami = np.interp([currentScenario.elevation], elev_tsu, tsu)
+        if currentScenario.elevation > elev_ssMax:
+            tsunami = np.interp([elev_ssMax], elev_tsu, tsu)
+        elif currentScenario.elevation < elev_ssMin:
+            tsunami = np.interp([elev_ssMin], elev_tsu, tsu) 
+        else:      
+            tsunami = np.interp([currentScenario.elevation], elev_tsu, tsu)
     else:
         tsunami = -9999.0  # np.nan
 
@@ -1004,17 +1047,16 @@ def RRFunctionsLevee(count, inputs, currentScenario, leveeIdForMaxFactor, firstF
 
     if currentScenario.buildingReplacementValue <= bldgValue_valueMax:
         build = np.interp([currentScenario.buildingReplacementValue], bldgValue_value,
-                        bldgValue_allexclCE)
+                          bldgValue_allexclCE)
     else:
         build = np.interp([bldgValue_valueMax], bldgValue_value,
-                      bldgValue_allexclCE)   
-    if currentScenario.contentsReplacementValue <= contValue_valueMax:     
+                          bldgValue_allexclCE)
+    if currentScenario.contentsReplacementValue <= contValue_valueMax:
         content = np.interp([currentScenario.contentsReplacementValue], contValue_value,
                             contValue_allexclCE)
     else:
         content = np.interp([contValue_valueMax], contValue_value,
-                        contValue_allexclCE)
-    
+                            contValue_allexclCE)
 
     item18 = "Coverage Value Factor"
     ifFluvialBuilding = round(float(build), 4)

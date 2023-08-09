@@ -678,7 +678,7 @@ class CalculateFSHAPIView(APIView):
 
             print("rr2res[premiumsSavingsMonthly][i] = ",
                   rr2res[3]["premiumsSavingsMonthly"][i])
-            totalSavingsPerMonth.append(round(amortizedCostPerMonth[-1]-aal['expectedFloodRiskReductionPerMonth']
+            totalSavingsPerMonth.append(round(-1*amortizedCostPerMonth[-1]-aal['expectedFloodRiskReductionPerMonth']
                                         [-1]+aal['expectedIndirectFloodRiskReductionPerMonth'][-1]+rr2res[3]["premiumsSavingsMonthly"][i], 0))
 
         FoundationCostResults = {'foundationCost': foundationCostList,
@@ -1085,7 +1085,7 @@ class CalculateFSHLegacyAPIView(APIView):
 
             print("LegacyDict[premiumsSavingsMonthly] = ",
                   LegacyDict["premiumsSavingsMonthly"])
-            totalSavingsPerMonth.append(round(amortizedCostPerMonth[-1]-aal['expectedFloodRiskReductionPerMonth']
+            totalSavingsPerMonth.append(round(-1*amortizedCostPerMonth[-1]+aal['expectedFloodRiskReductionPerMonth']
                                         [-1]+aal['expectedIndirectFloodRiskReductionPerMonth'][-1]+LegacyDict["premiumsSavingsMonthly"], 0))
 
             LegacyDict['foundationCost'] = foundationCostList[i]
