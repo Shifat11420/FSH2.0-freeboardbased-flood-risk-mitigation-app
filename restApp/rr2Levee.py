@@ -148,6 +148,10 @@ def RRFunctionsLevee(count, inputs, currentScenario, leveeIdForMaxFactor, firstF
     err_feetPluvial = elevRiver.filter(
         ifType='Pluvial').values_list("err_feet", flat=True)
     err_feetPluvial = list(err_feetPluvial)
+    err_feetFluvialMax = max(err_feetFluvial)
+    err_feetFluvialMin = min(err_feetFluvial)
+    err_feetPluvialMax = max(err_feetPluvial)
+    err_feetPluvialMin = min(err_feetPluvial)
 
     ifvalueCFluvial = elevRiver.filter(
         ifType='Fluvial').values_list("ifvalue", flat=True)
@@ -160,10 +164,24 @@ def RRFunctionsLevee(count, inputs, currentScenario, leveeIdForMaxFactor, firstF
         C1 = -9999.0  # np.nan
         C2 = -9999.0  # np.nan
     else:
-        C1 = np.interp([currentScenario.elevRelToRiver], err_feetFluvial,
-                       ifvalueCFluvial)
-        C2 = np.interp([currentScenario.elevRelToRiver], err_feetPluvial,
-                       ifvalueCPluvial)
+        if currentScenario.elevRelToRiver > err_feetFluvialMax:
+            C1 = np.interp([err_feetFluvialMax], err_feetFluvial,
+                           ifvalueCFluvial)
+        elif currentScenario.elevRelToRiver < err_feetFluvialMin:
+            C1 = np.interp([err_feetFluvialMin], err_feetFluvial,
+                           ifvalueCFluvial)
+        else:
+            C1 = np.interp([currentScenario.elevRelToRiver], err_feetFluvial,
+                           ifvalueCFluvial)
+        if currentScenario.elevRelToRiver > err_feetPluvialMax:
+            C2 = np.interp([err_feetPluvialMax], err_feetPluvial,
+                           ifvalueCPluvial)
+        elif currentScenario.elevRelToRiver < err_feetPluvialMin:
+            C2 = np.interp([err_feetPluvialMin], err_feetPluvial,
+                           ifvalueCPluvial)
+        else:
+            C2 = np.interp([currentScenario.elevRelToRiver], err_feetPluvial,
+                           ifvalueCPluvial)
 
     item3 = "Elevation Relative to River by River Class"
     ifFluvialBuilding = round(float(C1), 4)
@@ -237,6 +255,11 @@ def RRFunctionsLevee(count, inputs, currentScenario, leveeIdForMaxFactor, firstF
     sre_feetPluvial = strucRelElv.filter(
         ifType='Pluvial').values_list("sre_feet", flat=True)
     sre_feetPluvial = list(sre_feetPluvial)
+    sre_feetFluvialMax = max(sre_feetFluvial)
+    sre_feetFluvialMin = min(sre_feetFluvial)
+    sre_feetPluvialMax = max(sre_feetPluvial)
+    sre_feetPluvialMin = min(sre_feetPluvial)
+
     ifvalueEFluvial = strucRelElv.filter(
         ifType='Fluvial').values_list("ifvalue", flat=True)
     ifvalueEFluvial = list(ifvalueEFluvial)
@@ -244,10 +267,25 @@ def RRFunctionsLevee(count, inputs, currentScenario, leveeIdForMaxFactor, firstF
         ifType='Pluvial').values_list("ifvalue", flat=True)
     ifvalueEPluvial = list(ifvalueEPluvial)
 
-    E1 = np.interp([currentScenario.strRelElev],
-                   sre_feetFluvial, ifvalueEFluvial)
-    E2 = np.interp([currentScenario.strRelElev],
-                   sre_feetPluvial, ifvalueEPluvial)
+    if currentScenario.strRelElev > sre_feetFluvialMax:
+        E1 = np.interp([sre_feetFluvialMax],
+                       sre_feetFluvial, ifvalueEFluvial)
+    elif currentScenario.strRelElev < sre_feetFluvialMin:
+        E1 = np.interp([sre_feetFluvialMin],
+                       sre_feetFluvial, ifvalueEFluvial)
+    else:
+        E1 = np.interp([currentScenario.strRelElev],
+                       sre_feetFluvial, ifvalueEFluvial)
+
+    if currentScenario.strRelElev > sre_feetPluvialMax:
+        E2 = np.interp([sre_feetPluvialMax],
+                       sre_feetPluvial, ifvalueEPluvial)
+    elif currentScenario.strRelElev < sre_feetPluvialMin:
+        E2 = np.interp([sre_feetPluvialMin],
+                       sre_feetPluvial, ifvalueEPluvial)
+    else:
+        E2 = np.interp([currentScenario.strRelElev],
+                       sre_feetPluvial, ifvalueEPluvial)
 
     item5 = "Structural Relative Elevation"
     ifFluvialBuilding = round(float(E1), 4)
@@ -510,9 +548,9 @@ def RRFunctionsLevee(count, inputs, currentScenario, leveeIdForMaxFactor, firstF
         if currentScenario.elevation > elev_ssMax:
             storm = np.interp([elev_ssMax], elev_ss, ss)
         elif currentScenario.elevation < elev_ssMin:
-            storm = np.interp([elev_ssMin], elev_ss, ss) 
+            storm = np.interp([elev_ssMin], elev_ss, ss)
         else:
-            storm = np.interp([currentScenario.elevation], elev_ss, ss)      
+            storm = np.interp([currentScenario.elevation], elev_ss, ss)
     else:
         storm = -9999.0  # np.nan
 
@@ -520,8 +558,8 @@ def RRFunctionsLevee(count, inputs, currentScenario, leveeIdForMaxFactor, firstF
         if currentScenario.elevation > elev_ssMax:
             tsunami = np.interp([elev_ssMax], elev_tsu, tsu)
         elif currentScenario.elevation < elev_ssMin:
-            tsunami = np.interp([elev_ssMin], elev_tsu, tsu) 
-        else:      
+            tsunami = np.interp([elev_ssMin], elev_tsu, tsu)
+        else:
             tsunami = np.interp([currentScenario.elevation], elev_tsu, tsu)
     else:
         tsunami = -9999.0  # np.nan

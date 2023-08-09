@@ -126,14 +126,24 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
 
     err_feet = elevRiver.values_list("err_feet", flat=True)
     err_feet = list(err_feet)
+    err_feetMax = max(err_feet)
+    err_feetMin = min(err_feet)
+
     ifvalue = elevRiver.values_list("ifvalue", flat=True)
     ifvalue = list(ifvalue)
 
     if currentScenario.elevRelToRiver == None:  # 'N/A':
         C = -9999.0  # np.nan
     else:
-        C = np.interp([currentScenario.elevRelToRiver], err_feet,
-                      ifvalue)
+        if currentScenario.elevRelToRiver > err_feetMax:
+            C = np.interp([err_feetMax], err_feet,
+                          ifvalue)
+        elif currentScenario.elevRelToRiver < err_feetMin:
+            C = np.interp([err_feetMin], err_feet,
+                          ifvalue)
+        else:
+            C = np.interp([currentScenario.elevRelToRiver], err_feet,
+                          ifvalue)
 
     item3 = "Elevation Relative to River by River Class"
     ifBuilding = round(float(C), 4)
@@ -212,10 +222,17 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
 
     sre_feet = strucRelElv .values_list("sre_feet", flat=True)
     sre_feet = list(sre_feet)
+    sre_feetMax = max(sre_feet)
+    sre_feetMin = min(sre_feet)
     ifvalue = strucRelElv .values_list("ifvalue", flat=True)
     ifvalue = list(ifvalue)
 
-    E = np.interp([currentScenario.strRelElev], sre_feet, ifvalue)
+    if currentScenario.strRelElev > sre_feetMax:
+        E = np.interp([sre_feetMax], sre_feet, ifvalue)
+    elif currentScenario.strRelElev < sre_feetMin:
+        E = np.interp([sre_feetMin], sre_feet, ifvalue)
+    else:
+        E = np.interp([currentScenario.strRelElev], sre_feet, ifvalue)
 
     item5 = "Structural Relative Elevation"
     ifBuilding = round(float(E), 4)
