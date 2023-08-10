@@ -285,12 +285,12 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
         dtc_meters_ss = dtc_others.filter(
             ~Q(ss=-9999.0)).values_list("dtc_meters", flat=True)
         dtc_meters_ss = list(dtc_meters_ss)
-        dtc_meters_ssMax = max(dtc_meters_ss)
+        
 
         dtc_meters_tsu = dtc_others.filter(
             ~Q(tsu=-9999.0)).values_list("dtc_meters", flat=True)
         dtc_meters_tsu = list(dtc_meters_tsu)
-        dtc_meters_tsuMax = max(dtc_meters_tsu)
+        
 
         ss = dtc_others.filter(
             ~Q(ss=-9999.0)).values_list("ss", flat=True)
@@ -299,17 +299,22 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
             ~Q(tsu=-9999.0)).values_list("tsu", flat=True)
         tsu = list(tsu)
 
-        if currentScenario.distToCoast <= dtc_meters_ssMax:
-            storm = np.interp(
-                [currentScenario.distToCoast], dtc_meters_ss, ss)
-        else:
-            storm = np.interp([dtc_meters_ssMax], dtc_meters_ss, ss)
-        if currentScenario.distToCoast <= dtc_meters_tsuMax:
-            tsunami = np.interp(
-                [currentScenario.distToCoast], dtc_meters_tsu, tsu)
-        else:
-            tsunami = np.interp(
-                [dtc_meters_tsuMax], dtc_meters_tsu, tsu)
+        if len(dtc_meters_ss) != 0:
+            dtc_meters_ssMax = max(dtc_meters_ss)
+            if currentScenario.distToCoast <= dtc_meters_ssMax:
+                storm = np.interp(
+                    [currentScenario.distToCoast], dtc_meters_ss, ss)
+            else:
+                storm = np.interp([dtc_meters_ssMax], dtc_meters_ss, ss)
+
+        if len(dtc_meters_ss) != 0:
+            dtc_meters_tsuMax = max(dtc_meters_tsu)
+            if currentScenario.distToCoast <= dtc_meters_tsuMax:
+                tsunami = np.interp(
+                    [currentScenario.distToCoast], dtc_meters_tsu, tsu)
+            else:
+                tsunami = np.interp(
+                    [dtc_meters_tsuMax], dtc_meters_tsu, tsu)
     else:
         storm = -9999.0  # np.nan
         tsunami = -9999.0  # np.nan
@@ -410,24 +415,25 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
             ~Q(tsu=-9999.0)).values_list("tsu", flat=True)
         tsu = list(tsu)
 
-        elev_ssMax = max(elev_ss)
-        elev_ssMin = min(elev_ss)
-        elev_tsuMax = max(elev_tsu)
-        elev_tsuMin = min(elev_tsu)
+        if len(elev_ss) != 0:
+            elev_ssMax = max(elev_ss)
+            elev_ssMin = min(elev_ss)
+            if currentScenario.elevation > elev_ssMax:
+                storm = np.interp([elev_ssMax], elev_ss, ss)
+            elif currentScenario.elevation < elev_ssMin:
+                storm = np.interp([elev_ssMin], elev_ss, ss)
+            else:
+                storm = np.interp([currentScenario.elevation], elev_ss, ss)
 
-        if currentScenario.elevation > elev_ssMax:
-            storm = np.interp([elev_ssMax], elev_ss, ss)
-        elif currentScenario.elevation < elev_ssMin:
-            storm = np.interp([elev_ssMin], elev_ss, ss)
-        else:
-            storm = np.interp([currentScenario.elevation], elev_ss, ss)
-
-        if currentScenario.elevation > elev_ssMax:
-            tsunami = np.interp([elev_ssMax], elev_tsu, tsu)
-        elif currentScenario.elevation < elev_ssMin:
-            tsunami = np.interp([elev_ssMin], elev_tsu, tsu)
-        else:
-            tsunami = np.interp([currentScenario.elevation], elev_tsu, tsu)
+        if len(elev_tsu) != 0:
+            elev_tsuMax = max(elev_tsu)
+            elev_tsuMin = min(elev_tsu)
+            if currentScenario.elevation > elev_ssMax:
+                tsunami = np.interp([elev_ssMax], elev_tsu, tsu)
+            elif currentScenario.elevation < elev_ssMin:
+                tsunami = np.interp([elev_ssMin], elev_tsu, tsu)
+            else:
+                tsunami = np.interp([currentScenario.elevation], elev_tsu, tsu)
     else:
         storm = -9999.0  # np.nan
         tsunami = -9999.0  # np.nan

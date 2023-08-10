@@ -515,16 +515,9 @@ def RRFunctionsLevee(count, inputs, currentScenario, leveeIdForMaxFactor, firstF
         ~Q(tsu=-9999.0)).values_list("tsu", flat=True)
     tsu = list(tsu)
 
-    elev_ifFMax = max(elev_ifF)
-    elev_ifFMin = min(elev_ifF)
-    elev_ifPMax = max(elev_ifP)
-    elev_ifPMin = min(elev_ifP)
-    elev_ssMax = max(elev_ss)
-    elev_ssMin = min(elev_ss)
-    elev_tsuMax = max(elev_tsu)
-    elev_tsuMin = min(elev_tsu)
-
     if len(elev_ifF) != 0:
+        elev_ifFMax = max(elev_ifF)
+        elev_ifFMin = min(elev_ifF)
         if currentScenario.elevation > elev_ifFMax:
             ifFluvial = np.interp([elev_ifFMax], elev_ifF, iff)
         elif currentScenario.elevation < elev_ifFMin:
@@ -535,6 +528,8 @@ def RRFunctionsLevee(count, inputs, currentScenario, leveeIdForMaxFactor, firstF
         ifFluvial = -9999.0  # np.nan
 
     if len(elev_ifP) != 0:
+        elev_ifPMax = max(elev_ifP)
+        elev_ifPMin = min(elev_ifP)
         if currentScenario.elevation > elev_ifPMax:
             ifPluvial = np.interp([elev_ifPMax], elev_ifP, ifp)
         elif currentScenario.elevation < elev_ifPMin:
@@ -545,6 +540,8 @@ def RRFunctionsLevee(count, inputs, currentScenario, leveeIdForMaxFactor, firstF
         ifPluvial = -9999.0  # np.nan
 
     if len(elev_ss) != 0:
+        elev_ssMax = max(elev_ss)
+        elev_ssMin = min(elev_ss)
         if currentScenario.elevation > elev_ssMax:
             storm = np.interp([elev_ssMax], elev_ss, ss)
         elif currentScenario.elevation < elev_ssMin:
@@ -555,6 +552,8 @@ def RRFunctionsLevee(count, inputs, currentScenario, leveeIdForMaxFactor, firstF
         storm = -9999.0  # np.nan
 
     if len(elev_tsu) != 0:
+        elev_tsuMax = max(elev_tsu)
+        elev_tsuMin = min(elev_tsu)
         if currentScenario.elevation > elev_ssMax:
             tsunami = np.interp([elev_ssMax], elev_tsu, tsu)
         elif currentScenario.elevation < elev_ssMin:
