@@ -348,14 +348,13 @@ def RRFunctionsLevee(count, inputs, currentScenario, leveeIdForMaxFactor, firstF
         dtc_meters_ss = dtc_others.filter(
             ~Q(ss=-9999.0)).values_list("dtc_meters", flat=True)
         dtc_meters_ss = list(dtc_meters_ss)
-        dtc_meters_ssMax = max(dtc_meters_ss)
 
         dtc_meters_tsu = dtc_others.filter(region=state).filter(
             ~Q(tsu=-9999.0)).values_list("dtc_meters", flat=True)
         dtc_meters_tsu = list(dtc_meters_tsu)
-        dtc_meters_tsuMax = max(dtc_meters_tsu)
 
         if len(dtc_meters_ss) != 0:
+            dtc_meters_ssMax = max(dtc_meters_ss)
             ss = dtc_others.filter(
                 ~Q(ss=-9999.0)).values_list("ss", flat=True)
             ss = list(ss)
@@ -368,6 +367,7 @@ def RRFunctionsLevee(count, inputs, currentScenario, leveeIdForMaxFactor, firstF
             storm = -9999.0  # np.nan
 
         if len(dtc_meters_tsu) != 0:
+            dtc_meters_tsuMax = max(dtc_meters_tsu)
             tsu = dtc_others.filter(
                 ~Q(tsu=-9999.0)).values_list("tsu", flat=True)
             tsu = list(tsu)
