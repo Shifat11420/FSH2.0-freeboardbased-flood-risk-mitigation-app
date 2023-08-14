@@ -38,13 +38,13 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                             "allPerils": allPerils}
     # print("baserate Results  : ", baserateResults_dict)
 
-    baseRateResult = riskrating2results(items=item1,
-                                        inlandFloodBuldings=ifBuilding, inlandFloodContents=ifContents,
-                                        stormSurgeBuldings=ssBuilding, stormSurgeContents=ssContents,
-                                        tsunamiBuldings=tsuBuilding, tsunamiContents=tsuContents,
-                                        greatLakesBuldings=glBuilding, greatLakesContents=glContents,
-                                        coastalErosonBuldings=ceBuilding, coastalErosonContents=ceContents,
-                                        )
+    # baseRateResult = riskrating2results(items=item1,
+    #                                     inlandFloodBuldings=ifBuilding, inlandFloodContents=ifContents,
+    #                                     stormSurgeBuldings=ssBuilding, stormSurgeContents=ssContents,
+    #                                     tsunamiBuldings=tsuBuilding, tsunamiContents=tsuContents,
+    #                                     greatLakesBuldings=glBuilding, greatLakesContents=glContents,
+    #                                     coastalErosonBuldings=ceBuilding, coastalErosonContents=ceContents,
+    #                                     )
     # baseRateResult.save()
 
     # Distance To River
@@ -92,9 +92,9 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                                "allPerils": allPerils}
 
     # print("distToRiver Results  : ", distToRiverResults_dict)
-    distToRiverResult = riskrating2results(items=item2,
-                                           inlandFloodBuldings=ifBuilding, inlandFloodContents=ifContents)
-    # distToRiverResult.save()
+    # distToRiverResult = riskrating2results(items=item2,
+    #                                        inlandFloodBuldings=ifBuilding, inlandFloodContents=ifContents)
+    # # distToRiverResult.save()
 
     # Elevation Relative To River
     segmentfromBaserate = segment
@@ -168,9 +168,9 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                                   "allPerils": allPerils}
 
     # print("elevRelToRiverResults_dict  : ", elevRelToRiverResults_dict)
-    elevRelToRiverResults = riskrating2results(items=item3,
-                                               inlandFloodBuldings=ifBuilding, inlandFloodContents=ifContents)
-    # elevRelToRiverResults.save()
+    # elevRelToRiverResults = riskrating2results(items=item3,
+    #                                            inlandFloodBuldings=ifBuilding, inlandFloodContents=ifContents)
+    # # elevRelToRiverResults.save()
 
     # Drainage Area
     segmentfromBaserate = baserate.values()[0]['segment']
@@ -212,9 +212,9 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                                 "allPerils": allPerils}
 
     # print("drainageAreaResults_dict  : ", drainageAreaResults_dict)
-    drainageAreaResults = riskrating2results(items=item4,
-                                             inlandFloodBuldings=ifBuilding, inlandFloodContents=ifContents)
-    # drainageAreaResults.save()
+    # drainageAreaResults = riskrating2results(items=item4,
+    #                                          inlandFloodBuldings=ifBuilding, inlandFloodContents=ifContents)
+    # # drainageAreaResults.save()
 
     # Strucral Relative Elevation
     strucRelElv = structuralRelElevation.objects.filter(levee="No",
@@ -255,10 +255,10 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                                "ceBuilding": ceBuilding, "ceContents": ceContents,
                                "allPerils": allPerils}
 
-    # print("strucRelElvResults_dict  : ", strucRelElvResults_dict)
-    strucRelElvResults = riskrating2results(items=item5,
-                                            inlandFloodBuldings=ifBuilding, inlandFloodContents=ifContents)
-    # strucRelElvResults.save()
+    # # print("strucRelElvResults_dict  : ", strucRelElvResults_dict)
+    # strucRelElvResults = riskrating2results(items=item5,
+    #                                         inlandFloodBuldings=ifBuilding, inlandFloodContents=ifContents)
+    # # strucRelElvResults.save()
 
     # Distance To Coast
     distToCoast = distToCoastMultipliers.objects.filter(levee="No").all()
@@ -285,12 +285,10 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
         dtc_meters_ss = dtc_others.filter(
             ~Q(ss=-9999.0)).values_list("dtc_meters", flat=True)
         dtc_meters_ss = list(dtc_meters_ss)
-        
 
         dtc_meters_tsu = dtc_others.filter(
             ~Q(tsu=-9999.0)).values_list("dtc_meters", flat=True)
         dtc_meters_tsu = list(dtc_meters_tsu)
-        
 
         ss = dtc_others.filter(
             ~Q(ss=-9999.0)).values_list("ss", flat=True)
@@ -341,11 +339,11 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                                "allPerils": allPerils}
 
     # print("distToCoastResults_dict  : ", distToCoastResults_dict)
-    distToCoastResults = riskrating2results(items=item6,
-                                            stormSurgeBuldings=ssBuilding, stormSurgeContents=ssContents,
-                                            tsunamiBuldings=tsuBuilding, tsunamiContents=tsuContents,
-                                            coastalErosonBuldings=ceBuilding, coastalErosonContents=ceContents)
-    # distToCoastResults.save()
+    # distToCoastResults = riskrating2results(items=item6,
+    #                                         stormSurgeBuldings=ssBuilding, stormSurgeContents=ssContents,
+    #                                         tsunamiBuldings=tsuBuilding, tsunamiContents=tsuContents,
+    #                                         coastalErosonBuldings=ceBuilding, coastalErosonContents=ceContents)
+    # # distToCoastResults.save()
 
     # Distance To Ocean
     if segmentfromBaserate != 3 and segmentfromBaserate != 4 and currentScenario.distToOcean != None:  # 'N/A':
@@ -392,11 +390,11 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                                "allPerils": allPerils}
 
     # print("distToOceanResults_dict  : ", distToOceanResults_dict)
-    distToOceanResults = riskrating2results(items=item7,
-                                            stormSurgeBuldings=ssBuilding, stormSurgeContents=ssContents,
-                                            tsunamiBuldings=tsuBuilding, tsunamiContents=tsuContents
-                                            )
-    # distToOceanResults.save()
+    # distToOceanResults = riskrating2results(items=item7,
+    #                                         stormSurgeBuldings=ssBuilding, stormSurgeContents=ssContents,
+    #                                         tsunamiBuldings=tsuBuilding, tsunamiContents=tsuContents
+    #                                         )
+    # # distToOceanResults.save()
 
     # Elevation
     if segmentfromBaserate != 3 and segmentfromBaserate != 4:
@@ -460,11 +458,11 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                              "allPerils": allPerils}
 
     # print("elevationResults_dict  : ", elevationResults_dict)
-    elevationResults = riskrating2results(items=item8,
-                                          stormSurgeBuldings=ssBuilding, stormSurgeContents=ssContents,
-                                          tsunamiBuldings=tsuBuilding, tsunamiContents=tsuContents
-                                          )
-    # elevationResults.save()
+    # elevationResults = riskrating2results(items=item8,
+    #                                       stormSurgeBuldings=ssBuilding, stormSurgeContents=ssContents,
+    #                                       tsunamiBuldings=tsuBuilding, tsunamiContents=tsuContents
+    #                                       )
+    # # elevationResults.save()
 
     # Distance To Lake
     dist_lake = distToLakeMultipliers.objects.filter(levee="No").all()
@@ -506,10 +504,10 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                               "allPerils": allPerils}
 
     # print("disttolakeResults_dict  : ", disttolakeResults_dict)
-    disttolakeResults = riskrating2results(items=item9,
-                                           greatLakesBuldings=glBuilding, greatLakesContents=glContents
-                                           )
-    # disttolakeResults.save()
+    # disttolakeResults = riskrating2results(items=item9,
+    #                                        greatLakesBuldings=glBuilding, greatLakesContents=glContents
+    #                                        )
+    # # disttolakeResults.save()
 
     # Elevation Relative To Lake
     elev_lake = elevRelToLake.objects.filter(levee="No").all()
@@ -551,10 +549,10 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                                       "allPerils": allPerils}
 
     # print("elevationRelToLakeResults_dict  : ", elevationRelToLakeResults_dict)
-    elevationRelToLakeResults = riskrating2results(items=item10,
-                                                   greatLakesBuldings=glBuilding, greatLakesContents=glContents
-                                                   )
-    # elevationRelToLakeResults.save()
+    # elevationRelToLakeResults = riskrating2results(items=item10,
+    #                                                greatLakesBuldings=glBuilding, greatLakesContents=glContents
+    #                                                )
+    # # elevationRelToLakeResults.save()
 
     # Territory
     # TSU
@@ -627,12 +625,12 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                              "allPerils": allPerils}
 
     # print("territoryResults_dict  : ", territoryResults_dict)
-    territoryResults = riskrating2results(items=item11,
-                                          inlandFloodBuldings=ifBuilding, inlandFloodContents=ifContents,
-                                          stormSurgeBuldings=ssBuilding, stormSurgeContents=ssContents,
-                                          tsunamiBuldings=tsuBuilding, tsunamiContents=tsuContents,
-                                          greatLakesBuldings=glBuilding, greatLakesContents=glContents
-                                          )
+    # territoryResults = riskrating2results(items=item11,
+    #                                       inlandFloodBuldings=ifBuilding, inlandFloodContents=ifContents,
+    #                                       stormSurgeBuldings=ssBuilding, stormSurgeContents=ssContents,
+    #                                       tsunamiBuldings=tsuBuilding, tsunamiContents=tsuContents,
+    #                                       greatLakesBuldings=glBuilding, greatLakesContents=glContents
+    #                                       )
     # territoryResults.save()
 
     # Type Of Use
@@ -670,13 +668,13 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                              "allPerils": allPerils}
 
     # print("typeOfUseResults_dict  : ", typeOfUseResults_dict)
-    typeOfUseResults = riskrating2results(items=item12,
-                                          inlandFloodBuldings=ifBuilding, inlandFloodContents=ifContents,
-                                          stormSurgeBuldings=ssBuilding, stormSurgeContents=ssContents,
-                                          tsunamiBuldings=tsuBuilding, tsunamiContents=tsuContents,
-                                          greatLakesBuldings=glBuilding, greatLakesContents=glContents
-                                          )
-    # typeOfUseResults.save()
+    # typeOfUseResults = riskrating2results(items=item12,
+    #                                       inlandFloodBuldings=ifBuilding, inlandFloodContents=ifContents,
+    #                                       stormSurgeBuldings=ssBuilding, stormSurgeContents=ssContents,
+    #                                       tsunamiBuldings=tsuBuilding, tsunamiContents=tsuContents,
+    #                                       greatLakesBuldings=glBuilding, greatLakesContents=glContents
+    #                                       )
+    # # typeOfUseResults.save()
 
     # Floors Of Interest
     if str(currentScenario.typeOfUseID.singleFamilyHomeIndicatorID) == "Yes" and str(currentScenario.typeOfUseID.condoUnitOwnerIndicatorID) == "No":
@@ -714,12 +712,12 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                                "allPerils": allPerils}
 
     # print("floorsOfIntResults_dict  : ", floorsOfIntResults_dict)
-    floorsOfIntResults = riskrating2results(items=item12,
-                                            inlandFloodBuldings=ifBuilding, inlandFloodContents=ifContents,
-                                            stormSurgeBuldings=ssBuilding, stormSurgeContents=ssContents,
-                                            tsunamiBuldings=tsuBuilding, tsunamiContents=tsuContents,
-                                            greatLakesBuldings=glBuilding, greatLakesContents=glContents
-                                            )
+    # floorsOfIntResults = riskrating2results(items=item12,
+    #                                         inlandFloodBuldings=ifBuilding, inlandFloodContents=ifContents,
+    #                                         stormSurgeBuldings=ssBuilding, stormSurgeContents=ssContents,
+    #                                         tsunamiBuldings=tsuBuilding, tsunamiContents=tsuContents,
+    #                                         greatLakesBuldings=glBuilding, greatLakesContents=glContents
+    #                                         )
     # floorsOfIntResults.save()
 
     # Foundation type
@@ -753,12 +751,12 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                               "allPerils": allPerils}
 
     # print("foundationResults_dict  : ", foundationResults_dict)
-    foundationResults = riskrating2results(items=item13,
-                                           inlandFloodBuldings=ifBuilding, inlandFloodContents=ifContents,
-                                           stormSurgeBuldings=ssBuilding, stormSurgeContents=ssContents,
-                                           tsunamiBuldings=tsuBuilding, tsunamiContents=tsuContents,
-                                           greatLakesBuldings=glBuilding, greatLakesContents=glContents
-                                           )
+    # foundationResults = riskrating2results(items=item13,
+    #                                        inlandFloodBuldings=ifBuilding, inlandFloodContents=ifContents,
+    #                                        stormSurgeBuldings=ssBuilding, stormSurgeContents=ssContents,
+    #                                        tsunamiBuldings=tsuBuilding, tsunamiContents=tsuContents,
+    #                                        greatLakesBuldings=glBuilding, greatLakesContents=glContents
+    #                                        )
     # foundationResults.save()
 
     # Height Design Vent
@@ -838,12 +836,12 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                                     "allPerils": allPerils}
 
     # print("firstFloorHeightResults_dict  : ", firstFloorHeightResults_dict)
-    firstFloorHeightResults = riskrating2results(items=item14,
-                                                 inlandFloodBuldings=ifBuilding, inlandFloodContents=ifContents,
-                                                 stormSurgeBuldings=ssBuilding, stormSurgeContents=ssContents,
-                                                 tsunamiBuldings=tsuBuilding, tsunamiContents=tsuContents,
-                                                 greatLakesBuldings=glBuilding, greatLakesContents=glContents
-                                                 )
+    # firstFloorHeightResults = riskrating2results(items=item14,
+    #                                              inlandFloodBuldings=ifBuilding, inlandFloodContents=ifContents,
+    #                                              stormSurgeBuldings=ssBuilding, stormSurgeContents=ssContents,
+    #                                              tsunamiBuldings=tsuBuilding, tsunamiContents=tsuContents,
+    #                                              greatLakesBuldings=glBuilding, greatLakesContents=glContents
+    #                                              )
     # firstFloorHeightResults.save()
 
     # ME Above First Floor
@@ -874,12 +872,12 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                                      "allPerils": allPerils}
 
     # print("meAbovefirstFloorResults_dict  : ", meAbovefirstFloorResults_dict)
-    meAbovefirstFloorResults = riskrating2results(items=item15,
-                                                  inlandFloodBuldings=ifBuilding, inlandFloodContents=ifContents,
-                                                  stormSurgeBuldings=ssBuilding, stormSurgeContents=ssContents,
-                                                  tsunamiBuldings=tsuBuilding, tsunamiContents=tsuContents,
-                                                  greatLakesBuldings=glBuilding, greatLakesContents=glContents
-                                                  )
+    # meAbovefirstFloorResults = riskrating2results(items=item15,
+    #                                               inlandFloodBuldings=ifBuilding, inlandFloodContents=ifContents,
+    #                                               stormSurgeBuldings=ssBuilding, stormSurgeContents=ssContents,
+    #                                               tsunamiBuldings=tsuBuilding, tsunamiContents=tsuContents,
+    #                                               greatLakesBuldings=glBuilding, greatLakesContents=glContents
+    #                                               )
     # meAbovefirstFloorResults.save()
 
     # Coverage Value
@@ -933,12 +931,12 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                                        "allPerils": allPerils}
 
     # print("coverageValueFactorResults_dict  : ", coverageValueFactorResults_dict)
-    coverageValueFactorResults = riskrating2results(items=item16,
-                                                    inlandFloodBuldings=ifBuilding, inlandFloodContents=ifContents,
-                                                    stormSurgeBuldings=ssBuilding, stormSurgeContents=ssContents,
-                                                    tsunamiBuldings=tsuBuilding, tsunamiContents=tsuContents,
-                                                    greatLakesBuldings=glBuilding, greatLakesContents=glContents
-                                                    )
+    # coverageValueFactorResults = riskrating2results(items=item16,
+    #                                                 inlandFloodBuldings=ifBuilding, inlandFloodContents=ifContents,
+    #                                                 stormSurgeBuldings=ssBuilding, stormSurgeContents=ssContents,
+    #                                                 tsunamiBuldings=tsuBuilding, tsunamiContents=tsuContents,
+    #                                                 greatLakesBuldings=glBuilding, greatLakesContents=glContents
+    #                                                 )
     # coverageValueFactorResults.save()
 
     # Deductible & Limit to Coverage Value Ratio
@@ -1030,13 +1028,13 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                                                   "allPerils": allPerils}
 
     # print("deductibleLimittoCoverageValueResults_dict  : ", deductibleLimittoCoverageValueResults_dict)
-    deductibleLimittoCoverageValueResults = riskrating2results(items=item17,
-                                                               inlandFloodBuldings=ifBuilding, inlandFloodContents=ifContents,
-                                                               stormSurgeBuldings=ssBuilding, stormSurgeContents=ssContents,
-                                                               tsunamiBuldings=tsuBuilding, tsunamiContents=tsuContents,
-                                                               greatLakesBuldings=glBuilding, greatLakesContents=glContents,
-                                                               coastalErosonBuldings=ceBuilding, coastalErosonContents=ceContents,
-                                                               )
+    # deductibleLimittoCoverageValueResults = riskrating2results(items=item17,
+    #                                                            inlandFloodBuldings=ifBuilding, inlandFloodContents=ifContents,
+    #                                                            stormSurgeBuldings=ssBuilding, stormSurgeContents=ssContents,
+    #                                                            tsunamiBuldings=tsuBuilding, tsunamiContents=tsuContents,
+    #                                                            greatLakesBuldings=glBuilding, greatLakesContents=glContents,
+    #                                                            coastalErosonBuldings=ceBuilding, coastalErosonContents=ceContents,
+    #                                                            )
     # deductibleLimittoCoverageValueResults.save()
 
     # Deductible to Coverage Value Ratio
@@ -1096,13 +1094,13 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                                              "allPerils": allPerils}
 
     # print("deductibletoCoverageValueResults_dict  : ", deductibletoCoverageValueResults_dict)
-    deductibletoCoverageValueResults = riskrating2results(items=item18,
-                                                          inlandFloodBuldings=ifBuilding, inlandFloodContents=ifContents,
-                                                          stormSurgeBuldings=ssBuilding, stormSurgeContents=ssContents,
-                                                          tsunamiBuldings=tsuBuilding, tsunamiContents=tsuContents,
-                                                          greatLakesBuldings=glBuilding, greatLakesContents=glContents,
-                                                          coastalErosonBuldings=ceBuilding, coastalErosonContents=ceContents,
-                                                          )
+    # deductibletoCoverageValueResults = riskrating2results(items=item18,
+    #                                                       inlandFloodBuldings=ifBuilding, inlandFloodContents=ifContents,
+    #                                                       stormSurgeBuldings=ssBuilding, stormSurgeContents=ssContents,
+    #                                                       tsunamiBuldings=tsuBuilding, tsunamiContents=tsuContents,
+    #                                                       greatLakesBuldings=glBuilding, greatLakesContents=glContents,
+    #                                                       coastalErosonBuldings=ceBuilding, coastalErosonContents=ceContents,
+    #                                                       )
     # deductibletoCoverageValueResults.save()
 
     # Initial Deductible & ITV
@@ -1133,13 +1131,13 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                                         "allPerils": allPerils}
 
     # print("initialDeductibleITVResults_dict  : ", initialDeductibleITVResults_dict)
-    initialDeductibleITVResults = riskrating2results(items=item19,
-                                                     inlandFloodBuldings=ifBuilding, inlandFloodContents=ifContents,
-                                                     stormSurgeBuldings=ssBuilding, stormSurgeContents=ssContents,
-                                                     tsunamiBuldings=tsuBuilding, tsunamiContents=tsuContents,
-                                                     greatLakesBuldings=glBuilding, greatLakesContents=glContents,
-                                                     coastalErosonBuldings=ceBuilding, coastalErosonContents=ceContents
-                                                     )
+    # initialDeductibleITVResults = riskrating2results(items=item19,
+    #                                                  inlandFloodBuldings=ifBuilding, inlandFloodContents=ifContents,
+    #                                                  stormSurgeBuldings=ssBuilding, stormSurgeContents=ssContents,
+    #                                                  tsunamiBuldings=tsuBuilding, tsunamiContents=tsuContents,
+    #                                                  greatLakesBuldings=glBuilding, greatLakesContents=glContents,
+    #                                                  coastalErosonBuldings=ceBuilding, coastalErosonContents=ceContents
+    #                                                  )
     # initialDeductibleITVResults.save()
 
     # Final Deductible & ITV
@@ -1180,13 +1178,13 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                                       "ceBuilding": ceBuilding, "ceContents": ceContents,
                                       "allPerils": allPerils}
     # print("finalDeductibleITVResults_dict  : ", finalDeductibleITVResults_dict)
-    finalDeductibleITVResults = riskrating2results(items=item20,
-                                                   inlandFloodBuldings=ifBuilding, inlandFloodContents=ifContents,
-                                                   stormSurgeBuldings=ssBuilding, stormSurgeContents=ssContents,
-                                                   tsunamiBuldings=tsuBuilding, tsunamiContents=tsuContents,
-                                                   greatLakesBuldings=glBuilding, greatLakesContents=glContents,
-                                                   coastalErosonBuldings=ceBuilding, coastalErosonContents=ceContents
-                                                   )
+    # finalDeductibleITVResults = riskrating2results(items=item20,
+    #                                                inlandFloodBuldings=ifBuilding, inlandFloodContents=ifContents,
+    #                                                stormSurgeBuldings=ssBuilding, stormSurgeContents=ssContents,
+    #                                                tsunamiBuldings=tsuBuilding, tsunamiContents=tsuContents,
+    #                                                greatLakesBuldings=glBuilding, greatLakesContents=glContents,
+    #                                                coastalErosonBuldings=ceBuilding, coastalErosonContents=ceContents
+    #                                                )
     # finalDeductibleITVResults.save()
 
     # Concentration Risk
@@ -1222,10 +1220,10 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                             "allPerils": allPerils}
 
     # print("concRiskResults_dict  : ", concRiskResults_dict)
-    concRiskResults = riskrating2results(items=item20,
-                                         inlandFloodBuldings=ifBuilding, inlandFloodContents=ifContents,
-                                         stormSurgeBuldings=ssBuilding, stormSurgeContents=ssContents,
-                                         )
+    # concRiskResults = riskrating2results(items=item20,
+    #                                      inlandFloodBuldings=ifBuilding, inlandFloodContents=ifContents,
+    #                                      stormSurgeBuldings=ssBuilding, stormSurgeContents=ssContents,
+    #                                      )
     # concRiskResults.save()
 
     # CRS Discount Percentage
@@ -1252,13 +1250,13 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                                    "allPerils": allPerils}
 
     # print("CRSDiscountPercResults_dict  : ", CRSDiscountPercResults_dict)
-    CRSDiscountPercResults = riskrating2results(items=item21,
-                                                inlandFloodBuldings=ifBuilding, inlandFloodContents=ifContents,
-                                                stormSurgeBuldings=ssBuilding, stormSurgeContents=ssContents,
-                                                tsunamiBuldings=tsuBuilding, tsunamiContents=tsuContents,
-                                                greatLakesBuldings=glBuilding, greatLakesContents=glContents,
-                                                coastalErosonBuldings=ceBuilding, coastalErosonContents=ceContents,
-                                                allPerilsAllCoverage=allPerils)
+    # CRSDiscountPercResults = riskrating2results(items=item21,
+    #                                             inlandFloodBuldings=ifBuilding, inlandFloodContents=ifContents,
+    #                                             stormSurgeBuldings=ssBuilding, stormSurgeContents=ssContents,
+    #                                             tsunamiBuldings=tsuBuilding, tsunamiContents=tsuContents,
+    #                                             greatLakesBuldings=glBuilding, greatLakesContents=glContents,
+    #                                             coastalErosonBuldings=ceBuilding, coastalErosonContents=ceContents,
+    #                                             allPerilsAllCoverage=allPerils)
     # CRSDiscountPercResults.save()
 
     # CRS Discount Factor
@@ -1285,13 +1283,13 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                                      "allPerils": allPerils}
 
     # print("CRSDiscountFactorResults_dict  : ", CRSDiscountFactorResults_dict)
-    CRSDiscountFactorResults = riskrating2results(items=item22,
-                                                  inlandFloodBuldings=ifBuilding, inlandFloodContents=ifContents,
-                                                  stormSurgeBuldings=ssBuilding, stormSurgeContents=ssContents,
-                                                  tsunamiBuldings=tsuBuilding, tsunamiContents=tsuContents,
-                                                  greatLakesBuldings=glBuilding, greatLakesContents=glContents,
-                                                  coastalErosonBuldings=ceBuilding, coastalErosonContents=ceContents,
-                                                  allPerilsAllCoverage=allPerils)
+    # CRSDiscountFactorResults = riskrating2results(items=item22,
+    #                                               inlandFloodBuldings=ifBuilding, inlandFloodContents=ifContents,
+    #                                               stormSurgeBuldings=ssBuilding, stormSurgeContents=ssContents,
+    #                                               tsunamiBuldings=tsuBuilding, tsunamiContents=tsuContents,
+    #                                               greatLakesBuldings=glBuilding, greatLakesContents=glContents,
+    #                                               coastalErosonBuldings=ceBuilding, coastalErosonContents=ceContents,
+    #                                               allPerilsAllCoverage=allPerils)
     # CRSDiscountFactorResults.save()
 
     # Geographic Rate by Peril & Coverage
@@ -1332,13 +1330,13 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                                   "allPerils": allPerils}
 
     # print("geographicRateResults_dict  : ", geographicRateResults_dict)
-    geographicRateResults = riskrating2results(items=item23,
-                                               inlandFloodBuldings=ifBuilding, inlandFloodContents=ifContents,
-                                               stormSurgeBuldings=ssBuilding, stormSurgeContents=ssContents,
-                                               tsunamiBuldings=tsuBuilding, tsunamiContents=tsuContents,
-                                               greatLakesBuldings=glBuilding, greatLakesContents=glContents,
-                                               coastalErosonBuldings=ceBuilding, coastalErosonContents=ceContents,
-                                               )
+    # geographicRateResults = riskrating2results(items=item23,
+    #                                            inlandFloodBuldings=ifBuilding, inlandFloodContents=ifContents,
+    #                                            stormSurgeBuldings=ssBuilding, stormSurgeContents=ssContents,
+    #                                            tsunamiBuldings=tsuBuilding, tsunamiContents=tsuContents,
+    #                                            greatLakesBuldings=glBuilding, greatLakesContents=glContents,
+    #                                            coastalErosonBuldings=ceBuilding, coastalErosonContents=ceContents,
+    #                                            )
     # geographicRateResults.save()
 
     # Rate by Peril & Coverage
@@ -1406,13 +1404,13 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                                        "allPerils": allPerils}
 
     # print("ratebyPerilCoverageResults_dict  : ", ratebyPerilCoverageResults_dict)
-    ratebyPerilCoverageResults = riskrating2results(items=item24,
-                                                    inlandFloodBuldings=ifBuilding, inlandFloodContents=ifContents,
-                                                    stormSurgeBuldings=ssBuilding, stormSurgeContents=ssContents,
-                                                    tsunamiBuldings=tsuBuilding, tsunamiContents=tsuContents,
-                                                    greatLakesBuldings=glBuilding, greatLakesContents=glContents,
-                                                    coastalErosonBuldings=ceBuilding, coastalErosonContents=ceContents,
-                                                    )
+    # ratebyPerilCoverageResults = riskrating2results(items=item24,
+    # inlandFloodBuldings=ifBuilding, inlandFloodContents=ifContents,
+    # stormSurgeBuldings=ssBuilding, stormSurgeContents=ssContents,
+    # tsunamiBuldings=tsuBuilding, tsunamiContents=tsuContents,
+    # greatLakesBuldings=glBuilding, greatLakesContents=glContents,
+    # coastalErosonBuldings=ceBuilding, coastalErosonContents=ceContents,
+    # )
     # ratebyPerilCoverageResults.save()
 
     Rate_of_building = round((ratebyPerilCoverage1[0] +
@@ -1442,10 +1440,10 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                                      "ceBuilding": ceBuilding, "ceContents": ceContents,
                                      "allPerils": allPerils}
 
-    # print("rateBuildingValueResults_dict  : ", rateBuildingValueResults_dict)
-    rateBuildingValueResults = riskrating2results(items=item25,
-                                                  allPerilsAllCoverage=allPerils
-                                                  )
+    # # print("rateBuildingValueResults_dict  : ", rateBuildingValueResults_dict)
+    # rateBuildingValueResults = riskrating2results(items=item25,
+    #                                               allPerilsAllCoverage=allPerils
+    #                                               )
     # rateBuildingValueResults.save()
 
     Rate_of_contents = round((ratebyPerilCoverage1[1] +
@@ -1476,9 +1474,9 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                                      "allPerils": allPerils}
 
     # print("rateContentsValueResults_dict  : ", rateContentsValueResults_dict)
-    rateContentsValueResults = riskrating2results(items=item26,
-                                                  allPerilsAllCoverage=allPerils
-                                                  )
+    # rateContentsValueResults = riskrating2results(items=item26,
+    #                                               allPerilsAllCoverage=allPerils
+    #                                               )
     # rateContentsValueResults.save()
 
     ifBuilding_WbyC = round(
@@ -1524,13 +1522,13 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                                          "allPerils": allPerils}
 
     # print("rateWeightsbyCoverageResults_dict  : ", rateWeightsbyCoverageResults_dict)
-    rateWeightsbyCoverageResults = riskrating2results(items=item27,
-                                                      inlandFloodBuldings=ifBuilding, inlandFloodContents=ifContents,
-                                                      stormSurgeBuldings=ssBuilding, stormSurgeContents=ssContents,
-                                                      tsunamiBuldings=tsuBuilding, tsunamiContents=tsuContents,
-                                                      greatLakesBuldings=glBuilding, greatLakesContents=glContents,
-                                                      coastalErosonBuldings=ceBuilding, coastalErosonContents=ceContents,
-                                                      )
+    # rateWeightsbyCoverageResults = riskrating2results(items=item27,
+    #                                                   inlandFloodBuldings=ifBuilding, inlandFloodContents=ifContents,
+    #                                                   stormSurgeBuldings=ssBuilding, stormSurgeContents=ssContents,
+    #                                                   tsunamiBuldings=tsuBuilding, tsunamiContents=tsuContents,
+    #                                                   greatLakesBuldings=glBuilding, greatLakesContents=glContents,
+    #                                                   coastalErosonBuldings=ceBuilding, coastalErosonContents=ceContents,
+    #                                                   )
     # rateWeightsbyCoverageResults.save()
 
     # Weighted Deductible & ITV Factor (Building)
@@ -1561,10 +1559,10 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                                                  "ceBuilding": ceBuilding, "ceContents": ceContents,
                                                  "allPerils": allPerils}
 
-    # print("weightedDeductibleITVBuildingResults_dict  : ", weightedDeductibleITVBuildingResults_dict)
-    weightedDeductibleITVBuildingResults = riskrating2results(items=item28,
-                                                              allPerilsAllCoverage=allPerils
-                                                              )
+    # # print("weightedDeductibleITVBuildingResults_dict  : ", weightedDeductibleITVBuildingResults_dict)
+    # weightedDeductibleITVBuildingResults = riskrating2results(items=item28,
+    #                                                           allPerilsAllCoverage=allPerils
+    #                                                           )
     # weightedDeductibleITVBuildingResults.save()
 
     weighted_deductible_contents = round((float(finalDeductibleITVResults_dict['ifContents']) * ifContents_WbyC +
@@ -1594,10 +1592,10 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                                                  "ceBuilding": ceBuilding, "ceContents": ceContents,
                                                  "allPerils": allPerils}
 
-    # print("weightedDeductibleITVContentsResults_dict  : ", weightedDeductibleITVContentsResults_dict)
-    weightedDeductibleITVContentsResults = riskrating2results(items=item29,
-                                                              allPerilsAllCoverage=allPerils
-                                                              )
+    # # print("weightedDeductibleITVContentsResults_dict  : ", weightedDeductibleITVContentsResults_dict)
+    # weightedDeductibleITVContentsResults = riskrating2results(items=item29,
+    #                                                           allPerilsAllCoverage=allPerils
+    #                                                           )
     # weightedDeductibleITVContentsResults.save()
 
     # Min and max rate- buildings
@@ -1625,10 +1623,10 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                                      "ceBuilding": ceBuilding, "ceContents": ceContents,
                                      "allPerils": allPerils}
 
-    # print("min_rate_buildingResults_dict  : ", min_rate_buildingResults_dict)
-    min_rate_buildingResults = riskrating2results(items=item30,
-                                                  allPerilsAllCoverage=allPerils
-                                                  )
+    # # print("min_rate_buildingResults_dict  : ", min_rate_buildingResults_dict)
+    # min_rate_buildingResults = riskrating2results(items=item30,
+    #                                               allPerilsAllCoverage=allPerils
+    #                                               )
     # min_rate_buildingResults.save()
 
     item31 = "Maximum Rate (per $1000 of Building Value)"
@@ -1653,9 +1651,9 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                                      "allPerils": allPerils}
 
     # print("max_rate_buildingResults_dict  : ", max_rate_buildingResults_dict)
-    max_rate_buildingResults = riskrating2results(items=item31,
-                                                  allPerilsAllCoverage=allPerils
-                                                  )
+    # max_rate_buildingResults = riskrating2results(items=item31,
+    #                                               allPerilsAllCoverage=allPerils
+    #                                               )
     # max_rate_buildingResults.save()
 
     # Min and max rate- contents
@@ -1684,9 +1682,9 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                                      "allPerils": allPerils}
 
     # print("min_rate_contentsResults_dict  : ", min_rate_contentsResults_dict)
-    min_rate_contentsResults = riskrating2results(items=item32,
-                                                  allPerilsAllCoverage=allPerils
-                                                  )
+    # min_rate_contentsResults = riskrating2results(items=item32,
+    #                                               allPerilsAllCoverage=allPerils
+    #                                               )
     # min_rate_contentsResults.save()
 
     item33 = "Maximum Rate (per $1000 of Contents Value)"
@@ -1711,9 +1709,9 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                                      "allPerils": allPerils}
 
     # print("max_rate_contentsResults_dict  : ", max_rate_contentsResults_dict)
-    max_rate_contentsResults = riskrating2results(items=item33,
-                                                  allPerilsAllCoverage=allPerils
-                                                  )
+    # max_rate_contentsResults = riskrating2results(items=item33,
+    #                                               allPerilsAllCoverage=allPerils
+    #                                               )
     # max_rate_contentsResults.save()
 
     # min and max Rate by Peril & Coverage
@@ -1739,10 +1737,11 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                                           "allPerils": allPerils}
 
     # print("min_rate_PerilCoverageResults_dict  : ", min_rate_PerilCoverageResults_dict)
-    min_rate_PerilCoverageResults = riskrating2results(items=item34,
-                                                       )
+    # min_rate_PerilCoverageResults = riskrating2results(items=item34,
+    #                                                    )
     # min_rate_PerilCoverageResults.save()
 
+#   Maximum Rate by Peril & Coverage (per $1000 of Coverage Value)
     item35 = "Maximum Rate by Peril & Coverage (per $1000 of Coverage Value)"
     ifBuilding = ''
     ifContents = ''
@@ -1765,8 +1764,8 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                                           "allPerils": allPerils}
 
     # print("max_rate_PerilCoverageResults_dict  : ", max_rate_PerilCoverageResults_dict)
-    max_rate_PerilCoverageResults = riskrating2results(items=item35
-                                                       )
+    # max_rate_PerilCoverageResults = riskrating2results(items=item35
+    #                                                    )
     # max_rate_PerilCoverageResults.save()
 
     ############
@@ -1776,6 +1775,7 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
     final_rate_contents = min(
         max(Rate_of_contents, min_rate_contents), max_rate_contents)
 
+#   Final Rate (per $1000 of Building Value)
     item36 = "Final Rate (per $1000 of Building Value)"
     ifBuilding = ''
     ifContents = ''
@@ -1798,11 +1798,12 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                                        "allPerils": allPerils}
 
     # print("final_rate_buildingResults_dict  : ", final_rate_buildingResults_dict)
-    final_rate_buildingResults = riskrating2results(items=item36,
-                                                    allPerilsAllCoverage=allPerils
-                                                    )
+    # final_rate_buildingResults = riskrating2results(items=item36,
+    #                                                 allPerilsAllCoverage=allPerils
+    #                                                 )
     # final_rate_buildingResults.save()
 
+#   Final Rate (per $1000 of Contents Value)
     item37 = "Final Rate (per $1000 of Contents Value)"
     ifBuilding = ''
     ifContents = ''
@@ -1825,9 +1826,9 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                                        "allPerils": allPerils}
 
     # print("final_rate_contentsResults_dict  : ", final_rate_contentsResults_dict)
-    final_rate_contentsResults = riskrating2results(items=item37,
-                                                    allPerilsAllCoverage=allPerils
-                                                    )
+    # final_rate_contentsResults = riskrating2results(items=item37,
+    #                                                 allPerilsAllCoverage=allPerils
+    #                                                 )
     # final_rate_contentsResults.save()
 
     coverage_building_thousands = currentScenario.buildingReplacementValue/1000
@@ -1848,7 +1849,7 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
     icc_crs = inputs['ICC premium'] * (100-currentScenario.crsRating.Value)/100
     subtotal = (premium_without_fees + icc_crs)
 
-#     risk_rating_2.iloc[39,11] = coverage_building_thousands
+#   coverage_building_thousands
 
     item38 = "Coverage Value in Thousands (Buildings)"
     ifBuilding = ''
@@ -1872,12 +1873,12 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                                                                   "allPerils": allPerils}
 
     # print("coverage_building_thousandsResults_dict  : ", coverage_building_thousandsResults_dict)
-    coverage_building_thousandsResults = riskrating2results(items=item37,
-                                                            allPerilsAllCoverage=allPerils
-                                                            )
+    # coverage_building_thousandsResults = riskrating2results(items=item37,
+    #                                                         allPerilsAllCoverage=allPerils
+    #                                                         )
     # coverage_building_thousandsResults.save()
 
-#     risk_rating_2.iloc[40,11] = coverage_contents_thousands
+#   coverage_contents_thousands
     item39 = "Coverage Value in Thousands (Contents)"
     ifBuilding = ''
     ifContents = ''
@@ -1899,14 +1900,14 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                                                "ceBuilding": ceBuilding, "ceContents": ceContents,
                                                "allPerils": allPerils}
 
-    # print("coverage_contents_thousandsResults_dict  : ", coverage_contents_thousandsResults_dict)
-    coverage_contents_thousandsResults = riskrating2results(items=item39,
-                                                            allPerilsAllCoverage=allPerils
-                                                            )
-    coverage_contents_thousandsResults.save()
+    # # print("coverage_contents_thousandsResults_dict  : ", coverage_contents_thousandsResults_dict)
+    # coverage_contents_thousandsResults = riskrating2results(items=item39,
+    #                                                         allPerilsAllCoverage=allPerils
+    # #                                                         )
+    # coverage_contents_thousandsResults.save()
 
 
-#     risk_rating_2.iloc[41,11] = initial_premium_without_fees_building
+#   initial_premium_without_fees_building
     item40 = "Initial Premium without Fees (Buildings)"
     ifBuilding = ''
     ifContents = ''
@@ -1928,12 +1929,12 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                                                          "allPerils": allPerils}
 
     # print("initial_premium_without_fees_buildingResults_dict  : ", initial_premium_without_fees_buildingResults_dict)
-    initial_premium_without_fees_buildingResults = riskrating2results(items=item40,
-                                                                      allPerilsAllCoverage=allPerils
-                                                                      )
-    initial_premium_without_fees_buildingResults.save()
+    # initial_premium_without_fees_buildingResults = riskrating2results(items=item40,
+    #                                                                   allPerilsAllCoverage=allPerils
+    #                                                                   )
+    # initial_premium_without_fees_buildingResults.save()
 
-#     risk_rating_2.iloc[42,11] = initial_premium_without_fees_contents
+#   initial_premium_without_fees_contents
     item41 = "Initial Premium without Fees (Contents)"
     ifBuilding = ''
     ifContents = ''
@@ -1955,14 +1956,14 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                                                          "ceBuilding": ceBuilding, "ceContents": ceContents,
                                                          "allPerils": allPerils}
 
-    # print("initial_premium_without_fees_contentsResults_dict  : ", initial_premium_without_fees_contentsResults_dict)
-    initial_premium_without_fees_contentsResults = riskrating2results(items=item41,
-                                                                      allPerilsAllCoverage=allPerils
-                                                                      )
+    # # print("initial_premium_without_fees_contentsResults_dict  : ", initial_premium_without_fees_contentsResults_dict)
+    # initial_premium_without_fees_contentsResults = riskrating2results(items=item41,
+    #                                                                   allPerilsAllCoverage=allPerils
+    #                                                                   )
     # initial_premium_without_fees_contentsResults.save()
 
 
-#     risk_rating_2.iloc[43,11] = initial_premium_without_fees
+#   initial_premium_without_fees
     item42 = "Initial Premium without Fees"
     ifBuilding = ''
     ifContents = ''
@@ -1985,13 +1986,13 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                                                 "allPerils": allPerils}
 
     # print("initial_premium_without_feesResults_dict  : ", initial_premium_without_feesResults_dict)
-    initial_premium_without_feesResults = riskrating2results(items=item42,
-                                                             allPerilsAllCoverage=allPerils
-                                                             )
+    # initial_premium_without_feesResults = riskrating2results(items=item42,
+    #                                                          allPerilsAllCoverage=allPerils
+    #                                                          )
     # initial_premium_without_feesResults.save()
 
 
-#     risk_rating_2.iloc[44,11] = prior_claim_premium
+#   prior_claim_premium
     item43 = "Prior Claims Premium"
     ifBuilding = ''
     ifContents = ''
@@ -2014,13 +2015,13 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                                        "allPerils": allPerils}
 
     # print("prior_claim_premiumResults_dict  : ", prior_claim_premiumResults_dict)
-    prior_claim_premiumResults = riskrating2results(items=item43,
-                                                    allPerilsAllCoverage=allPerils
-                                                    )
+    # prior_claim_premiumResults = riskrating2results(items=item43,
+    #                                                 allPerilsAllCoverage=allPerils
+    #                                                 )
     # prior_claim_premiumResults.save()
 
 
-#     risk_rating_2.iloc[45,11] = premium_exc_fees_expense
+#   premium_exc_fees_expense
     item44 = "Premium excluding Fees & Expense Constant"
     ifBuilding = ''
     ifContents = ''
@@ -2043,12 +2044,12 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                                             "allPerils": allPerils}
 
     # print("premium_exc_fees_expenseResults_dict  : ", premium_exc_fees_expenseResults_dict)
-    premium_exc_fees_expenseResults = riskrating2results(items=item44,
-                                                         allPerilsAllCoverage=allPerils
-                                                         )
+    # premium_exc_fees_expenseResults = riskrating2results(items=item44,
+    #                                                      allPerilsAllCoverage=allPerils
+    #                                                      )
     # premium_exc_fees_expenseResults.save()
 
-#     risk_rating_2.iloc[46,11] = inputs['Expense Constant']
+#   Expense Constant
     item45 = "Expense Constant"
     ifBuilding = ''
     ifContents = ''
@@ -2071,12 +2072,12 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                                     "allPerils": allPerils}
 
     # print("expense_ConstantResults_dict  : ", expense_ConstantResults_dict)
-    expense_ConstantResults = riskrating2results(items=item45,
-                                                 allPerilsAllCoverage=allPerils
-                                                 )
+    # expense_ConstantResults = riskrating2results(items=item45,
+    #                                              allPerilsAllCoverage=allPerils
+    #                                              )
     # expense_ConstantResults.save()
 
-#     risk_rating_2.iloc[47,11] = inputs['Loss Constant']
+#    Loss Constant
     item46 = "Loss Constant"
     ifBuilding = ''
     ifContents = ''
@@ -2099,12 +2100,12 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                                  "allPerils": allPerils}
 
     # print("loss_ConstantResults_dict  : ", loss_ConstantResults_dict)
-    loss_ConstantResults = riskrating2results(items=item46,
-                                              allPerilsAllCoverage=allPerils
-                                              )
+    # loss_ConstantResults = riskrating2results(items=item46,
+    #                                           allPerilsAllCoverage=allPerils
+    #                                           )
     # loss_ConstantResults.save()
 
-#     risk_rating_2.iloc[48,11] = premium_without_fees
+#   premium_without_fees
     item47 = "Premium without Fees"
     ifBuilding = ''
     ifContents = ''
@@ -2127,13 +2128,13 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                                         "allPerils": allPerils}
 
     # print("premium_without_feesResults_dict  : ", premium_without_feesResults_dict)
-    premium_without_feesResults = riskrating2results(items=item47,
-                                                     allPerilsAllCoverage=allPerils
-                                                     )
+    # premium_without_feesResults = riskrating2results(items=item47,
+    #                                                  allPerilsAllCoverage=allPerils
+    #                                                  )
     # premium_without_feesResults.save()
 
 
-#     risk_rating_2.iloc[49,11] = inputs['ICC premium']
+#   ICC premium
     item48 = "ICC Premium"
     ifBuilding = ''
     ifContents = ''
@@ -2156,12 +2157,12 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                                "allPerils": allPerils}
 
     # print("icc_premiumResults_dict  : ", icc_premiumResults_dict)
-    icc_premiumResults = riskrating2results(items=item48,
-                                            allPerilsAllCoverage=allPerils
-                                            )
+    # icc_premiumResults = riskrating2results(items=item48,
+    #                                         allPerilsAllCoverage=allPerils
+    #                                         )
     # icc_premiumResults.save()
 
-#     risk_rating_2.iloc[50,11] = icc_crs
+#   icc_crs
     item49 = "ICC Premium with CRS Discount"
     ifBuilding = ''
     ifContents = ''
@@ -2184,12 +2185,12 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                            "allPerils": allPerils}
 
     # print("icc_crsResults_dict  : ", icc_crsResults_dict)
-    icc_crsResults = riskrating2results(items=item49,
-                                        allPerilsAllCoverage=allPerils
-                                        )
+    # icc_crsResults = riskrating2results(items=item49,
+    #                                     allPerilsAllCoverage=allPerils
+    #                                     )
     # icc_crsResults.save()
 
-#     risk_rating_2.iloc[51,11] = subtotal
+#   subtotal
     item50 = "Subtotal"
     ifBuilding = ''
     ifContents = ''
@@ -2212,12 +2213,12 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                             "allPerils": allPerils}
 
     # print("subtotalResults_dict  : ", subtotalResults_dict)
-    subtotalResults = riskrating2results(items=item50,
-                                         allPerilsAllCoverage=allPerils
-                                         )
+    # subtotalResults = riskrating2results(items=item50,
+    #                                      allPerilsAllCoverage=allPerils
+    #                                      )
     # subtotalResults.save()
 
-#     risk_rating_2.iloc[52,11] = inputs['Reserve fund']
+#   Reserve fund
     item51 = "Reserve Fund Factor"
     ifBuilding = ''
     ifContents = ''
@@ -2240,13 +2241,14 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                                        "allPerils": allPerils}
 
     # print("reserve_fund_factorResults_dict  : ", reserve_fund_factorResults_dict)
-    reserve_fund_factorResults = riskrating2results(items=item51,
-                                                    allPerilsAllCoverage=allPerils
-                                                    )
+    # reserve_fund_factorResults = riskrating2results(items=item51,
+    #                                                 allPerilsAllCoverage=allPerils
+    #                                                 )
     # reserve_fund_factorResults.save()
 
     # subtotal = subtotal * inputs['Reserve fund']
-    # risk_rating_2.iloc[53,11] = subtotal
+
+    # subtotal
     subtotal_with_reservefund = subtotal * inputs['Reserve fund']
 
     item52 = "Subtotal with Reserve Fund"
@@ -2271,12 +2273,12 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                                              "allPerils": allPerils}
 
     # print("subtotal_with_reservefundResults_dict  : ", subtotal_with_reservefundResults_dict)
-    subtotal_with_reservefundResults = riskrating2results(items=item52,
-                                                          allPerilsAllCoverage=allPerils
-                                                          )
+    # subtotal_with_reservefundResults = riskrating2results(items=item52,
+    #                                                       allPerilsAllCoverage=allPerils
+    #                                                       )
     # subtotal_with_reservefundResults.save()
 
-#     risk_rating_2.iloc[54,11] = inputs['Probation surcharge']
+#   Probation surcharge
     item53 = "Probation Surcharge"
     ifBuilding = ''
     ifContents = ''
@@ -2299,16 +2301,17 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                                        "allPerils": allPerils}
 
     # print("probation_surchargeResults_dict  : ", probation_surchargeResults_dict)
-    probation_surchargeResults = riskrating2results(items=item53,
-                                                    allPerilsAllCoverage=allPerils
-                                                    )
+    # probation_surchargeResults = riskrating2results(items=item53,
+    #                                                 allPerilsAllCoverage=allPerils
+    #                                                 )
     # probation_surchargeResults.save()
 
     if str(currentScenario.userTypeID.primaryResidenceIndicatorID) == 'Yes':
         HFIAA_surcharge = 50
     else:
         HFIAA_surcharge = 250
-#     risk_rating_2.iloc[55,11] = HFIAA_surcharge
+
+#   HFIAA_surcharge
     item54 = "HFIAA Surcharge by Primary Residence Indicator"
     ifBuilding = ''
     ifContents = ''
@@ -2331,12 +2334,12 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                                    "allPerils": allPerils}
 
     # print("hfiaa_surchargeResults_dict  : ", hfiaa_surchargeResults_dict)
-    hfiaa_surchargeResults = riskrating2results(items=item54,
-                                                allPerilsAllCoverage=allPerils
-                                                )
+    # hfiaa_surchargeResults = riskrating2results(items=item54,
+    #                                             allPerilsAllCoverage=allPerils
+    #                                             )
     # hfiaa_surchargeResults.save()
 
-#     risk_rating_2.iloc[56,11] = inputs['Federal policy fee']
+#    Federal policy fee
     item55 = "Federal Policy Fee"
     ifBuilding = ''
     ifContents = ''
@@ -2359,14 +2362,14 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                                       "allPerils": allPerils}
 
     # print("federal_policy_feeResults_dict  : ", federal_policy_feeResults_dict)
-    federal_policy_feeResults = riskrating2results(items=item55,
-                                                   allPerilsAllCoverage=allPerils
-                                                   )
+    # federal_policy_feeResults = riskrating2results(items=item55,
+    #                                                allPerilsAllCoverage=allPerils
+    #                                                )
     # federal_policy_feeResults.save()
 
     premium = round(subtotal_with_reservefund + inputs['Probation surcharge'] +
                     HFIAA_surcharge + inputs['Federal policy fee'], 2)
-#     risk_rating_2.iloc[57,11] = premium
+#   premium
     item56 = "Premium with Fees"
     ifBuilding = ''
     ifContents = ''
@@ -2388,10 +2391,10 @@ def RRFunctionsNonLevee(count, inputs, currentScenario, leveeIdForMaxFactor, fir
                            "ceBuilding": ceBuilding, "ceContents": ceContents,
                            "allPerils": allPerils}
 
-    # print("premiumResults_dict  : ", premiumResults_dict)
-    premiumResults = riskrating2results(items=item56,
-                                        allPerilsAllCoverage=allPerils
-                                        )
+    # # print("premiumResults_dict  : ", premiumResults_dict)
+    # premiumResults = riskrating2results(items=item56,
+    #                                     allPerilsAllCoverage=allPerils
+    #                                     )
     # premiumResults.save()
 
     listofFFH.append(
