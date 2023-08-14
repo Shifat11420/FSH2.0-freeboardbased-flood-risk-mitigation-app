@@ -453,7 +453,7 @@ class CalculateFSHAPIView(APIView):
         fc = 2.3
         down_payment = 20
         A = livableArea
-        r = 3  # home equity interest rate or morgage rate
+        r = 0.03  # home equity interest rate or morgage rate
         t = 10  # home equity loan period or morgage period
         n = 12
 
@@ -839,7 +839,7 @@ class CalculateFSHLegacyAPIView(APIView):
         fc = 2.3
         down_payment = 20
         A = livableArea
-        r = 3  # home equity interest rate or morgage rate
+        r = 0.03  # home equity interest rate or morgage rate
         t = 10  # home equity loan period or morgage period
         n = 12
 

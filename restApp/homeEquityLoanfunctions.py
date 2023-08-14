@@ -38,7 +38,7 @@ def home_equity_loan_function(home_condition, federal_assistance, investment_typ
             if str(investment_type) == "No Loan":
                 return {"Homeowner_Portion": cost_elevation}
             else:  
-                r_ = r/100
+                r_ = r
                 monthly_loan_payment = cost_elevation * ((r_/12) / (1- ((1+(r_/12))**(-12*t))))
                 return {"Monthly_Payment": monthly_loan_payment}
 
@@ -52,7 +52,7 @@ def home_equity_loan_function(home_condition, federal_assistance, investment_typ
             else:
                 monthly_mortgage_insurance = 0
             other_fees = 500     # need revision here
-            r_ = r/100
+            r_ = r
             monthly_loan_payment = ((cost_freeboard - cost_freeboard*down_payment/100 ) * ((r_/12) / (1- ((1+(r_/12))**(-12*t))))) + monthly_mortgage_insurance 
    
             down_payment_toreturn = other_fees + cost_freeboard*down_payment/100
