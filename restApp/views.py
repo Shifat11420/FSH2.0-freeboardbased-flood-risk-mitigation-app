@@ -634,7 +634,7 @@ class CalculateFSHAPIView(APIView):
                                         'aInsulation', 'aGravel', 'vExcavation', 'aVaporBarrier', 'vSlab', 'lFooting', 'aGrading']
 
             elif foundationType == "Elevated with Enclosure, Post, Pile, or Pier":
-                FoundationCost, costs, materials = CS2(bld_area,h,aspect_ratio,aspect="True",C=0.41,P=0.25,W=0.41,t=0.1,D=0.3,h_=0.2,y=3,w=0.2)
+                FoundationCost, costs, materials = CS2(bld_area,h+i,aspect_ratio,aspect="True",C=0.41,P=0.25,W=0.41,t=0.1,D=0.3,h_=0.2,y=3,w=0.2)
 
                 costs_df = pd.DataFrame(costs)
                 costs_df.columns = ['buildingArea', 'aspectRatio', 'elevation(m)', 'w', 'aMason', 'lPier', 'aInsulation',
@@ -1039,7 +1039,7 @@ class CalculateFSHLegacyAPIView(APIView):
                                         'aInsulation', 'aGravel', 'vExcavation', 'aVaporBarrier', 'vSlab', 'lFooting', 'aGrading']
 
             elif foundationType == "Elevated with Enclosure, Post, Pile, or Pier":
-                FoundationCost, costs, materials = CS2(bld_area,h,aspect_ratio,aspect="True",C=0.41,P=0.25,W=0.41,t=0.1,D=0.3,h_=0.2,y=3,w=0.2)
+                FoundationCost, costs, materials = CS2(bld_area,h+i,aspect_ratio,aspect="True",C=0.41,P=0.25,W=0.41,t=0.1,D=0.3,h_=0.2,y=3,w=0.2)
 
                 costs_df = pd.DataFrame(costs)
                 costs_df.columns = ['buildingArea', 'aspectRatio', 'elevation(m)', 'w', 'aMason', 'lPier', 'aInsulation',
