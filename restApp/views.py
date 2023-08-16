@@ -372,6 +372,7 @@ class CalculateFSHAPIView(APIView):
         rr2res = []
         listofPremiums = []
         listofFFH = []
+        listofFFHint = []
         listofPremiumsMonthly = []
         listofPremiumsSavingsMonthly = []
         premiumsNoRounding = []
@@ -465,11 +466,11 @@ class CalculateFSHAPIView(APIView):
             if str(currentScenario.levee) == "No":
                 print("nonlevee", currentScenario.levee)
                 rr2res = RRFunctionsNonLevee(count,
-                                             inputs, currentScenario, leveeIdForMaxFactor, firstFloorHeightCurrentScenario+i, listofPremiums, listofFFH, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding, LegacyDict, LegacyResults)
+                                             inputs, currentScenario, leveeIdForMaxFactor, firstFloorHeightCurrentScenario+i, listofPremiums, listofFFH, listofFFHint, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding, LegacyDict, LegacyResults)
             elif str(currentScenario.levee) == "Yes":
                 print("levee", currentScenario.levee)
                 rr2res = RRFunctionsLevee(count,
-                                          inputs, currentScenario, leveeIdForMaxFactor, firstFloorHeightCurrentScenario+i, listofPremiums, listofFFH, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding, LegacyDict, LegacyResults)
+                                          inputs, currentScenario, leveeIdForMaxFactor, firstFloorHeightCurrentScenario+i, listofPremiums, listofFFH, listofFFHint, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding, LegacyDict, LegacyResults)
 
             # AAL
             if ownerType == 'Homeowner':
@@ -634,7 +635,8 @@ class CalculateFSHAPIView(APIView):
                                         'aInsulation', 'aGravel', 'vExcavation', 'aVaporBarrier', 'vSlab', 'lFooting', 'aGrading']
 
             elif foundationType == "Elevated with Enclosure, Post, Pile, or Pier":
-                FoundationCost, costs, materials = CS2(bld_area,h+i,aspect_ratio,aspect="True",C=0.41,P=0.25,W=0.41,t=0.1,D=0.3,h_=0.2,y=3,w=0.2)
+                FoundationCost, costs, materials = CS2(
+                    bld_area, h+i, aspect_ratio, aspect="True", C=0.41, P=0.25, W=0.41, t=0.1, D=0.3, h_=0.2, y=3, w=0.2)
 
                 costs_df = pd.DataFrame(costs)
                 costs_df.columns = ['buildingArea', 'aspectRatio', 'elevation(m)', 'w', 'aMason', 'lPier', 'aInsulation',
@@ -755,6 +757,7 @@ class CalculateFSHLegacyAPIView(APIView):
         resultsAll = []
         listofPremiums = []
         listofFFH = []
+        listofFFHint = []
         listofPremiumsMonthly = []
         listofPremiumsSavingsMonthly = []
         premiumsNoRounding = []
@@ -848,11 +851,11 @@ class CalculateFSHLegacyAPIView(APIView):
             if str(currentScenario.levee) == "No":
                 print("nonlevee", currentScenario.levee)
                 resultsAll = RRFunctionsNonLevee(count,
-                                                 inputs, currentScenario, leveeIdForMaxFactor, firstFloorHeightCurrentScenario+i, listofPremiums, listofFFH, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding, LegacyDict, LegacyResults)
+                                                 inputs, currentScenario, leveeIdForMaxFactor, firstFloorHeightCurrentScenario+i, listofPremiums, listofFFH, listofFFHint, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding, LegacyDict, LegacyResults)
             elif str(currentScenario.levee) == "Yes":
                 print("levee", currentScenario.levee)
                 resultsAll = RRFunctionsLevee(count,
-                                              inputs, currentScenario, leveeIdForMaxFactor, firstFloorHeightCurrentScenario+i, listofPremiums, listofFFH, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding, LegacyDict, LegacyResults)
+                                              inputs, currentScenario, leveeIdForMaxFactor, firstFloorHeightCurrentScenario+i, listofPremiums, listofFFH, listofFFHint, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding, LegacyDict, LegacyResults)
 
             # LegacyResults.append(resultsAll)
 
@@ -1039,7 +1042,8 @@ class CalculateFSHLegacyAPIView(APIView):
                                         'aInsulation', 'aGravel', 'vExcavation', 'aVaporBarrier', 'vSlab', 'lFooting', 'aGrading']
 
             elif foundationType == "Elevated with Enclosure, Post, Pile, or Pier":
-                FoundationCost, costs, materials = CS2(bld_area,h+i,aspect_ratio,aspect="True",C=0.41,P=0.25,W=0.41,t=0.1,D=0.3,h_=0.2,y=3,w=0.2)
+                FoundationCost, costs, materials = CS2(
+                    bld_area, h+i, aspect_ratio, aspect="True", C=0.41, P=0.25, W=0.41, t=0.1, D=0.3, h_=0.2, y=3, w=0.2)
 
                 costs_df = pd.DataFrame(costs)
                 costs_df.columns = ['buildingArea', 'aspectRatio', 'elevation(m)', 'w', 'aMason', 'lPier', 'aInsulation',
@@ -1059,7 +1063,6 @@ class CalculateFSHLegacyAPIView(APIView):
             elif foundationType == "Elevated without Enclosure, Post, Pile, or Pier":
                 FoundationCost, costs, materials = CS4(bld_area, h+i, aspect_ratio, aspect="True", C=0.41, P=0.25,
                                                        W=0.41, D=0.3, h_=0.6, y=3, beam_spacing=2.44, joist_spacing=0.41, α_g=0.003319, α_j=0.002729)
-                
 
                 costs_df = pd.DataFrame(costs)
                 costs_df.columns = ['buildingArea', 'aspectRatio', 'elevation(m)', 'lPier', 'vExcavation',

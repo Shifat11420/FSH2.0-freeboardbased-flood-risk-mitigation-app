@@ -5,7 +5,7 @@ import numpy as np
 from django.db.models import Q
 
 
-def RRFunctionsLevee(count, inputs, currentScenario, leveeIdForMaxFactor, firstFloorHeightCurrentScenario, listofPremiums, listofFFH, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding, LegacyDict, LegacyResults):
+def RRFunctionsLevee(count, inputs, currentScenario, leveeIdForMaxFactor, firstFloorHeightCurrentScenario, listofPremiums, listofFFH, listofFFHint, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding, LegacyDict, LegacyResults):
     stateAbb = stateAbbreviation.objects.filter(
         state=currentScenario.stateLongName).all()
     state = str(stateAbb.values()[0]['abbreviation'])
@@ -2738,6 +2738,7 @@ def RRFunctionsLevee(count, inputs, currentScenario, leveeIdForMaxFactor, firstF
 
     listofFFH.append(
         'Ground + {} feet'.format(firstFloorHeightCurrentScenario))
+    listofFFHint.append(firstFloorHeightCurrentScenario)
     listofPremiums.append(int(premiumResults_dict["allPerils"]))
     listofPremiumsMonthly.append(int(premiumResults_dict["allPerils"]/12))
     premiumsNoRounding.append(premiumResults_dict["allPerils"]/12)
@@ -2745,6 +2746,7 @@ def RRFunctionsLevee(count, inputs, currentScenario, leveeIdForMaxFactor, firstF
         int(premiumsNoRounding[0]-(premiumResults_dict["allPerils"]/12)))
 
     LegacyDict["firstFloorHeight"] = listofFFH[-1]
+    LegacyDict["firstFloorHeightInt"] = listofFFHint[-1]
     LegacyDict["premiumList"] = listofPremiums[-1]
     LegacyDict["premiumListMonthly"] = listofPremiumsMonthly[-1]
     LegacyDict["premiumsSavingsMonthly"] = listofPremiumsSavingsMonthly[-1]
@@ -2847,6 +2849,7 @@ def RRFunctionsLevee(count, inputs, currentScenario, leveeIdForMaxFactor, firstF
             #     federal_policy_feeResults_dict["allPerils"]},
             # {"premium Results": premiumResults_dict["allPerils"]},
             {"firstFloorHeight": listofFFH},
+            {"firstFloorHeightInt": listofFFHint},
             {"premiumList": listofPremiums},
             {"premiumListMonthly": listofPremiumsMonthly},
             {"premiumsSavingsMonthly": listofPremiumsSavingsMonthly}
