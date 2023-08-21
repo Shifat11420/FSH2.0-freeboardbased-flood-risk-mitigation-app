@@ -617,6 +617,8 @@ class scenario(models.Model):
     userTypeID = models.ForeignKey(
         userType, on_delete=models.PROTECT, default=None)
     address = models.CharField(null=True, max_length=200)
+    floodZone = models.CharField(null=True, max_length=50)
+    BFE = models.FloatField(null=True)
     typeOfUseID = models.ForeignKey(
         typeUseID, on_delete=models.PROTECT, default=None)
     homeConditionID = models.ForeignKey(
