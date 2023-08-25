@@ -625,7 +625,7 @@ class scenario(models.Model):
     homeConditionID = models.ForeignKey(
         homeCondition, on_delete=models.PROTECT, default=None)
     livableArea = models.FloatField(null=True)
-    firstFloorHeight = models.FloatField(null=True)
+    firstFloorHeight = models.FloatField(blank=True, null=True)
     freeboard = models.CharField(null=True, max_length=50)
     floor1to3ID = models.ForeignKey(
         floor1to3, on_delete=models.PROTECT, default="1")
