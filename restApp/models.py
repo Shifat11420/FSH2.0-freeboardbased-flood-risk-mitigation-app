@@ -2,6 +2,7 @@ from asyncio.windows_events import NULL
 import datetime
 from email.policy import default
 from django.db import models
+from datetime import datetime
 
 
 class unitcost(models.Model):
@@ -690,6 +691,17 @@ class scenario(models.Model):
         MandE, on_delete=models.PROTECT, default=None)
     crsRating = models.ForeignKey(
         CRSRating, on_delete=models.PROTECT, default=None)
+    returnPeriod5Y = models.FloatField(null=True)
+    returnPeriod10Y = models.FloatField(null=True)
+    returnPeriod20Y = models.FloatField(null=True)
+    returnPeriod50Y = models.FloatField(null=True)
+    returnPeriod75Y = models.FloatField(null=True)
+    returnPeriod100Y = models.FloatField(null=True)
+    returnPeriod200Y = models.FloatField(null=True)
+    returnPeriod250Y = models.FloatField(null=True)
+    returnPeriod500Y = models.FloatField(null=True)
+    create_date = models.DateTimeField(auto_now_add=True, null=True)
+
 
     def __str__(self):
         return "Id : "+str(self.id) + " userTypeID : "+str(self.userTypeID)
