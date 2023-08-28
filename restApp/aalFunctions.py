@@ -1,6 +1,6 @@
 import numpy as np
 import random
-
+import scipy.stats
 
 def get_probability():
     return (random.uniform(0, 1))
@@ -165,3 +165,25 @@ def aal_others(livableArea, buildingReplacementValue, ffh, gumbelLocation, gumbe
             working_hour_lost = 0
 
     return [float(Lr/num_samples), float(Cd/num_samples), float(Cm/num_samples), float(Wh/num_samples),]
+
+
+
+
+
+def a_u_pointwise(return_periods, flood_depths):
+    points = flood_depths.count(0)
+    fds = flood_depths[points:]
+    if len(fds)==0:
+       rps = [500, 1000]
+       fds = [-0.1,0.1]       
+    elif len(fds)==9:
+        rps = return_periods
+        rps.insert(0,2)
+        fds.insert(0,-0.1)
+    else:
+       rps = return_periods[points-1:]
+       fds.insert(0,-0.1)
+       
+    probs = [round(-np.log(-np.log(1-1/i)),2) for i in rps]
+    scale, location, _, _, _  = scipy.stats.linregress(probs, fds)
+    return scale, location

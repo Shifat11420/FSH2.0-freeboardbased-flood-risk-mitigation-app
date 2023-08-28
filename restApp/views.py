@@ -394,10 +394,14 @@ class CalculateFSHAPIView(APIView):
         # aal['workingHourLoss'] = []
 
         seed = 123
-        # from flood depth data, frondend, Adil will provide logic
-        gumbelLocation = -0.23
-        # from flood depth data, frondend, Adil will provide logic
-        gumbelScale = 0.335
+
+        flood_depths = [currentScenario.returnPeriod5Y, currentScenario.returnPeriod10Y, currentScenario.returnPeriod20Y, currentScenario.returnPeriod50Y, currentScenario.returnPeriod75Y,
+                        currentScenario.returnPeriod100Y, currentScenario.returnPeriod200Y, currentScenario.returnPeriod250Y, currentScenario.returnPeriod500Y]
+        return_periods = [5, 10, 20, 50, 75, 100, 200, 250, 500]
+
+        gumbelScale, gumbelLocation = a_u_pointwise(
+            return_periods, flood_depths)
+
         # unitConstructionCost = 92.47
         unitDisplacementCost = 140
         unitMovingCost = 1.20
@@ -406,8 +410,29 @@ class CalculateFSHAPIView(APIView):
         buildingReplacementValue = currentScenario.buildingReplacementValue
         insurance = 'Yes'
 
-        ddfBldg = ddfBuilding.objects.all()
-        ddfConts = ddfContents.objects.all()
+        # ddfBldg = ddfBuilding.objects.all()
+        # ddfConts = ddfContents.objects.all()
+
+        floodzone = currentScenario.floodZone
+        if str(currentScenario.typeOfUseID.singleFamilyHomeIndicatorID) == "Yes" and str(currentScenario.typeOfUseID.condoUnitOwnerIndicatorID) == "No":
+            floornumber = currentScenario.floor1to3ID
+        elif str(currentScenario.typeOfUseID.singleFamilyHomeIndicatorID) == "No" and str(currentScenario.typeOfUseID.condoUnitOwnerIndicatorID) == "No":
+            floornumber = currentScenario.floor1to100ID
+        elif str(currentScenario.typeOfUseID.singleFamilyHomeIndicatorID) == "No" and str(currentScenario.typeOfUseID.condoUnitOwnerIndicatorID) == "Yes":
+            floornumber = currentScenario.floor1to4ID
+
+        if str(floornumber) == "1" and (str(floodzone) in ["A", "AE", "X", "Unknown"]):
+            ddfBldg = ddfBuildingNobase1AAE.objects.all()
+            ddfConts = ddfContentsNobase1AAE.objects.all()
+        elif str(floornumber) != "1" and (str(floodzone) in ["A", "AE", "X", "Unknown"]):
+            ddfBldg = ddfBuildingNobase2AAE.objects.all()
+            ddfConts = ddfContentsNobase2AAE.objects.all()
+        elif str(floornumber) == "1" and (str(floodzone) in ["V", "VE"]) and str(currentScenario.foundationTypeID.foundationDesignforType) == "Open, No Obstruction":
+            ddfBldg = ddfBuildingWithoutObsVVE.objects.all()
+            ddfConts = ddfContentsWithoutObsVVE.objects.all()
+        elif str(floornumber) != "1" and (str(floodzone) in ["V", "VE"]) and str(currentScenario.foundationTypeID.foundationDesignforType) in ["Open, Obstruction", "Closed, Wall"]:
+            ddfBldg = ddfBuildingWithObsVVE.objects.all()
+            ddfConts = ddfContentsWithObsVVE.objects.all()
 
         # Foundation Cost initialization
         h = firstFloorHeightCurrentScenario * 0.3048   # changing unit form feet to meter
@@ -678,9 +703,10 @@ class CalculateFSHAPIView(APIView):
                 foundationCostIncrease[-1], r, n, t), 0))
 
             print("rr2res[premiumsSavingsMonthly][i] = ",
-                  rr2res[3]["premiumsSavingsMonthly"][i])
+                  rr2res[4]["premiumsSavingsMonthly"][i])
+
             totalSavingsPerMonth.append(round(-1*amortizedCostPerMonth[-1]-aal['expectedFloodRiskReductionPerMonth']
-                                        [-1]+aal['expectedIndirectFloodRiskReductionPerMonth'][-1]+rr2res[3]["premiumsSavingsMonthly"][i], 0))
+                                        [-1]+aal['expectedIndirectFloodRiskReductionPerMonth'][-1]+rr2res[4]["premiumsSavingsMonthly"][i], 0))
 
         FoundationCostResults = {'foundationCost': foundationCostList,
                                  'foundationCostIncrease': foundationCostIncrease,
@@ -781,10 +807,14 @@ class CalculateFSHLegacyAPIView(APIView):
         aalLegacyDict = {}
 
         seed = 123
-        # from flood depth data, frondend, Adil will provide logic
-        gumbelLocation = -0.23
-        # from flood depth data, frondend, Adil will provide logic
-        gumbelScale = 0.335
+
+        flood_depths = [currentScenario.returnPeriod5Y, currentScenario.returnPeriod10Y, currentScenario.returnPeriod20Y, currentScenario.returnPeriod50Y, currentScenario.returnPeriod75Y,
+                        currentScenario.returnPeriod100Y, currentScenario.returnPeriod200Y, currentScenario.returnPeriod250Y, currentScenario.returnPeriod500Y]
+        return_periods = [5, 10, 20, 50, 75, 100, 200, 250, 500]
+
+        gumbelScale, gumbelLocation = a_u_pointwise(
+            return_periods, flood_depths)
+
         # unitConstructionCost = 92.47
         unitDisplacementCost = 140
         unitMovingCost = 1.20
@@ -793,8 +823,29 @@ class CalculateFSHLegacyAPIView(APIView):
         buildingReplacementValue = currentScenario.buildingReplacementValue
         insurance = 'Yes'
 
-        ddfBldg = ddfBuilding.objects.all()
-        ddfConts = ddfContents.objects.all()
+        # ddfBldg = ddfBuilding.objects.all()
+        # ddfConts = ddfContents.objects.all()
+
+        floodzone = currentScenario.floodZone
+        if str(currentScenario.typeOfUseID.singleFamilyHomeIndicatorID) == "Yes" and str(currentScenario.typeOfUseID.condoUnitOwnerIndicatorID) == "No":
+            floornumber = currentScenario.floor1to3ID
+        elif str(currentScenario.typeOfUseID.singleFamilyHomeIndicatorID) == "No" and str(currentScenario.typeOfUseID.condoUnitOwnerIndicatorID) == "No":
+            floornumber = currentScenario.floor1to100ID
+        elif str(currentScenario.typeOfUseID.singleFamilyHomeIndicatorID) == "No" and str(currentScenario.typeOfUseID.condoUnitOwnerIndicatorID) == "Yes":
+            floornumber = currentScenario.floor1to4ID
+
+        if str(floornumber) == "1" and (str(floodzone) in ["A", "AE", "X", "Unknown"]):
+            ddfBldg = ddfBuildingNobase1AAE.objects.all()
+            ddfConts = ddfContentsNobase1AAE.objects.all()
+        elif str(floornumber) != "1" and (str(floodzone) in ["A", "AE", "X", "Unknown"]):
+            ddfBldg = ddfBuildingNobase2AAE.objects.all()
+            ddfConts = ddfContentsNobase2AAE.objects.all()
+        elif str(floornumber) == "1" and (str(floodzone) in ["V", "VE"]) and str(currentScenario.foundationTypeID.foundationDesignforType) == "Open, No Obstruction":
+            ddfBldg = ddfBuildingWithoutObsVVE.objects.all()
+            ddfConts = ddfContentsWithoutObsVVE.objects.all()
+        elif str(floornumber) != "1" and (str(floodzone) in ["V", "VE"]) and str(currentScenario.foundationTypeID.foundationDesignforType) in ["Open, Obstruction", "Closed, Wall"]:
+            ddfBldg = ddfBuildingWithObsVVE.objects.all()
+            ddfConts = ddfContentsWithObsVVE.objects.all()
 
         # Foundation Cost
         h = firstFloorHeightCurrentScenario * 0.3048   # changing unit form feet to meter

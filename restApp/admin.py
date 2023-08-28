@@ -71,7 +71,14 @@ admin.site.register(concentrationRisk)
 # AAL data
 admin.site.register(ddfBuilding)
 admin.site.register(ddfContents)
-
+admin.site.register(ddfBuildingNobase1AAE)
+admin.site.register(ddfContentsNobase1AAE)
+admin.site.register(ddfBuildingNobase2AAE)
+admin.site.register(ddfContentsNobase2AAE)
+admin.site.register(ddfBuildingWithObsVVE)
+admin.site.register(ddfContentsWithObsVVE)
+admin.site.register(ddfBuildingWithoutObsVVE)
+admin.site.register(ddfContentsWithoutObsVVE)
 
 # RR2 results
 admin.site.register(riskrating2results)

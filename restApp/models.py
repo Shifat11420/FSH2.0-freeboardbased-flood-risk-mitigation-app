@@ -559,6 +559,70 @@ class ddfContents(models.Model):
         return "Id "+str(self.id)
 
 
+class ddfBuildingNobase1AAE(models.Model):
+    depth = models.FloatField()
+    associatedDamage = models.FloatField()
+
+    def __str__(self):
+        return "Id "+str(self.id)
+
+
+class ddfContentsNobase1AAE(models.Model):
+    depth = models.FloatField()
+    associatedDamage = models.FloatField()
+
+    def __str__(self):
+        return "Id "+str(self.id)
+
+
+class ddfBuildingNobase2AAE(models.Model):
+    depth = models.FloatField()
+    associatedDamage = models.FloatField()
+
+    def __str__(self):
+        return "Id "+str(self.id)
+
+
+class ddfContentsNobase2AAE(models.Model):
+    depth = models.FloatField()
+    associatedDamage = models.FloatField()
+
+    def __str__(self):
+        return "Id "+str(self.id)
+
+
+class ddfBuildingWithObsVVE(models.Model):
+    depth = models.FloatField()
+    associatedDamage = models.FloatField()
+
+    def __str__(self):
+        return "Id "+str(self.id)
+
+
+class ddfContentsWithObsVVE(models.Model):
+    depth = models.FloatField()
+    associatedDamage = models.FloatField()
+
+    def __str__(self):
+        return "Id "+str(self.id)
+
+
+class ddfBuildingWithoutObsVVE(models.Model):
+    depth = models.FloatField()
+    associatedDamage = models.FloatField()
+
+    def __str__(self):
+        return "Id "+str(self.id)
+
+
+class ddfContentsWithoutObsVVE(models.Model):
+    depth = models.FloatField()
+    associatedDamage = models.FloatField()
+
+    def __str__(self):
+        return "Id "+str(self.id)
+
+
 class stateAbbreviation(models.Model):
     state = models.CharField(max_length=50)
     abbreviation = models.CharField(max_length=10)
@@ -701,7 +765,7 @@ class scenario(models.Model):
     returnPeriod250Y = models.FloatField(null=True)
     returnPeriod500Y = models.FloatField(null=True)
     create_date = models.DateTimeField(auto_now_add=True, null=True)
-
+    
 
     def __str__(self):
         return "Id : "+str(self.id) + " userTypeID : "+str(self.userTypeID)
