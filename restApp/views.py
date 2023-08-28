@@ -397,6 +397,10 @@ class CalculateFSHAPIView(APIView):
 
         flood_depths = [currentScenario.returnPeriod5Y, currentScenario.returnPeriod10Y, currentScenario.returnPeriod20Y, currentScenario.returnPeriod50Y, currentScenario.returnPeriod75Y,
                         currentScenario.returnPeriod100Y, currentScenario.returnPeriod200Y, currentScenario.returnPeriod250Y, currentScenario.returnPeriod500Y]
+        print("flood_depths = ", flood_depths)
+        for n in range(len(flood_depths)):
+            flood_depths[n] = flood_depths[n] * 0.0328084
+        print("flood_depths = ", flood_depths)
         return_periods = [5, 10, 20, 50, 75, 100, 200, 250, 500]
 
         gumbelScale, gumbelLocation = a_u_pointwise(
@@ -810,6 +814,10 @@ class CalculateFSHLegacyAPIView(APIView):
 
         flood_depths = [currentScenario.returnPeriod5Y, currentScenario.returnPeriod10Y, currentScenario.returnPeriod20Y, currentScenario.returnPeriod50Y, currentScenario.returnPeriod75Y,
                         currentScenario.returnPeriod100Y, currentScenario.returnPeriod200Y, currentScenario.returnPeriod250Y, currentScenario.returnPeriod500Y]
+        print("flood_depths = ", flood_depths)
+        for n in range(len(flood_depths)):
+            flood_depths[n] = flood_depths[n] * 0.0328084
+        print("flood_depths = ", flood_depths)
         return_periods = [5, 10, 20, 50, 75, 100, 200, 250, 500]
 
         gumbelScale, gumbelLocation = a_u_pointwise(
