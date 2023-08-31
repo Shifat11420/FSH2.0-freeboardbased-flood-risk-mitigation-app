@@ -421,10 +421,10 @@ class CalculateFSHAPIView(APIView):
         elif str(currentScenario.typeOfUseID.singleFamilyHomeIndicatorID) == "No" and str(currentScenario.typeOfUseID.condoUnitOwnerIndicatorID) == "Yes":
             floornumber = currentScenario.floor1to4ID
 
-        if str(floornumber) == "1" and (str(floodzone) in ["A", "AE", "X", "Unknown"]):
+        if str(floornumber) == "1" and (str(floodzone) in ["A", "AE", "X", "X PROTECED BY LEVEE", "0.2 PCT ANNUAL CHANCE FLOOD HAZARD", "X500", "Unknown"]):
             ddfBldg = ddfBuildingNobase1AAE.objects.all()
             ddfConts = ddfContentsNobase1AAE.objects.all()
-        elif str(floornumber) != "1" and (str(floodzone) in ["A", "AE", "X", "Unknown"]):
+        elif str(floornumber) != "1" and (str(floodzone) in ["A", "AE", "X", "X PROTECED BY LEVEE", "0.2 PCT ANNUAL CHANCE FLOOD HAZARD", "X500", "Unknown"]):
             ddfBldg = ddfBuildingNobase2AAE.objects.all()
             ddfConts = ddfContentsNobase2AAE.objects.all()
         elif str(floornumber) == "1" and (str(floodzone) in ["V", "VE"]) and str(currentScenario.foundationTypeID.foundationDesignforType) == "Open, No Obstruction":
@@ -834,10 +834,10 @@ class CalculateFSHLegacyAPIView(APIView):
         elif str(currentScenario.typeOfUseID.singleFamilyHomeIndicatorID) == "No" and str(currentScenario.typeOfUseID.condoUnitOwnerIndicatorID) == "Yes":
             floornumber = currentScenario.floor1to4ID
 
-        if str(floornumber) == "1" and (str(floodzone) in ["A", "AE", "X", "Unknown"]):
+        if str(floornumber) == "1" and (str(floodzone) in ["A", "AE", "X", "X PROTECED BY LEVEE", "0.2 PCT ANNUAL CHANCE FLOOD HAZARD", "X500", "Unknown"]):
             ddfBldg = ddfBuildingNobase1AAE.objects.all()
             ddfConts = ddfContentsNobase1AAE.objects.all()
-        elif str(floornumber) != "1" and (str(floodzone) in ["A", "AE", "X", "Unknown"]):
+        elif str(floornumber) != "1" and (str(floodzone) in ["A", "AE", "X", "X PROTECED BY LEVEE", "0.2 PCT ANNUAL CHANCE FLOOD HAZARD", "X500", "Unknown"]):
             ddfBldg = ddfBuildingNobase2AAE.objects.all()
             ddfConts = ddfContentsNobase2AAE.objects.all()
         elif str(floornumber) == "1" and (str(floodzone) in ["V", "VE"]) and str(currentScenario.foundationTypeID.foundationDesignforType) == "Open, No Obstruction":
