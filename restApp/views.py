@@ -897,16 +897,45 @@ class CalculateFSHLegacyAPIView(APIView):
         n = 12
 
         # Calculation
+        message = ""
+        bfe = -9999
+        dfe = -9999
+        heighttAboveGround = -9999
         for i in range(5):
             # Risk rating 2.0
+
+            if str(currentScenario.floodZone) in ["AE", "VE"]:
+                groundElevation = currentScenario.elevation
+                bfe = currentScenario.BFE
+                dfe = bfe+int(currentScenario.freeboard)
+                heighttAboveGround = dfe-groundElevation
+                if str(currentScenario.homeConditionID) == "Future":
+                    ffhBaseScenario = bfe - groundElevation
+                else:
+                    requiredffh = dfe-groundElevation
+                    userinputffh = int(currentScenario.firstFloorHeight)
+
+                    if requiredffh > userinputffh:
+                        message = "Your current first floor height is " + \
+                            str(userinputffh) + \
+                            ", which is lower than local jurisdiction required design flood elevation (DFE)."
+                    ffhBaseScenario = userinputffh
+
+            else:
+                if str(currentScenario.homeConditionID) == "Future":
+                    ffhBaseScenario = 0
+                else:
+                    userinputffh = int(currentScenario.firstFloorHeight)
+                    ffhBaseScenario = userinputffh
+
             if str(currentScenario.levee) == "No":
                 print("nonlevee", currentScenario.levee)
                 resultsAll = RRFunctionsNonLevee(count,
-                                                 inputs, currentScenario, leveeIdForMaxFactor, firstFloorHeightCurrentScenario+i, listofPremiums, listofFFH, listofFFHint, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding, LegacyDict, LegacyResults)
+                                                 inputs, currentScenario, leveeIdForMaxFactor, ffhBaseScenario+i, listofPremiums, listofFFH, listofFFHint, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding, LegacyDict, LegacyResults)
             elif str(currentScenario.levee) == "Yes":
                 print("levee", currentScenario.levee)
                 resultsAll = RRFunctionsLevee(count,
-                                              inputs, currentScenario, leveeIdForMaxFactor, firstFloorHeightCurrentScenario+i, listofPremiums, listofFFH, listofFFHint, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding, LegacyDict, LegacyResults)
+                                              inputs, currentScenario, leveeIdForMaxFactor, ffhBaseScenario+i, listofPremiums, listofFFH, listofFFHint, listofPremiumsMonthly, listofPremiumsSavingsMonthly, premiumsNoRounding, LegacyDict, LegacyResults)
 
             # LegacyResults.append(resultsAll)
 
@@ -1156,7 +1185,13 @@ class CalculateFSHLegacyAPIView(APIView):
         optimumFFH = resultsAll[index]["firstFloorHeight"]
         print(maxTotalSavingsPerMonth, index, optimumFFH)
 
-        return Response({'Results': resultsAll, 'maxTotalSavingsPerMonth': maxTotalSavingsPerMonth, 'optimumFFH': optimumFFH})
+        policyDrivenScenario = ""
+        if str(currentScenario.floodZone) in ["AE", "VE"]:
+            if str(currentScenario.homeConditionID) == "Future":
+                policyDrivenScenario = "Ground + " + \
+                    str(currentScenario.freeboard)+" feet"
+
+        return Response({'Results': resultsAll, 'maxTotalSavingsPerMonth': maxTotalSavingsPerMonth, 'optimumFFH': optimumFFH, 'BFE': bfe, 'DFE': dfe, 'DFE-Ground': heighttAboveGround, 'policyDrivenScenario': policyDrivenScenario, 'message(requiredffh > userinputffh)': message})
 
 # Risk Rating 2.0 results
 
