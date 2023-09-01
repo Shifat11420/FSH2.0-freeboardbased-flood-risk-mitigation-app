@@ -901,7 +901,9 @@ class CalculateFSHLegacyAPIView(APIView):
         bfe = -9999
         dfe = -9999
         heighttAboveGround = -9999
-        for i in range(5):
+        i = 0
+        # for i in range(5):
+        while i < 10:
             # Risk rating 2.0
 
             if str(currentScenario.floodZone) in ["AE", "VE"]:
@@ -1176,6 +1178,18 @@ class CalculateFSHLegacyAPIView(APIView):
             LegacyDict['totalSavingsPerMonth'] = totalSavingsPerMonth[i]
 
             LegacyResults.append(LegacyDict.copy())
+            if str(currentScenario.floodZone) in ["AE", "VE"]:
+                if i == 4:
+                    break
+            else:
+                if str(currentScenario.homeConditionID) == "Future":
+                    if i >= 4:
+                        if totalSavingsPerMonth[i] < 0:
+                            break
+                else:
+                    if i == 4:
+                        break
+            i += 1
 
         FoundationCostResults = {'foundationCost': foundationCostList,
                                  'foundationCostIncrease': foundationCostIncrease,
